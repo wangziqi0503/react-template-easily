@@ -37,7 +37,7 @@ import PageTest from './pages/PageTest/PageTest.jsx';
 // 初始化webview高度
 common.webViewHeight = window.document.body.offsetHeight;
 
-let jiaxingApp = (
+let yangApp = (
     <Router>
         <Route path="/" component={(props) => (
             <App {...props}>
@@ -54,4 +54,4 @@ let jiaxingApp = (
 );
 
 ReactDOM.render(<Provider style={{height: '100%'}}
-                          store={store}>{jiaxingApp}</Provider>, document.getElementById('container'));
+                          store={store}>{yangApp}</Provider>, document.getElementById('container'));
