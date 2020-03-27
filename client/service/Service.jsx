@@ -1,7 +1,7 @@
 /**
  * @file Service.jsx
  * @desc request ajax & jsonp
- * @author jinjiaxing
+ * @author yangchao
  * @data 2017/05/25
  */
 
