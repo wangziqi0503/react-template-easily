@@ -1,6 +1,6 @@
 /**
  * @file store.js
- * @author jinjiaxing
+ * @author yangchao
  * @date 2017/1/11
  * redux store file
  */
