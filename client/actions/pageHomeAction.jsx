@@ -1,7 +1,7 @@
 /**
  * @file pageHomeAction.jsx
  * @desc 首页action
- * @author jinjiaxing
+ * @author yangchao
  * @data 2017/08/23
  * @update 2017/11/09
  */
