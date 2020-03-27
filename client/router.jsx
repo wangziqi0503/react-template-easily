@@ -1,7 +1,7 @@
 /**
  * @file router.jsx
  * @desc 路由
- * @author jinjiaxing
+ * @author 杨超
  * @data 2017/05/25
  */
 /*** library ***/
