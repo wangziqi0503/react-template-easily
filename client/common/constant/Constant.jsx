@@ -1,7 +1,7 @@
 /**
  * @file Constant.jsx
  * @desc 常量
- * @author jinjiaxing
+ * @author yangchao
  * @data 2017/07/31
  */
 import Service from '../../service/Service.jsx';
