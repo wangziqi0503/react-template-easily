@@ -1,7 +1,7 @@
 /**
  * @file commonAction.jsx
  * @desc 通用action
- * @author jinjiaxing
+ * @author yangchao
  * @data 2017/05/25
  * @update 2017/11/09
  */
