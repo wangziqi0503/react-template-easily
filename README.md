@@ -92,9 +92,9 @@ react-template-easily
 
 
 ## 开发人员 ##
-* 姓名:金家兴(jinjiaxing)
+* 姓名:杨超
 * 公司:百度(baidu)
-* 邮箱:34568305@qq.com
+* 邮箱:495622539@qq.com
 
 
 
