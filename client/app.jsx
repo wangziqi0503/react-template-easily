@@ -1,7 +1,7 @@
 /**
  * @file app.jsx
  * @desc 入口
- * @author jinjiaxing
+ * @author 杨超
  * @data 2017/05/25
  * @update 2017/12/20
  */
