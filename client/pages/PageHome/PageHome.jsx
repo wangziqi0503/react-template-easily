@@ -1,7 +1,7 @@
 /**
  * @file PageHome.jsx
  * @desc 首页
- * @author jinjiaxing
+ * @author yangchao
  * @data 2017/07/21
  */
 
