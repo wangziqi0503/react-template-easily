@@ -2,7 +2,7 @@
  * @file PageTest.jsx
  * @desc 组件展示页面
  * @create 18/11/14.
- * @author jinjiaxing
+ * @author yangchao
  */
 /** lib **/
 import * as React from 'react';
