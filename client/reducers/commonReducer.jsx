@@ -1,7 +1,7 @@
 /**
  * @file commonReducer.jsx
  * @desc 全局Reducer
- * @author jinjiaxing
+ * @author yangchao
  * @data 2017/05/25
  */
 
