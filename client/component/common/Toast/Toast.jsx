@@ -1,6 +1,6 @@
 /**
  * @file Toast 通用Toast组件,模拟IOS Android的Toast框,用于进行一些通知,根据设置的时间自动关闭
- * Created by jinjiaxing on 16/6/17.
+ * Created by wangziqi on 16/6/17.
  */
 
 import React, {Component} from 'react'

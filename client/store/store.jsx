@@ -1,6 +1,6 @@
 /**
  * @file store.js
- * @author yangchao
+ * @author wangziqi
  * @date 2017/1/11
  * redux store file
  */
@@ -13,12 +13,12 @@ let {createStore, applyMiddleware, compose} = Redux;
 
 
 const enhancer = compose(
-    applyMiddleware(ReduxThunk),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
-    // devTools({
-    //     name: 'blackhole',
-    //     realtime: true
-    // })
+  applyMiddleware(ReduxThunk),
+  window.devToolsExtension ? window.devToolsExtension() : (f) => f
+  // devTools({
+  //     name: 'blackhole',
+  //     realtime: true
+  // })
 );
 
 const store = createStore(mainReducer, enhancer);

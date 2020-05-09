@@ -20,30 +20,31 @@ import Common from './common/utils/Common.jsx';
 import Service from './service/Service.jsx';
 
 /** add touch event **/
-injectTapEventPlugin();
+// injectTapEventPlugin();
 
 const {connect} = ReactRedux;
 
 class App extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
+  constructor (props) {
+    super(props);
+  }
 
     static contextTypes = {
-        router: PropTypes.object
+      router: PropTypes.object,
+      children: PropTypes.node
     };
 
-    componentWillUpdate(nextProps) {
+    componentWillUpdate (nextProps) {
 
     }
 
-    componentDidUpdate(preProps) {
+    componentDidUpdate (preProps) {
 
     }
 
-    componentDidMount() {
-        this.init();
+    componentDidMount () {
+      this.init();
 
     }
 
@@ -51,21 +52,20 @@ class App extends React.Component {
      * 初始化数据
      * @param {function} dispatch
      */
-    init() {
-        window.common.fetchNAParams().then(params => {
-            Const.nativeInfo = Object.assign({}, Const.nativeInfo, params);
-        })
+    init () {
+      window.common.fetchNAParams().then((params) => {
+        Const.nativeInfo = Object.assign({}, Const.nativeInfo, params);
+      })
     }
 
-    render() {
-        return this.props.children;
-
+    render () {
+      return this.props.children
     }
 }
 
-const mapStateToProps = (state) => {
-    return {}
-}
+const mapStateToProps = (state) => ({
+
+})
 
 export default connect(mapStateToProps)(App);
 

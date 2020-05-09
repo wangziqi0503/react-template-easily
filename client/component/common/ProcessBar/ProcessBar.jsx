@@ -1,6 +1,6 @@
 /**
  * @file Process 通用组件-进度条组件
- * Created by jinjiaxing on 16/11/21.
+ * Created by wangziqi on 16/11/21.
  */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';

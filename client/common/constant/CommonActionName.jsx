@@ -1,7 +1,7 @@
 /**
  * @file CommonActionName.jsx
  * @desc 全局Action Name
- * @author yangchao
+ * @author wangziqi
  * @data 2017/07/20
  */
 

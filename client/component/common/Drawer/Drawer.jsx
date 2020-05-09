@@ -1,7 +1,7 @@
 /**
  * @file ScreenerPanel.jsx
  * @desc 抽屉组件
- * @author jinjiaxing
+ * @author wangziqi
  * @data 2017/11/21
  */
 

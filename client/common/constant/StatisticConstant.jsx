@@ -1,6 +1,6 @@
 /**
  * @file StatisticConst.jsx
- * @author yangchao
+ * @author wangziqi
  * @data 2017/09/22
  */
 

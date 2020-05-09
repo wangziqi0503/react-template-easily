@@ -1,7 +1,7 @@
 /**
  * @file ImgDialog.jsx
  * @desc modal对话框，只包含一张图片，用于缩略图展示
- * @author jinjiaxing
+ * @author wangziqi
  * @data 2017/09/20
  */
 

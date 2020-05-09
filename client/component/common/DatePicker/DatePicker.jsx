@@ -1,7 +1,7 @@
 /**
  * @file DatePicker.jsx
  * @desc 日期选择组件
- * @author jinjiaxing
+ * @author wangziqi
  * @data 2017/10/20
  */
 

@@ -1,6 +1,6 @@
 /**
  * @file Icon 通用Icon图标组件,可以作为单纯Icon,也可以直接作为IconButton
- * Created by jinjiaxing on 16/6/15.
+ * Created by wangziqi on 16/6/15.
  */
 
 import React, {Component} from 'react'

@@ -2,7 +2,7 @@
  * @file MarqueeText.jsx
  * @desc 上下滚动轮播组件，marqueeData可以是文字数组也可以是react元素
  * @create 17/11/12.
- * @author jinjiaxing
+ * @author wangziqi
  * @update 17/11/16.
  * @using the example
  * <MarqueeText marqueeData={['aaa','bbb','ccc']}/>

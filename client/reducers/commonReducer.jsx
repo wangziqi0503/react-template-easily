@@ -1,7 +1,7 @@
 /**
  * @file commonReducer.jsx
  * @desc 全局Reducer
- * @author yangchao
+ * @author wangziqi
  * @data 2017/05/25
  */
 
@@ -11,11 +11,11 @@ import Const from '../common/constant/Constant.jsx'
 const commonInitialState = {
 };
 
-const commonReducer = (state=commonInitialState, action) => {
-    switch (action.type) {
-        default:
-            return state;
-    }
+const commonReducer = (state = commonInitialState, action) => {
+  switch (action.type) {
+  default:
+    return state;
+  }
 };
 
 export default commonReducer;

@@ -2,7 +2,7 @@
  * @filename ScrollView 通用滚动视图组件 作为滚动容器,放入其中的元素可以达到IOS源生的滑动效果
  * 注意:使用时要在外层加一个固定高度的容器,不然无法滚动
  * devDependencies:Iscroll
- * Created by jinjiaxing on 16/6/20.
+ * Created by wangziqi on 16/6/20.
  */
 
 import React, {Component} from 'react'

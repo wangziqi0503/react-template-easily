@@ -1,7 +1,7 @@
 /**
  * @file PageHome.jsx
  * @desc 首页
- * @author yangchao
+ * @author wangziqi
  * @data 2017/07/21
  */
 
@@ -11,10 +11,10 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
-/**component**/
+/** component**/
 import MarqueeText from '../../component/common/MarqueeText/MarqueeText.jsx';
 
-/**resources**/
+/** resources**/
 import './_pageHome.scss';
 
 /** action **/
@@ -27,50 +27,48 @@ import Service from '../../service/Service.jsx';
 import Const from '../../common/constant/Constant.jsx';
 
 class PageHome extends Component {
-    constructor(props) {
-        super(props);
-    };
+  constructor (props) {
+    super(props);
+  }
 
     static propTypes = {};
 
     static defaultProps = {};
 
-    componentWillMount() {
+    componentWillMount () {
     }
 
-    componentWillUnmount() {
+    componentWillUnmount () {
     }
 
-    componentDidMount() {
+    componentDidMount () {
 
     }
 
-    componentDidUpdate() {
+    componentDidUpdate () {
     }
 
-    componentWillUpdate() {
+    componentWillUpdate () {
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps (nextProps) {
     }
 
-    render() {
-        return (
-            <div id='pagehome'>
-                jinjiaxing's react cli
-                <MarqueeText marqueeData={['aaa','bbb','ccc']}/>
-            </div>
-        );
+    render () {
+      return (
+        <div id='pagehome'>
+          {'wangziqi\'s react cli'}
+          <MarqueeText marqueeData={['aaa', 'bbb', 'ccc']}/>
+        </div>
+      );
     }
 }
 
 PageHome.contextTypes = {
-    router: PropTypes.object
+  router: PropTypes.object
 };
 
-const mapStateToProps = (state) => {
-    return {}
-};
+const mapStateToProps = (state) => ({});
 
 PageHome = withRouter(connect(mapStateToProps)(PageHome));
 

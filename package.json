@@ -5,13 +5,14 @@
   "main": "client/router.jsx",
   "scripts": {
     "dev": "NODE_ENV='dev' webpack-dev-server --watch --inline --compress --progress --colors --env development",
-    "release": "NODE_ENV='production' webpack --config webpack.release.js --display-error-details --progress --colors"
+    "release": "NODE_ENV='production' webpack --config webpack.release.js --display-error-details --progress --colors",
+    "lint": "eslint --ext .js --ext .jsx src"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jinjiaxing/react-template-easily.git"
+    "url": "https://github.com/wangziqi/react-template-easily.git"
   },
-  "author": "jinjiaxing <34568305@qq.com> (34568305@qq.com)",
+  "author": "wangziqi <493375503@qq.com> (493375503@qq.com)",
   "license": "MIT",
   "dependencies": {
     "autoprefixer": "^7.1.5",
@@ -27,32 +28,43 @@
     "babel-preset-stage-3": "^6.24.1",
     "babel-runtime": "^6.26.0",
     "classnames": "^2.2.5",
+    "core-js": "^2.5.1",
     "css-loader": "^0.28.7",
     "deep-equal": "^1.0.1",
     "extend": "^3.0.1",
-    "extract-text-webpack-plugin": "^3.0.1",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.5",
-    "html-webpack-plugin": "^2.30.1",
+    "html-webpack-plugin": "^4.2.0",
     "node-sass": "^4.5.3",
     "postcss-loader": "^2.0.8",
     "prop-types": "^15.6.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-redux": "^5.0.6",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-redux": "^7.2.0",
     "react-router-dom": "^4.2.2",
-    "redux": "^3.7.2",
+    "redux": "^4.0.5",
     "redux-devtools": "^3.4.0",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.6",
     "string-replace-loader": "^1.3.0",
     "style-loader": "^0.19.0",
     "url-loader": "^0.6.2",
-    "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.2",
-    "webpack-upload": "^1.1.1",
-    "core-js": "^2.5.1"
+    "webpack": "^4.43.0",
+    "webpack-dev-server": "^3.10.3",
+    "webpack-upload": "^1.1.1"
   },
   "devDependencies": {
-    "react-tap-event-plugin": "^3.0.2"
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.1",
+    "prettier": "^2.0.5",
+    "react-tap-event-plugin": "^3.0.2",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack-cli": "^3.3.11"
   }
 }

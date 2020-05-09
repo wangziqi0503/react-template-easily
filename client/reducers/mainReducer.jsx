@@ -1,7 +1,7 @@
 /**
  * @file mainReducer.jsx
  * @desc main Reducer
- * @author yangchao
+ * @author wangziqi
  * @data 2017/05/25
  */
 import * as Redux from 'redux';

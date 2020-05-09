@@ -1,7 +1,7 @@
 /**
  * @file Common.js
  * @desc 通用类
- * @author yangchao
+ * @author wangziqi
  * @data 2017/05/25
  * @update 2017/07/26
  */

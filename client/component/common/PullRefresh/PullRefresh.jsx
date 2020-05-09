@@ -15,7 +15,7 @@
         onRefresh: function(){}
     };
  *
- * @author jinjiaxing
+ * @author wangziqi
  * @data 2017/06/22
  */
 

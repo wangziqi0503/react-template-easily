@@ -1,7 +1,7 @@
 /**
  * @file PullupLoading.jsx
  * 上拉加载loading组件
- * @author jinjiaxing
+ * @author wangziqi
  * @data 2017/01/20
  */
 

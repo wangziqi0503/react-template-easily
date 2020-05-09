@@ -1,7 +1,7 @@
 /**
  * @file Button.jsx
  * @desc 通用按钮，内容仅为文字
- * @author jinjiaxing
+ * @author wangziqi
  * @data 2016/6/12
  * @update 2017/12/26
  */

@@ -5,23 +5,16 @@ react-template-easily
 ### 描述：
 >**react-template-easily** 是一套以react技术搭建的项目模板，适用于移动端*H5*, *webapp*和*hybirdApp*开发。其中包含常用20+常用组件，精细计算的rem，以及诸多项目的实践。
 
-### URL:
-[https://github.com/jinjiaxing/react-template-easily](https://github.com/jinjiaxing/react-template-easily  )
-
-### Demo:
-[Demo展示（请使用chrome模拟移动端方式查看，或者使用手机查看）](https://jinjiaxing.github.io/react-template-easily/demo/component/index.html#/test)   
-![截图](http://wx4.sinaimg.cn/mw690/dc462c65ly1fmncfld4ydg20a50iijxz.gif)
-
 ## 技术栈 ##
-* _react:16_
-* _react-dom:16_
+* _react:16.13.0
+* _react-dom:16.13.0
 * _react-router-dom:4_
-* _redux:3.7.2_
+* _redux:4.0.5_
 * _redux-thunk:2.2_
-* _react-redux:5.0.6_
+* _react-redux:7.2.0_
 * _sass_
 * _postcss_
-* _webpack:3.8.1_
+* _webpack:4.43.0_
 * _iscroll:5_
 * ...
 
@@ -76,7 +69,7 @@ react-template-easily
 
 ## 开始使用 ##
 
-	git clone https://github.com/jinjiaxing/react-template-easily.git
+	git clone https://github.com/wangziqi/react-template-easily.git
 	npm install
 	npm run dev
 	浏览器访问：0.0.0.0:8080
@@ -92,9 +85,9 @@ react-template-easily
 
 
 ## 开发人员 ##
-* 姓名:杨超
-* 公司:百度(baidu)
-* 邮箱:495622539@qq.com
+* 姓名:王子琦
+* 公司:京东(jd)
+* 邮箱:493375503@qq.com
 
 
 
