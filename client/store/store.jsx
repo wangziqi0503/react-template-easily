@@ -5,16 +5,16 @@
  * redux store file
  */
 
-import mainReducer from './../reducers/mainReducer.jsx';
 import * as Redux from 'redux';
 import ReduxThunk from 'redux-thunk';
+import mainReducer from '../reducers/mainReducer.jsx';
 
-let {createStore, applyMiddleware, compose} = Redux;
+const { createStore, applyMiddleware, compose } = Redux;
 
 
 const enhancer = compose(
   applyMiddleware(ReduxThunk),
-  window.devToolsExtension ? window.devToolsExtension() : (f) => f
+  window.devToolsExtension ? window.devToolsExtension() : (f) => f,
   // devTools({
   //     name: 'blackhole',
   //     realtime: true

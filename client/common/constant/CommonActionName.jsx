@@ -5,13 +5,12 @@
  * @data 2017/07/20
  */
 
-let CommonActionName = {};
+const CommonActionName = {};
 
 /**
  * for common
  */
 CommonActionName.UPDATE_INFO = 'UPDATE_INFO';
-
 
 
 export default CommonActionName;

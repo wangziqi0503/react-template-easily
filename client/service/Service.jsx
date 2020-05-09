@@ -9,8 +9,9 @@
 import Const from '../common/constant/Constant.jsx';
 // toast component
 import Toast from '../component/common/Toast/Toast.jsx';
+
 class Service {
-  constructor () {
+  constructor() {
 
   }
 }
@@ -20,7 +21,7 @@ class Service {
  * @param {Object} obj 参数对象
  */
 Service.setRequestPara = (obj) => {
-  Service.requestPara = Object.assign({}, Service.requestPara, obj);
+  Service.requestPara = { ...Service.requestPara, ...obj };
 };
 
 /**
@@ -36,7 +37,6 @@ Service.requestPara = {};
  * @returns {Object} 返回的promise对象
  */
 Service.reqServer = (url, paramters, type = 'GET') => {
-
   // 默认相对路径请求，如果绝对路径则使用Const.server
   if (Const && Const.server) {
     url = Const.server + url;
@@ -47,35 +47,35 @@ Service.reqServer = (url, paramters, type = 'GET') => {
     type = 'GET';
   }
 
-  let promise = new Promise((resolve, reject) => {
-    let xmlHttp = new XMLHttpRequest();
+  const promise = new Promise((resolve, reject) => {
+    const xmlHttp = new XMLHttpRequest();
 
     xmlHttp.withCredentials = true;
 
     // 添加公共请求参数
     let data = '';
     if (typeof (Service.requestPara) === 'object') {
-      for (let key in Service.requestPara) {
+      for (const key in Service.requestPara) {
         // 请求参数拼接
         if (Service.requestPara.hasOwnProperty(key)) {
-          data += key + '=' + encodeURIComponent(Service.requestPara[key]) + '&';
+          data += `${key}=${encodeURIComponent(Service.requestPara[key])}&`;
         }
       }
-      data += 't=' + new Date().getTime();
+      data += `t=${new Date().getTime()}`;
     } else {
-      data += 't=' + new Date().getTime();
+      data += `t=${new Date().getTime()}`;
     }
     // 请求参数
     let reqData = '';
     if (typeof (paramters) === 'object') {
-      for (let key in paramters) {
+      for (const key in paramters) {
         // 请求参数拼接
         if (paramters.hasOwnProperty(key)) {
           // 传参为数组时， 需要解析成json字符串
           if (paramters[key] instanceof Array) {
-            reqData += key + '=' + encodeURIComponent(JSON.stringify(paramters[key])) + '&';
+            reqData += `${key}=${encodeURIComponent(JSON.stringify(paramters[key]))}&`;
           } else {
-            reqData += key + '=' + encodeURIComponent(paramters[key]) + '&';
+            reqData += `${key}=${encodeURIComponent(paramters[key])}&`;
           }
         }
       }
@@ -85,16 +85,16 @@ Service.reqServer = (url, paramters, type = 'GET') => {
     // 接收请求
     xmlHttp.onload = () => {
       if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-        let result = JSON.parse(xmlHttp.responseText);
+        const result = JSON.parse(xmlHttp.responseText);
         // console.debug(`回调:server:url=${url} [result]=`, result);
         resolve(result);
       } else {
-        reject('服务器错误:' + xmlHttp.status);
+        reject(`服务器错误:${xmlHttp.status}`);
       }
     };
 
     xmlHttp.onerror = () => {
-      reject('服务器错误:' + xmlHttp.status);
+      reject(`服务器错误:${xmlHttp.status}`);
     };
 
     if ('timeout' in xmlHttp && 'ontimeout' in xmlHttp) {
@@ -105,12 +105,12 @@ Service.reqServer = (url, paramters, type = 'GET') => {
     }
     // 发送请求
     if (type === 'GET') {
-      url = url + '?' + reqData + '&' + data;
+      url = `${url}?${reqData}&${data}`;
       xmlHttp.open(type, url, true);
       xmlHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xmlHttp.send();
     } else {
-      url = url + '?' + data;
+      url = `${url}?${data}`;
       xmlHttp.open(type, url, true);
       xmlHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xmlHttp.send(reqData);
@@ -119,12 +119,11 @@ Service.reqServer = (url, paramters, type = 'GET') => {
   });
 
   return promise;
-
 };
 
-Service.get = (url, paramters) => Service.reqServer(url, paramters, 'GET')
+Service.get = (url, paramters) => Service.reqServer(url, paramters, 'GET');
 
-Service.post = (url, paramters) => Service.reqServer(url, paramters, 'POST')
+Service.post = (url, paramters) => Service.reqServer(url, paramters, 'POST');
 
 /**
  * jsonp方式请求
@@ -134,33 +133,32 @@ Service.post = (url, paramters) => Service.reqServer(url, paramters, 'POST')
  * @returns {Function}
  */
 Service.jsonp = function (url, paramters, timeout = 30000) {
-
   if (Const && Const.server) {
     url = Const.server + url;
   }
 
-  let global = window;
-  let body = document.body;
+  const global = window;
+  const { body } = document;
 
-  return new Promise(function (resolve, reject) {
+  return new Promise(((resolve, reject) => {
     // 回调参数名称
-    let scriptID = Math.round(100000 * Math.random());
-    let callbackName = 'jsonp_callback_' + scriptID;
-    let script = document.createElement('script');
+    const scriptID = Math.round(100000 * Math.random());
+    const callbackName = `jsonp_callback_${scriptID}`;
+    const script = document.createElement('script');
     script.id = scriptID;
     // 请求公共参数处理
     let commonData = '';
     if (typeof (Service.requestPara) === 'object') {
-      for (let key in Service.requestPara) {
+      for (const key in Service.requestPara) {
         // 请求参数拼接
         // eslint-disable-next-line no-prototype-builtins
         if (Service.requestPara.hasOwnProperty(key)) {
-          commonData += key + '=' + encodeURIComponent(Service.requestPara[key]) + '&';
+          commonData += `${key}=${encodeURIComponent(Service.requestPara[key])}&`;
         }
       }
-      commonData += 't=' + new Date().getTime();
+      commonData += `t=${new Date().getTime()}`;
     } else {
-      commonData += 't=' + new Date().getTime();
+      commonData += `t=${new Date().getTime()}`;
     }
 
     // console.info('jsonp请求公共参数commonData=', commonData);
@@ -168,15 +166,15 @@ Service.jsonp = function (url, paramters, timeout = 30000) {
     // 请求参数
     let reqData = '';
     if (typeof (paramters) === 'object') {
-      for (let key in paramters) {
+      for (const key in paramters) {
         // 请求参数拼接
         // eslint-disable-next-line no-prototype-builtins
         if (paramters.hasOwnProperty(key)) {
           // 传参为数组时， 需要解析成json字符串
           if (paramters[key] instanceof Array) {
-            reqData += key + '=' + encodeURIComponent(JSON.stringify(paramters[key])) + '&';
+            reqData += `${key}=${encodeURIComponent(JSON.stringify(paramters[key]))}&`;
           } else {
-            reqData += key + '=' + encodeURIComponent(paramters[key]) + '&';
+            reqData += `${key}=${encodeURIComponent(paramters[key])}&`;
           }
         }
       }
@@ -184,21 +182,21 @@ Service.jsonp = function (url, paramters, timeout = 30000) {
     }
 
     if (reqData || commonData) {
-      url = url + (url.indexOf('?') >= 0 ? '&' : '?') + reqData + '&' + commonData;
+      url = `${url + (url.indexOf('?') >= 0 ? '&' : '?') + reqData}&${commonData}`;
     }
 
-    script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
+    script.src = `${url + (url.indexOf('?') >= 0 ? '&' : '?')}callback=${callbackName}`;
 
     console.info('jsonp请求url=', url);
 
     // If we fail to get the script, reject the promise.
     script.onerror = function (err) {
       reject('失败：请求+', err);
-    }
+    };
 
     body.appendChild(script);
     if (/callback=?/.test(url)) {
-      url = url.replace('=?', '=' + callbackName);
+      url = url.replace('=?', `=${callbackName}`);
     }
 
     global[callbackName] = function (data) {
@@ -218,21 +216,18 @@ Service.jsonp = function (url, paramters, timeout = 30000) {
       if (document.getElementById(scriptID)) {
         body.removeChild(script);
       }
-
     };
 
     // 十秒超时处理
-    setTimeout(function () {
+    setTimeout(() => {
       if (document.getElementById(scriptID)) {
         console.log('请求超时：', script.src);
         global[callbackName] = null;
         delete global[callbackName];
         body.removeChild(script);
-
       }
     }, timeout);
-  });
-
+  }));
 };
 
 export default Service;

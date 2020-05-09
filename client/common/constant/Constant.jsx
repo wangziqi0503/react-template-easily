@@ -11,21 +11,21 @@ Const.DEBUG = (process.env.NODE_ENV === 'dev');
 
 // 开发机环境
 if (process.env.NODE_ENV === 'dev') {
-    Const.server = '';
+  Const.server = '';
 }
 // QA环境
 else if (process.env.NODE_ENV === 'test') {
-    Const.server = '';
+  Const.server = '';
 }
 // 线上环境
 else {
-    Const.server = '';
+  Const.server = '';
 }
 
 // 内部版本更新时间
 Const.internalVersion = '2017-11-09';
 
-/**open API**/
+/** open API* */
 
 // na和url参数
 Const.nativeInfo = {};

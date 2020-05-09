@@ -1,4 +1,4 @@
-import commonActionName from '../common/constant/CommonActionName.jsx'
+import commonActionName from '../common/constant/CommonActionName.jsx';
 
 /**
  * @file pageHomeReducer.jsx
@@ -10,10 +10,10 @@ const pageHomeInitialState = {
 };
 
 const pageHomeReducer = (state = pageHomeInitialState, action) => {
-    switch (action.type) {
-        default:
-            return state;
-    }
+  switch (action.type) {
+    default:
+      return state;
+  }
 };
 
 export default pageHomeReducer;

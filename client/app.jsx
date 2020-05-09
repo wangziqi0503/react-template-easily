@@ -6,67 +6,63 @@
  * @update 2017/12/20
  */
 
-/** lib **/
+/** lib * */
 import * as React from 'react';
 import * as ReactRedux from 'react-redux';
 import PropTypes from 'prop-types';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-/** other **/
+/** other * */
 import Const from './common/constant/Constant.jsx';
 import Common from './common/utils/Common.jsx';
 
-/** service **/
+/** service * */
 import Service from './service/Service.jsx';
 
-/** add touch event **/
+/** add touch event * */
 // injectTapEventPlugin();
 
-const {connect} = ReactRedux;
+const { connect } = ReactRedux;
 
 class App extends React.Component {
-
-  constructor (props) {
+  constructor(props) {
     super(props);
   }
 
     static contextTypes = {
       router: PropTypes.object,
-      children: PropTypes.node
+      children: PropTypes.node,
     };
 
-    componentWillUpdate (nextProps) {
+    componentWillUpdate(nextProps) {
 
     }
 
-    componentDidUpdate (preProps) {
+    componentDidUpdate(preProps) {
 
     }
 
-    componentDidMount () {
+    componentDidMount() {
       this.init();
-
     }
 
     /**
      * 初始化数据
      * @param {function} dispatch
      */
-    init () {
+    init() {
       window.common.fetchNAParams().then((params) => {
-        Const.nativeInfo = Object.assign({}, Const.nativeInfo, params);
-      })
+        Const.nativeInfo = { ...Const.nativeInfo, ...params };
+      });
     }
 
-    render () {
-      return this.props.children
+    render() {
+      return this.props.children;
     }
 }
 
 const mapStateToProps = (state) => ({
 
-})
+});
 
 export default connect(mapStateToProps)(App);
-
-

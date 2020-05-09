@@ -4,7 +4,7 @@
  * @return {String}     转化后的字符串
  */
 export function camelCase(str) {
-    return str.replace(/-([a-z])/g, ($0, $1) => $1.toUpperCase()).replace('-', '');
+  return str.replace(/-([a-z])/g, ($0, $1) => $1.toUpperCase()).replace('-', '');
 }
 
 /**
@@ -13,30 +13,30 @@ export function camelCase(str) {
  * @return {Object}       添加前缀的格式化属性对象
  */
 export function formatCss(props) {
-    const prefixs = ['-webkit-', '-moz-', '-ms-'];
+  const prefixs = ['-webkit-', '-moz-', '-ms-'];
 
-    const result = {};
+  const result = {};
 
-    const regPrefix = /transform|transition/;
+  const regPrefix = /transform|transition/;
 
 
-    for (const key in props) {
-        if (props.hasOwnProperty(key)) {
-            const styleValue = props[key];
+  for (const key in props) {
+    if (props.hasOwnProperty(key)) {
+      const styleValue = props[key];
 
-            // 如果检测是transform或transition属性
-            if (regPrefix.test(key)) {
-                for (let i = 0; i < prefixs.length; i++) {
-                    const styleName = camelCase(prefixs[i] + key);
-                    result[styleName] = styleValue.replace(regPrefix, `${prefixs[i]}$&`);
-                }
-            }
-
-            result[key] = styleValue;
+      // 如果检测是transform或transition属性
+      if (regPrefix.test(key)) {
+        for (let i = 0; i < prefixs.length; i++) {
+          const styleName = camelCase(prefixs[i] + key);
+          result[styleName] = styleValue.replace(regPrefix, `${prefixs[i]}$&`);
         }
-    }
+      }
 
-    return result;
+      result[key] = styleValue;
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -45,10 +45,10 @@ export function formatCss(props) {
  * @param {Object} props   css属性对象
  */
 export function addPrefixCss(element, props) {
-    const formatedProps = formatCss(props);
-    for (const key in formatedProps) {
-        if (formatedProps.hasOwnProperty(key)) {
-            element.style[key] = formatedProps[key];
-        }
+  const formatedProps = formatCss(props);
+  for (const key in formatedProps) {
+    if (formatedProps.hasOwnProperty(key)) {
+      element.style[key] = formatedProps[key];
     }
+  }
 }

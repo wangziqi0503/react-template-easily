@@ -12,25 +12,25 @@ import Service from '../service/Service.jsx';
 
 class PageHomeAction extends Object {
 
-    /**
+  /**
      * Demo
      */
-    // static fetchTestData() {
-    //     console.log('action: fetchTestData');
-    //     return (dispatch) => {
-    //         Service.get(Const.req_test_data, {}).then((result)=> {
-    //             if (result && result.errno === 0) {
-    //                 dispatch(PageHomeAction.updateTestData(result.data));
-    //             }
-    //         })
-    //     }
-    // }
-    // static updateTestData(data) {
-    //     return {
-    //         type: commonActionName.UPDATE_TESTDATA,
-    //         testData: data
-    //     }
-    // }
+  // static fetchTestData() {
+  //     console.log('action: fetchTestData');
+  //     return (dispatch) => {
+  //         Service.get(Const.req_test_data, {}).then((result)=> {
+  //             if (result && result.errno === 0) {
+  //                 dispatch(PageHomeAction.updateTestData(result.data));
+  //             }
+  //         })
+  //     }
+  // }
+  // static updateTestData(data) {
+  //     return {
+  //         type: commonActionName.UPDATE_TESTDATA,
+  //         testData: data
+  //     }
+  // }
 }
 
 export default PageHomeAction;

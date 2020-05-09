@@ -1,83 +1,93 @@
-import React from 'react'
-import './_header.scss'
-import PropTypes from 'prop-types'
+import React from 'react';
+import './_header.scss';
+import PropTypes from 'prop-types';
 
-const {Component} = React;
+const { Component } = React;
 
 class Header extends Component {
-
     static propTypes = {
-        className: PropTypes.string,
-        titleName: PropTypes.string,
-        back: PropTypes.bool,
-        backHandle: PropTypes.func,
-        leftIconName: PropTypes.string,
-        leftText: PropTypes.string,
-        leftClickHandler: PropTypes.func,
-        rightIconName: PropTypes.string,
-        rightText: PropTypes.string,
-        rightClickHandler: PropTypes.func
+      className: PropTypes.string,
+      titleName: PropTypes.string,
+      back: PropTypes.bool,
+      backHandle: PropTypes.func,
+      leftIconName: PropTypes.string,
+      leftText: PropTypes.string,
+      leftClickHandler: PropTypes.func,
+      rightIconName: PropTypes.string,
+      rightText: PropTypes.string,
+      rightClickHandler: PropTypes.func,
     };
 
     static defaultProps = {
-        className: '',
-        titleName: '',
-        back: true,
-        leftIconName: '',
-        leftText: '',
-        backHandle: () => {
-        },
-        rightIconName: '',
-        rightText: ''
+      className: '',
+      titleName: '',
+      back: true,
+      leftIconName: '',
+      leftText: '',
+      backHandle: () => {
+      },
+      rightIconName: '',
+      rightText: '',
     };
 
     constructor(props) {
-        super(props);
-
+      super(props);
     }
 
     static contextTypes = {
-        router: PropTypes.object
+      router: PropTypes.object,
     };
 
     goBack() {
-        this.context.router.goBack();
+      this.context.router.goBack();
     }
 
     render() {
-        let {
-            className, titleName, back, backHandle,
-            leftIconName, leftText, leftClickHandler,
-            rightIconName, rightText, rightClickHandler,
-            children, titleClickHandler, extraIconName, extraClickHandler
-        } = this.props;
-        if (!back) {
-            // 自定义backHandle返回函数
-            if (backHandle) {
-                leftClickHandler = backHandle;
-                if (!leftIconName) {
-                    leftIconName = 'go_back_icon';
-                }
-            }
-        } else {
-            leftClickHandler = this.goBack.bind(this);
+      let {
+        className, titleName, back, backHandle,
+        leftIconName, leftText, leftClickHandler,
+        rightIconName, rightText, rightClickHandler,
+        children, titleClickHandler, extraIconName, extraClickHandler,
+      } = this.props;
+      if (!back) {
+        // 自定义backHandle返回函数
+        if (backHandle) {
+          leftClickHandler = backHandle;
+          if (!leftIconName) {
             leftIconName = 'go_back_icon';
+          }
         }
-        
-        return(
-            <header className={'frc_titleBar clearfix ' + className}>
-                <HeaderItem lrType="left" iconName={leftIconName} text={leftText} clickHandler={leftClickHandler}/>
-                {titleName ? <span className="frc_titleName frc_titleBar_name"
-                                   onClick={titleClickHandler}>{titleName}</span> : ''}
-                {children}
-                {
-                    !rightIconName && !rightText ?
-                        "" : <HeaderItem lrType="right" iconName={rightIconName} text={rightText}
-                                         clickHandler={rightClickHandler}/>
+      } else {
+        leftClickHandler = this.goBack.bind(this);
+        leftIconName = 'go_back_icon';
+      }
+
+      return (
+        <header className={`frc_titleBar clearfix ${className}`}>
+          <HeaderItem lrType="left" iconName={leftIconName} text={leftText} clickHandler={leftClickHandler} />
+          {titleName ? (
+            <span
+              className="frc_titleName frc_titleBar_name"
+              onClick={titleClickHandler}
+            >
+              {titleName}
+            </span>
+          ) : ''}
+          {children}
+          {
+                    !rightIconName && !rightText
+                      ? '' : (
+                        <HeaderItem
+                          lrType="right"
+                          iconName={rightIconName}
+                          text={rightText}
+                          clickHandler={rightClickHandler}
+                        />
+                      )
                 }
-                <span className={extraIconName} onClick={extraClickHandler}></span>
-            </header>
-        )
+          <span className={extraIconName} onClick={extraClickHandler} />
+        </header>
+      );
     }
 }
 
@@ -89,26 +99,28 @@ class Header extends Component {
  * @returns {XML}
  * @constructor
  */
-function HeaderItem({lrType, iconName, text, clickHandler, rightComponent}) {
-    let prefix = `frc_${lrType}_titleBar`;
-    let className = '';
-    let content = '';
-    if (iconName) {
-        className = `${prefix}_icon ${iconName}`
-    } else if (text) {
-        className = `${prefix}_text`;
-        content = text;
-    }
+function HeaderItem({
+  lrType, iconName, text, clickHandler, rightComponent,
+}) {
+  const prefix = `frc_${lrType}_titleBar`;
+  let className = '';
+  let content = '';
+  if (iconName) {
+    className = `${prefix}_icon ${iconName}`;
+  } else if (text) {
+    className = `${prefix}_text`;
+    content = text;
+  }
 
-    return (<div className={`${prefix} ${className}`} onClick={clickHandler}>{content}</div>)
+  return (<div className={`${prefix} ${className}`} onClick={clickHandler}>{content}</div>);
 }
 
 
 HeaderItem.propTypes = {
-    assrType: PropTypes.oneOf(['left', 'right']),
-    icon: PropTypes.string,
-    text: PropTypes.string,
-    clickHandler: PropTypes.func
+  assrType: PropTypes.oneOf(['left', 'right']),
+  icon: PropTypes.string,
+  text: PropTypes.string,
+  clickHandler: PropTypes.func,
 };
 
 export default Header;

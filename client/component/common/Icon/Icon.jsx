@@ -3,45 +3,47 @@
  * Created by wangziqi on 16/6/15.
  */
 
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import './_icon.scss'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import './_icon.scss';
 
 class Icon extends Component {
-    constructor(props) {
-        super(props)
-    }
-    
+  constructor(props) {
+    super(props);
+  }
+
     static propTypes = {
-        // 图片Url
-        url:PropTypes.string,
-        // 样式名称
-        className: PropTypes.string,
-        // 点击事件处理函数
-        onClick: PropTypes.func,
-        idName: PropTypes.string,
+      // 图片Url
+      url: PropTypes.string,
+      // 样式名称
+      className: PropTypes.string,
+      // 点击事件处理函数
+      onClick: PropTypes.func,
+      idName: PropTypes.string,
     }
-    
+
     static defaultProps = {
-        url:'',
-        className: '',
-        onClick: null,
-        idName: null,
+      url: '',
+      className: '',
+      onClick: null,
+      idName: null,
     }
-    
+
     render() {
-        let {className, onClick, url, idName} = this.props;
+      const {
+        className, onClick, url, idName,
+      } = this.props;
 
-        let styleObj ={};
-        if(url) {
-            styleObj = {
-                backgroundImage:`url('${url}')`
-            }
-        }
+      let styleObj = {};
+      if (url) {
+        styleObj = {
+          backgroundImage: `url('${url}')`,
+        };
+      }
 
-        return (
-            <i onClick={(event)=>{onClick && onClick(event)}} className={'frc_icon ' + className} style={styleObj} id={idName}/>
-        )
+      return (
+        <i onClick={(event) => { onClick && onClick(event); }} className={`frc_icon ${className}`} style={styleObj} id={idName} />
+      );
     }
 }
 

@@ -8,12 +8,11 @@ import * as Redux from 'redux';
 import commonReducer from './commonReducer.jsx';
 import pageHomeReducer from './pageHomeReducer.jsx';
 
-let {combineReducers} = Redux;
+const { combineReducers } = Redux;
 
 const mainReducer = combineReducers({
-        commonReducer,
-        pageHomeReducer
-    }
-);
+  commonReducer,
+  pageHomeReducer,
+});
 
 export default mainReducer;
