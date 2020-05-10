@@ -6,70 +6,71 @@
  */
 
 /** lib * */
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 /** component* */
-import MarqueeText from '../../component/common/MarqueeText/MarqueeText';
+import MarqueeText from '../../component/common/MarqueeText/MarqueeText'
 
 /** resources* */
-import './_pageHome.scss';
+import './_pageHome.scss'
 
 /** action * */
-import PageHomeAction from '../../actions/pageHomeAction.jsx';
-import CommonAction from '../../actions/commonAction.jsx';
+import PageHomeAction from '../../actions/pageHomeAction.jsx'
+import CommonAction from '../../actions/commonAction.jsx'
 
 /** other * */
-import statisticConst from '../../common/constant/StatisticConstant.jsx';
-import Service from '../../service/Service.jsx';
-import Const from '../../common/constant/Constant.jsx';
+import statisticConst from '../../common/constant/StatisticConstant.jsx'
+import Service from '../../service/Service.jsx'
+import Const from '../../common/constant/Constant.jsx'
 
 class PageHome extends Component {
-    static propTypes = {};
+    static propTypes = {}
 
-    static defaultProps = {};
+    static defaultProps = {}
 
     constructor(props) {
-      super(props);
+        super(props)
     }
 
     componentWillMount() {
+        this.props.getHomeData()
     }
 
-    componentWillUnmount() {
-    }
+    componentWillUnmount() {}
 
-    componentDidMount() {
+    componentDidMount() {}
 
-    }
+    componentDidUpdate() {}
 
-    componentDidUpdate() {
-    }
+    componentWillUpdate() {}
 
-    componentWillUpdate() {
-    }
-
-    componentWillReceiveProps(nextProps) {
-    }
+    componentWillReceiveProps(nextProps) {}
 
     render() {
-      return (
-        <div id="pagehome">
-          dadwada
-          <MarqueeText marqueeData={['aaa', 'bbb', 'ccc']} />
-        </div>
-      );
+        return (
+            <div id='pagehome'>
+                {this.props.}
+                <MarqueeText marqueeData={['aaa1', 'bbb', 'ccc']} />
+            </div>
+        )
     }
 }
 
 PageHome.contextTypes = {
-  router: PropTypes.object,
-};
+    router: PropTypes.object
+}
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({})
 
-PageHome = withRouter(connect(mapStateToProps)(PageHome));
+const mapDispatch = (dispatch) => ({
+    getHomeData() {
+        dispatch(PageHomeAction.getAlltData())
+    }
+})
 
-export default PageHome;
+PageHome = withRouter(connect(mapStateToProps, mapDispatch)(PageHome))
+
+export default PageHome
