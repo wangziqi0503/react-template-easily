@@ -7,43 +7,34 @@
  */
 
 /** lib * */
-import * as React from 'react';
-import * as ReactRedux from 'react-redux';
-import PropTypes from 'prop-types';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import * as React from 'react'
+import * as ReactRedux from 'react-redux'
+import PropTypes from 'prop-types'
+import injectTapEventPlugin from 'react-tap-event-plugin'
 
 /** other * */
-import Const from './common/constant/Constant.jsx';
-import Common from './common/utils/Common.jsx';
+import Const from './common/constant/Constant.jsx'
+import Common from './common/utils/Common.jsx'
 
 /** service * */
-import Service from './service/Service.jsx';
+import Service from './service/Service.jsx'
 
 /** add touch event * */
 // injectTapEventPlugin();
 
-const { connect } = ReactRedux;
+const { connect } = ReactRedux
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-    static contextTypes = {
-      router: PropTypes.object,
-      children: PropTypes.node,
-    };
-
-    componentWillUpdate(nextProps) {
-
+    constructor(props) {
+        super(props)
     }
-
-    componentDidUpdate(preProps) {
-
+    static contextTypes = {
+        router: PropTypes.object,
+        children: PropTypes.node
     }
 
     componentDidMount() {
-      this.init();
+        this.init()
     }
 
     /**
@@ -51,18 +42,16 @@ class App extends React.Component {
      * @param {function} dispatch
      */
     init() {
-      window.common.fetchNAParams().then((params) => {
-        Const.nativeInfo = { ...Const.nativeInfo, ...params };
-      });
+        window.common.fetchNAParams().then((params) => {
+            Const.nativeInfo = { ...Const.nativeInfo, ...params }
+        })
     }
 
     render() {
-      return this.props.children;
+        return this.props.children
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => ({})
 
-});
-
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(App)

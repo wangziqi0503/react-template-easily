@@ -1,0 +1,169 @@
+/* 父元素-横向排列（主轴） */
+@mixin flex-d-r {
+    // display: box;             /* OLD - Android 4.4- */
+    display: -webkit-box;
+    /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;
+    /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;
+    /* TWEENER - IE 10 */
+    display: -webkit-flex;
+    /* NEW - Chrome */
+    display: flex;
+    /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    /* 09版 */
+    -webkit-box-orient: horizontal;
+    /* 12版 */
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    -ms-flex-direction: row;
+    -o-flex-direction: row;
+    flex-direction: row;
+}
+
+/* 父元素-横向换行 */
+@mixin flex-wrap-r {
+    /* 09版 */
+    /*-webkit-box-lines: multiple;*/
+    /* 12版 */
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    -o-flex-wrap: wrap;
+    flex-wrap: wrap;
+
+    -webkit-box-lines: multiple;
+    box-lines: multiple;
+    /*single   multiple*/
+}
+
+@mixin bp-pack($direction) {
+    /* 09版 */
+    -webkit-box-pack: justify;
+    flex-pack: justify;
+    -webkit-flex-pack: justify;
+
+    @if $direction==flex-start {
+        -webkit-box-pack: start;
+        flex-pack: start;
+        -webkit-flex-pack: start;
+    }
+
+    @if $direction==center {
+        -webkit-box-pack: center;
+        flex-pack: center;
+        -webkit-flex-pack: center;
+    }
+
+    @if $direction==flex-end {
+        -webkit-box-pack: end;
+        flex-pack: end;
+        -webkit-flex-pack: end;
+    }
+
+    @if $direction==space-around {
+        -webkit-box-pack: justify;
+        flex-pack: space-around;
+        -webkit-flex-pack: space-around;
+    }
+}
+
+/* 父元素-水平居中（主轴是横向才生效） */
+@mixin flex-jc($direction) {
+    /* 09版 */
+    @include bp-pack($direction);
+    /* 12版 */
+    -webkit-justify-content: $direction;
+    -moz-justify-content: $direction;
+    -ms-justify-content: $direction;
+    -o-justify-content: $direction;
+    justify-content: $direction;
+}
+
+@mixin flex-ai($direction) {
+    /* 09版 */
+    -webkit-box-align: $direction;
+    /* 12版 */
+    -webkit-align-items: $direction;
+    -moz-align-items: $direction;
+    -ms-align-items: $direction;
+    -o-align-items: $direction;
+    align-items: $direction;
+}
+
+/* 父元素-纵向排列（主轴） */
+@mixin flex-d-c {
+    // display: box;             /* OLD - Android 4.4- */
+    display: -webkit-box;
+    /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;
+    /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;
+    /* TWEENER - IE 10 */
+    display: -webkit-flex;
+    /* NEW - Chrome */
+    display: flex;
+    /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    /* 09版 */
+    -webkit-box-orient: vertical;
+    /* 12版 */
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    -o-flex-direction: column;
+    flex-direction: column;
+}
+
+/* 父元素-纵向换行 */
+@mixin flex-wrap-c {
+    /* 09版 */
+    /*-webkit-box-lines: multiple;*/
+    /* 12版 */
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    -o-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+/*多行垂直居中*/
+/*这个只有伸缩项目有多行时才生效，这种情况只有伸缩容器设置了flex-wrap为wrap时，并且没有足够的空间把伸缩项目放在同一行中。这个将对每一行起作用而不是每一个伸缩项目*/
+@mixin flex-ac-c-w {
+    -webkit-align-content: center;
+    -moz-align-content: center;
+    -ms-align-content: center;
+    -o-align-content: center;
+    align-content: center;
+    /*其他值如：flex-start ｜ flex-end ｜ space-between ｜ space-around ｜ stretch*/
+
+    -webkit-flex-line-pack: center;
+    flex-line-pack: center;
+    /*其他值如：start ｜ end ｜ justify｜ distribute｜ stretch*/
+}
+
+/*多行垂值平均分布*/
+@mixin flex-sa-w {
+    -webkit-align-content: space-around;
+    -moz-align-content: space-around;
+    -ms-align-content: space-around;
+    -o-align-content: space-around;
+    align-content: space-around;
+    /*其他值如：flex-start ｜ flex-end ｜ space-between ｜ space-around ｜ stretch*/
+
+    -webkit-flex-line-pack: distribute;
+    flex-line-pack: distribute;
+    /*其他值如：start ｜ end ｜ justify ｜ distribute ｜ stretch*/
+}
+
+@mixin flex1 {
+    -webkit-box-flex: 1;
+    /* OLD - iOS 6-, Safari 3.1-6 */
+    -moz-box-flex: 1;
+    /* OLD - Firefox 19- */
+    -webkit-flex: 1;
+    /* Chrome */
+    -ms-flex: 1;
+    /* IE 10 */
+    flex: 1;
+    /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}

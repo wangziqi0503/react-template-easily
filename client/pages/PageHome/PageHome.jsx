@@ -13,19 +13,12 @@ import { withRouter } from 'react-router-dom'
 
 /** component* */
 import MarqueeText from '../../component/common/MarqueeText/MarqueeText'
-
+import CarInfo from './components/carInfo/carInfo'
 /** resources* */
 import './_pageHome.scss'
 
 /** action * */
-import PageHomeAction from '../../actions/pageHomeAction.jsx'
-import CommonAction from '../../actions/commonAction.jsx'
-
-/** other * */
-import statisticConst from '../../common/constant/StatisticConstant.jsx'
-import Service from '../../service/Service.jsx'
-import Const from '../../common/constant/Constant.jsx'
-
+import PageHomeAction from '../../reducers/pageHomeRereducer/pageHomeAction.jsx'
 class PageHome extends Component {
     static propTypes = {}
 
@@ -35,25 +28,18 @@ class PageHome extends Component {
         super(props)
     }
 
-    componentWillMount() {
-        this.props.getHomeData()
+    componentDidMount() {
+        this.props.getCarList()
     }
 
-    componentWillUnmount() {}
-
-    componentDidMount() {}
-
-    componentDidUpdate() {}
-
-    componentWillUpdate() {}
-
-    componentWillReceiveProps(nextProps) {}
-
     render() {
+        const { list, carList } = this.props
+        const listArr = list.classifiedMainItems
         return (
             <div id='pagehome'>
-                {this.props.}
-                <MarqueeText marqueeData={['aaa1', 'bbb', 'ccc']} />
+                <div className='new-scelfmaintain'>
+                    <CarInfo />
+                </div>
             </div>
         )
     }
@@ -63,14 +49,18 @@ PageHome.contextTypes = {
     router: PropTypes.object
 }
 
-const mapStateToProps = (state) => ({})
+const mapState = (state) => ({
+    list: state.getIn(['pageHomeReducer', 'allData']),
+    carList: state.getIn(['pageHomeReducer', 'carList'])
+})
 
 const mapDispatch = (dispatch) => ({
-    getHomeData() {
-        dispatch(PageHomeAction.getAlltData())
+    getCarList() {
+        dispatch(PageHomeAction.getAllData())
+        dispatch(PageHomeAction.getCarList())
     }
 })
 
-PageHome = withRouter(connect(mapStateToProps, mapDispatch)(PageHome))
+PageHome = withRouter(connect(mapState, mapDispatch)(PageHome))
 
 export default PageHome

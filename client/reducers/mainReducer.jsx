@@ -4,15 +4,11 @@
  * @author wangziqi
  * @data 2017/05/25
  */
-import * as Redux from 'redux';
-import commonReducer from './commonReducer.jsx';
-import pageHomeReducer from './pageHomeReducer.jsx';
-
-const { combineReducers } = Redux;
+import { combineReducers } from 'redux-immutable'
+import { reducer as pageHomeReducer } from './pageHomeRereducer'
 
 const mainReducer = combineReducers({
-  commonReducer,
-  pageHomeReducer,
-});
+    pageHomeReducer
+})
 
-export default mainReducer;
+export default mainReducer

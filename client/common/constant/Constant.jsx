@@ -11,7 +11,7 @@ Const.DEBUG = process.env.NODE_ENV === 'dev'
 
 // 开发机环境
 if (process.env.NODE_ENV === 'dev') {
-    Const.server = 'https://cargw.jd.com/'
+    Const.server = 'https://cargw.jd.com'
 }
 // QA环境
 else if (process.env.NODE_ENV === 'test') {
@@ -33,7 +33,8 @@ Const.nativeInfo = {}
 Const.statisticalInfo = {}
 
 Const.requestUrl = {
-    allData: '/mClient/maintenance/self-maintenanceUpdate'
+    allData: '/mClient/maintenance/self-maintenanceUpdate',
+    carList: '/mClient/userCar/listCars4bc'
 }
 
 export default Const

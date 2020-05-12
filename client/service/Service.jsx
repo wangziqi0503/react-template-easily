@@ -198,12 +198,16 @@ Service.jsonp = function (url, paramters, timeout = 30000) {
         }
 
         global[callbackName] = function (data) {
-            console.log('data=', data)
+            console.log('data==', data)
             if (data && data.errno !== 0) {
-                Toast.toastInstance(`服务器开小差:${data.errstr}`, 2000)
+                // Toast.toastInstance(`服务器开小差:${data.errstr}`, 2000)
             }
-            if (data) {
-                resolve(data)
+            if (data.data) {
+                if (data.code === '0') {
+                    console.log(data.code)
+                    resolve(data)
+                } else if (data.code === '107') {
+                }
             } else {
                 reject('请求失败')
             }

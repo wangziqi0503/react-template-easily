@@ -1,0 +1,52 @@
+// 设计稿是按照哪个手机宽度设计的
+$phoneW: 750;
+
+// 长度设置，如果设计稿的长度是100px，则样式写成 width: rem(100);
+@function rem($val) {
+    @return $val/$phoneW * 10rem;
+}
+
+// 字体大小设置，如果设计稿显示的时24px，则样式写成 @include fontSize(24);
+@mixin fontSize($px) {
+    font-size: round($px / 2) * 1px;
+}
+
+// 同时设置字体和行高，慎用
+@mixin fontHeight($size) {
+    font-size: rem($size);
+    line-height: rem($size * 1.2);
+}
+
+// 正方形，同时设置宽高
+@mixin Squr($size) {
+    width: rem($size);
+    height: rem($size);
+}
+
+// 100%绝对定位
+@mixin absSqur {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+// 文字超过指定行数截断
+@mixin columeText($lineNumber) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: $lineNumber;
+    -webkit-box-orient: vertical;
+}
+
+// 上边框
+@mixin borderTop {
+    border-top: rem(1) solid #e9eaed;
+}
+
+// 上边框
+@mixin borderBottom {
+    border-bottom: rem(1) solid #e9eaed;
+}
