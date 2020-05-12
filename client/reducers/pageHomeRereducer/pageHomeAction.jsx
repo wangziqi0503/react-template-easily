@@ -8,7 +8,7 @@
 
 import Const from '../../common/constant/Constant'
 import Service from '../../service/Service'
-import { GET_ALL_DATA, GET_CAR_LIST } from './pageHomeActionType'
+import { GET_ALL_DATA, GET_CAR_LIST, GET_DEFAULT_CAR } from './pageHomeActionType'
 
 const carInfo = {
     carUserModelId: 29857031,
@@ -42,6 +42,11 @@ class PageHomeAction extends Object {
                 .then((result) => {
                     if (result) {
                         dispatch(PageHomeAction.getCarListData(result.data))
+                        result.data.forEach((item) => {
+                            if (item.defaultCar === 1) {
+                                dispatch(PageHomeAction.getDefaultCar(item))
+                            }
+                        })
                     }
                 })
                 .then(() => {
@@ -62,6 +67,12 @@ class PageHomeAction extends Object {
         return {
             type: GET_CAR_LIST,
             carList: data
+        }
+    }
+    static getDefaultCar(data) {
+        return {
+            type: GET_DEFAULT_CAR,
+            defaultCar: data
         }
     }
 }

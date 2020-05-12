@@ -30,15 +30,22 @@ class PageHome extends Component {
 
     componentDidMount() {
         this.props.getCarList()
+        const { fetchNAParams } = window.common
+        const a = this.props.location.search
+        if (!a) {
+            console.log('a')
+            this.props.history.push({ pathname: '/home', query: { page: 'wzq' } })
+            console.log(this.props)
+        }
     }
 
     render() {
-        const { list, carList } = this.props
-        const listArr = list.classifiedMainItems
+        const { list, carList, defaultCar } = this.props
+        console.log(carList)
         return (
             <div id='pagehome'>
                 <div className='new-scelfmaintain'>
-                    <CarInfo />
+                    <CarInfo carList={defaultCar} />
                 </div>
             </div>
         )
@@ -51,7 +58,8 @@ PageHome.contextTypes = {
 
 const mapState = (state) => ({
     list: state.getIn(['pageHomeReducer', 'allData']),
-    carList: state.getIn(['pageHomeReducer', 'carList'])
+    carList: state.getIn(['pageHomeReducer', 'carList']),
+    defaultCar: state.getIn(['pageHomeReducer', 'defaultCar'])
 })
 
 const mapDispatch = (dispatch) => ({

@@ -4,8 +4,10 @@ import { connect, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import './carinfo.scss'
 
-const carInfo = () => {
+const carInfo = (props) => {
+    console.log(props)
     let [isCarListShow, setIsCarListShow] = useState(false)
+    let [carListInfo, setCarListInfo] = useState({})
     return (
         <div id='carInfo' className='top-ban space-between-r'>
             <div className='car-name'>
@@ -18,7 +20,7 @@ const carInfo = () => {
                         <span className='arrow arrow-up'></span>
                     )}
                 </div>
-                <span className='car-now'>车系名称</span>
+                <span className='car-now'>{`${props.carList.brandName} ${props.carList.seriesName}`}</span>
             </div>
             <div className='car-msg'>
                 <span className='mile-info'>行驶里程</span>
