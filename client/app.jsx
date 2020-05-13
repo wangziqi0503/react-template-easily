@@ -28,10 +28,6 @@ class App extends React.Component {
     constructor(props) {
         super(props)
     }
-    static contextTypes = {
-        router: PropTypes.object,
-        children: PropTypes.node
-    }
 
     componentDidMount() {
         this.init()

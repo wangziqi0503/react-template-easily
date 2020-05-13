@@ -20,10 +20,6 @@ import './_pageHome.scss'
 /** action * */
 import PageHomeAction from '../../reducers/pageHomeRereducer/pageHomeAction.jsx'
 class PageHome extends Component {
-    static propTypes = {}
-
-    static defaultProps = {}
-
     constructor(props) {
         super(props)
     }
