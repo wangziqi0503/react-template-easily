@@ -489,7 +489,6 @@
     common.fetchNAParams = () =>
         new Promise((resolve) => {
             const obj = getParamsFromUrl()
-            console.log(obj)
             resolve(obj)
         })
 

@@ -6,12 +6,13 @@
  */
 
 import { fromJS } from 'immutable'
-import { GET_ALL_DATA, GET_CAR_LIST, GET_DEFAULT_CAR } from './pageHomeActionType.js'
+import { GET_ALL_DATA, GET_CAR_LIST, GET_DEFAULT_CAR, SET_URL_PARMAS } from './pageHomeActionType.js'
 
 const pageHomeInitialState = fromJS({
     allData: [],
     carList: [],
-    defaultCar: {}
+    defaultCar: {},
+    urlParmas: {}
 })
 
 export default (state = pageHomeInitialState, action) => {
@@ -22,6 +23,8 @@ export default (state = pageHomeInitialState, action) => {
             return state.set('carList', action.carList)
         case GET_DEFAULT_CAR:
             return state.set('defaultCar', action.defaultCar)
+        case SET_URL_PARMAS:
+            return state.set('urlParmas', action.urlParmas)
         default:
             return state
     }

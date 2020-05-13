@@ -185,7 +185,7 @@ Service.jsonp = function (url, paramters, timeout = 30000) {
 
         script.src = `${url + (url.indexOf('?') >= 0 ? '&' : '?')}callback=${callbackName}`
 
-        console.info('jsonp请求url=', url)
+        // console.info('jsonp请求url=', url)
 
         // If we fail to get the script, reject the promise.
         script.onerror = function (err) {
@@ -198,13 +198,11 @@ Service.jsonp = function (url, paramters, timeout = 30000) {
         }
 
         global[callbackName] = function (data) {
-            console.log('data==', data)
             if (data && data.errno !== 0) {
                 // Toast.toastInstance(`服务器开小差:${data.errstr}`, 2000)
             }
             if (data.data) {
                 if (data.code === '0') {
-                    console.log(data.code)
                     resolve(data)
                 } else if (data.code === '107') {
                 }

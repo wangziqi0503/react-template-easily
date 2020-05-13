@@ -8,7 +8,8 @@
 
 import Const from '../../common/constant/Constant'
 import Service from '../../service/Service'
-import { GET_ALL_DATA, GET_CAR_LIST, GET_DEFAULT_CAR } from './pageHomeActionType'
+import { GET_ALL_DATA, GET_CAR_LIST, GET_DEFAULT_CAR, SET_URL_PARMAS } from './pageHomeActionType'
+import { push } from 'react-router-redux'
 
 const carInfo = {
     carUserModelId: 29857031,
@@ -36,7 +37,7 @@ class PageHomeAction extends Object {
                 })
         }
     }
-    static getCarList() {
+    static getCarList(urlParmas) {
         return (dispatch) => {
             Service.jsonp(Const.requestUrl.carList, {})
                 .then((result) => {
@@ -45,6 +46,16 @@ class PageHomeAction extends Object {
                         result.data.forEach((item) => {
                             if (item.defaultCar === 1) {
                                 dispatch(PageHomeAction.getDefaultCar(item))
+                                // 判断当前url是否存在车辆信息
+                                const { fetchNAParams } = window.common
+                                if (!urlParmas) {
+                                    dispatch(PageHomeAction.setUrlParmas(item))
+                                    dispatch(push({ pathname: '/home', query: item }))
+                                } else {
+                                    fetchNAParams(urlParmas).then((res) => {
+                                        dispatch(PageHomeAction.setUrlParmas(res))
+                                    })
+                                }
                             }
                         })
                     }
@@ -73,6 +84,12 @@ class PageHomeAction extends Object {
         return {
             type: GET_DEFAULT_CAR,
             defaultCar: data
+        }
+    }
+    static setUrlParmas(data) {
+        return {
+            type: SET_URL_PARMAS,
+            urlParmas: data
         }
     }
 }

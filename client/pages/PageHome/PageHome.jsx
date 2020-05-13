@@ -12,8 +12,8 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 /** component* */
-import MarqueeText from '../../component/common/MarqueeText/MarqueeText'
 import CarInfo from './components/carInfo/carInfo'
+import Loading from '../../component/common/Loading/Loading'
 /** resources* */
 import './_pageHome.scss'
 
@@ -29,23 +29,17 @@ class PageHome extends Component {
     }
 
     componentDidMount() {
-        this.props.getCarList()
-        const { fetchNAParams } = window.common
-        const a = this.props.location.search
-        if (!a) {
-            console.log('a')
-            this.props.history.push({ pathname: '/home', query: { page: 'wzq' } })
-            console.log(this.props)
-        }
+        const urlParmas = this.props.location.search
+        this.props.getCarList(urlParmas)
     }
 
     render() {
-        const { list, carList, defaultCar } = this.props
-        console.log(carList)
+        const { currentCar } = this.props
         return (
             <div id='pagehome'>
                 <div className='new-scelfmaintain'>
-                    <CarInfo carList={defaultCar} />
+                    <Loading />
+                    <CarInfo carList={currentCar} />
                 </div>
             </div>
         )
@@ -59,13 +53,14 @@ PageHome.contextTypes = {
 const mapState = (state) => ({
     list: state.getIn(['pageHomeReducer', 'allData']),
     carList: state.getIn(['pageHomeReducer', 'carList']),
-    defaultCar: state.getIn(['pageHomeReducer', 'defaultCar'])
+    defaultCar: state.getIn(['pageHomeReducer', 'defaultCar']),
+    currentCar: state.getIn(['pageHomeReducer', 'urlParmas'])
 })
 
 const mapDispatch = (dispatch) => ({
-    getCarList() {
+    getCarList(urlParmas) {
         dispatch(PageHomeAction.getAllData())
-        dispatch(PageHomeAction.getCarList())
+        dispatch(PageHomeAction.getCarList(urlParmas))
     }
 })
 
