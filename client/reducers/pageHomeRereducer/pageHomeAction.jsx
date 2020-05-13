@@ -8,9 +8,9 @@
 
 import Const from '../../common/constant/Constant'
 import Service from '../../service/Service'
-import { GET_ALL_DATA, GET_CAR_LIST, GET_DEFAULT_CAR, SET_URL_PARMAS } from './pageHomeActionType'
+import { GET_ALL_DATA, GET_CAR_LIST, GET_DEFAULT_CAR, SET_URL_PARMAS, SET_LOADING } from './pageHomeActionType'
 import { push } from 'react-router-redux'
-
+import Loading from '../../component/common/Loading/Loading'
 const carInfo = {
     carUserModelId: 29857031,
     modelId: 65105,
@@ -51,9 +51,14 @@ class PageHomeAction extends Object {
                                 if (!urlParmas) {
                                     dispatch(PageHomeAction.setUrlParmas(item))
                                     dispatch(push({ pathname: '/home', query: item }))
+                                    dispatch(PageHomeAction.setLoading(false))
+                                    console.log(Loading)
+                                    Loading.disappear()
                                 } else {
                                     fetchNAParams(urlParmas).then((res) => {
                                         dispatch(PageHomeAction.setUrlParmas(res))
+                                        dispatch(PageHomeAction.setLoading(false))
+                                        Loading.disappear()
                                     })
                                 }
                             }
@@ -90,6 +95,12 @@ class PageHomeAction extends Object {
         return {
             type: SET_URL_PARMAS,
             urlParmas: data
+        }
+    }
+    static setLoading(data) {
+        return {
+            type: SET_LOADING,
+            loading: data
         }
     }
 }

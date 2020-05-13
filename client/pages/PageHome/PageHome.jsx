@@ -28,7 +28,12 @@ class PageHome extends Component {
         super(props)
     }
 
+    componentWillMount() {}
+
     componentDidMount() {
+        if (this.props.Loading) {
+            Loading.show()
+        }
         const urlParmas = this.props.location.search
         this.props.getCarList(urlParmas)
     }
@@ -37,10 +42,11 @@ class PageHome extends Component {
         const { currentCar } = this.props
         return (
             <div id='pagehome'>
-                <div className='new-scelfmaintain'>
-                    <Loading />
-                    <CarInfo carList={currentCar} />
-                </div>
+                {this.props.Loading ? null : (
+                    <div className='new-scelfmaintain'>
+                        <CarInfo carList={currentCar} />
+                    </div>
+                )}
             </div>
         )
     }
@@ -54,7 +60,8 @@ const mapState = (state) => ({
     list: state.getIn(['pageHomeReducer', 'allData']),
     carList: state.getIn(['pageHomeReducer', 'carList']),
     defaultCar: state.getIn(['pageHomeReducer', 'defaultCar']),
-    currentCar: state.getIn(['pageHomeReducer', 'urlParmas'])
+    currentCar: state.getIn(['pageHomeReducer', 'urlParmas']),
+    Loading: state.getIn(['pageHomeReducer', 'loading'])
 })
 
 const mapDispatch = (dispatch) => ({
