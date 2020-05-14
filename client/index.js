@@ -1,6 +1,7 @@
 import dva from 'dva'
 import App from './app'
 
+import './common/utils/Common.jsx'
 /** * common stylesheet file ** */
 import './common/style/_reset.scss'
 import './common/style/_common.scss'
@@ -13,7 +14,7 @@ const app = dva()
 // app.use({})
 
 // model
-// app.model(require('./models/example').default)
+app.model(require('./models/pageHome/model').default)
 
 // route
 app.router(App)

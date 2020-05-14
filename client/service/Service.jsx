@@ -8,7 +8,7 @@
 // 静态常量保存类库
 import Const from '../common/constant/Constant.jsx'
 // toast component
-import Toast from '../component/common/Toast/Toast.jsx'
+// import Toast from '../component/common/Toast/Toast.jsx'
 
 class Service {
     constructor() {}

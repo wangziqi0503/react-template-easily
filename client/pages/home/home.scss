@@ -1,0 +1,21 @@
+@import '../common/style/mixins.scss';
+@import '../common/style/flex.scss';
+
+#pagehome {
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+body {
+    background: #f7f7f7;
+}
+
+.new-selfmaintain {
+    .clearfix:after {
+        content: '';
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+    }
+}
