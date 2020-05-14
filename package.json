@@ -21,6 +21,7 @@
         "css-loader": "^0.28.7",
         "deep-equal": "^1.0.1",
         "dva": "^2.4.1",
+        "dva-loading": "^2.0.5",
         "extend": "^3.0.1",
         "extract-text-webpack-plugin": "^4.0.0-beta.0",
         "file-loader": "^1.1.5",

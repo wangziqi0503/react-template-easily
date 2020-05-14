@@ -7,7 +7,8 @@ const mapStateToProps = (state) => {
     console.log('WarehouseInfo>', state.homeInfo.carList)
     return {
         carList: state.homeInfo.carList,
-        defaultCar: state.homeInfo.defaultCar
+        defaultCar: state.homeInfo.defaultCar,
+        loading: state.loading
     }
 }
 class Home extends Component {
@@ -16,6 +17,7 @@ class Home extends Component {
     }
 
     componentWillMount() {
+        console.log(this.props.loading)
         const { fetchNAParams } = window.common
         const urlParmas = (this.props.location.search = fetchNAParams(urlParmas).then((res) => {
             // 判断url是否携带车辆信息
