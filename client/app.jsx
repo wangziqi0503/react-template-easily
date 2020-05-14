@@ -8,46 +8,16 @@
 
 /** lib * */
 import * as React from 'react'
-import * as ReactRedux from 'react-redux'
-import PropTypes from 'prop-types'
-import injectTapEventPlugin from 'react-tap-event-plugin'
+import { Router } from 'dva/router'
+import RouterView from './routes/RouterView.jsx'
+import routes from './routes/routes'
 
-/** other * */
-import Const from './common/constant/Constant.jsx'
-import Common from './common/utils/Common.jsx'
-
-/** service * */
-import Service from './service/Service.jsx'
-
-/** add touch event * */
-// injectTapEventPlugin();
-
-const { connect } = ReactRedux
-
-class App extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
-    componentDidMount() {
-        this.init()
-    }
-
-    /**
-     * 初始化数据
-     * @param {function} dispatch
-     */
-    init() {
-        window.common.fetchNAParams().then((params) => {
-            Const.nativeInfo = { ...Const.nativeInfo, ...params }
-        })
-    }
-
-    render() {
-        return this.props.children
-    }
+const RouterConfig = ({ history }) => {
+    return (
+        <Router history={history}>
+            <RouterView routes={routes}></RouterView>
+        </Router>
+    )
 }
 
-const mapStateToProps = (state) => ({})
-
-export default connect(mapStateToProps)(App)
+export default RouterConfig
