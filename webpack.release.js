@@ -22,7 +22,7 @@ const config = {
     // 入口
     entry: {
         main: [path.resolve(__dirname, './client/index.js')],
-        vendor: ['react', 'react-dom', 'react-router-dom', 'prop-types']
+        vendor: ['core-js', 'react', 'react-dom', 'react-router-dom', 'prop-types']
     },
     // 出口
     output: {

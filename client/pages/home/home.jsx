@@ -4,7 +4,9 @@ import { connect } from 'dva'
 import CarInfo from './components/carInfo'
 import Loading from '../../components/Loading/Loading'
 
-import { getUserLocation } from '@/common/utils/loaction'
+/** utils */
+// import { getUserLocation } from '@/common/utils/loaction'
+const common = window.common
 
 const mapStateToProps = (state) => {
     return {
@@ -13,9 +15,21 @@ const mapStateToProps = (state) => {
         loading: state.loading
     }
 }
+
+// 获取地址栏信息，判断是否需要跳转保养手册页面
+
 class Home extends Component {
     constructor(props) {
         super(props)
+    }
+
+    goToManual() {
+        console.log('?')
+        const query = this.props.location.search
+        console.log(query)
+        if (query.indexOf('/manual') != -1) {
+            console.log('保养手册')
+        }
     }
 
     componentWillMount() {
@@ -48,4 +62,4 @@ class Home extends Component {
     }
 }
 
-export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps, common)(Home)

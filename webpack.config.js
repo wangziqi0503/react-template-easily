@@ -26,7 +26,7 @@ const config = {
             'webpack/hot/only-dev-server',
             path.resolve(__dirname, './client/index.js')
         ],
-        vendor: ['react', 'react-dom', 'react-router-dom', 'prop-types']
+        vendor: ['core-js', 'react', 'react-dom', 'react-router-dom', 'prop-types']
     },
     // 优化
     resolve: {
@@ -34,8 +34,7 @@ const config = {
         extensions: ['.jsx', '.js', '.json', '.scss'],
         // 别名,优化编译时间
         alias: {
-            react: path.join(__dirname, 'node_modules', 'react'),
-            '@': path.resolve(__dirname, 'client')
+            react: path.join(__dirname, 'node_modules', 'react')
         },
         modules: [path.resolve(__dirname, 'node_modules')]
     },
