@@ -140,29 +140,40 @@
         return localStorage.getItem(key)
     }
 
-    common.readCookie = function (key) {
-        if (document.cookie.length > 0) {
-            let start = document.cookie.indexOf(`${key}=`)
-            if (start !== -1) {
-                start = start + key.length + 1
-                let end = document.cookie.indexOf(';', start)
-                if (end === -1) {
-                    end = document.cookie.length
-                }
-                return unescape(document.cookie.substring(start, end))
-            }
-        }
-        return ''
+    // 获取cookie
+    common.getCookie = (name) => {
+        // 传一个字符串以|;|隔开变量，看cookie中是否有name(变量)
+        let reg = new RegExp('(^| )' + name + '(?:=([^;]*))?(;|$)')
+        let val = document.cookie.match(reg)
+        return val ? (val[2] ? unescape(val[2]) : '') : null
     }
 
-    common.writeCookie = function (key, value, expiresDays) {
-        const date = new Date()
-        const days = isNaN(expiresDays) ? 365 : expiresDays
-        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000)
-        const expires = date.toGMTString()
-        const cookiestr = `${key}=${value}; expires=${expires}; path=/`
+    // 设置cookie
+    common.setCookie = (name, value, expires, path, domain, secure) => {
+        let exp = new Date()
+        expires = arguments[2] || null
+        path = arguments[3] || '/'
+        domain = arguments[4] || null
+        secure = arguments[5] || false
+        expires ? exp.setMinutes(exp.getMinutes() + parseInt(expires)) : ''
+        document.cookie =
+            name +
+            '=' +
+            escape(value) +
+            (expires ? ';expires=' + exp.toGMTString() : '') +
+            (path ? ';path=' + path : '') +
+            (domain ? ';domain=' + domain : '') +
+            (secure ? ';secure' : '')
+    }
 
-        document.cookie = cookiestr
+    //  删除cookie
+    common.delCookie = (name) => {
+        let exp = new Date()
+        exp.setTime(exp.getTime() - 1)
+        let cval = this.getCookie(name)
+        if (cval != null) {
+            document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString()
+        }
     }
 
     /**
@@ -625,4 +636,6 @@
             []
         )
     }
+
+    common.get
 })(window, document)

@@ -1,9 +1,9 @@
-import { getCarList } from '../../api/home'
-
+import { getCarList, getAllData } from '../../api/home'
 export default {
     namespace: 'homeInfo',
     state: {
         carList: [],
+        allData: [],
         defaultCar: []
     },
     effects: {
@@ -16,12 +16,16 @@ export default {
                 let carData = {}
                 res.data.forEach((item) => {
                     if (item.defaultCar === 1) {
-                        console.log(item)
                         carData = item
                     }
                 })
                 yield put({ type: 'saveDefaultCar', payload: carData })
+                yield put({ type: 'getAllData', payload: carData })
             }
+        },
+        *getAllData({ payload }, { call, put }) {
+            const res = yield call(getAllData, payload)
+            yield put({ type: 'saveAllData', payload: res })
         }
     },
     reducers: {
@@ -35,6 +39,12 @@ export default {
             return {
                 ...state,
                 defaultCar: payload
+            }
+        },
+        saveAllData(state, { payload }) {
+            return {
+                ...state,
+                ...payload
             }
         }
     }

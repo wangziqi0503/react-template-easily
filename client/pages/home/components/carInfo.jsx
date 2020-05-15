@@ -1,8 +1,9 @@
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useState, useRef, useMemo, useEffect } from 'react'
+import { connect } from 'dva'
+import Loading from '../../../components/Loading/Loading'
 import './carinfo.scss'
 
 const carInfo = (props) => {
-    console.log('props==', props.carList)
     let [isCarListShow, setIsCarListShow] = useState(false)
     return (
         <div id='carInfo' className='top-ban space-between-r'>
@@ -17,7 +18,7 @@ const carInfo = (props) => {
                     )}
                 </div>
                 <span className='car-now'>
-                    {props.carList.brandName ? `${props.carList.brandName} ${props.carList.seriesName}` : '车系信息'}
+                    {props.carList.brandName ? `${props.carList.brandName} ${props.carList.brandName}` : '车系信息'}
                 </span>
             </div>
             <div className='car-msg'>
@@ -32,5 +33,4 @@ const carInfo = (props) => {
         </div>
     )
 }
-
-export default React.memo(carInfo)
+export default carInfo

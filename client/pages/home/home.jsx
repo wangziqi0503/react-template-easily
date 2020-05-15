@@ -2,9 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'dva'
 /* components */
 import CarInfo from './components/carInfo'
+import Loading from '../../components/Loading/Loading'
+
+import { getUserLocation } from '@/common/utils/location.js'
+// require('@/common/utils/location')
 
 const mapStateToProps = (state) => {
-    console.log('WarehouseInfo>', state.homeInfo.carList)
     return {
         carList: state.homeInfo.carList,
         defaultCar: state.homeInfo.defaultCar,
@@ -17,7 +20,6 @@ class Home extends Component {
     }
 
     componentWillMount() {
-        console.log(this.props.loading)
         const { fetchNAParams } = window.common
         const urlParmas = (this.props.location.search = fetchNAParams(urlParmas).then((res) => {
             // 判断url是否携带车辆信息
@@ -28,20 +30,20 @@ class Home extends Component {
             })
         }))
     }
-    componentDidMount() {
-        // this.props.dispatch({
-        //     type: 'homeInfo/getCarList',
-        //     payload: {}
-        // })
-    }
+    componentDidMount() {}
 
     render() {
         const { defaultCar } = this.props
+        const isFetch = this.props.loading.effects[('homeInfo/getCarList', 'homeInfo/getAllData')]
         return (
             <div id='pagehome'>
-                <div className='new-scelfmaintain'>
-                    <CarInfo carList={defaultCar} />
-                </div>
+                {isFetch ? (
+                    <Loading />
+                ) : (
+                    <div className='new-scelfmaintain'>
+                        <CarInfo carList={defaultCar} />
+                    </div>
+                )}
             </div>
         )
     }
