@@ -1,4 +1,5 @@
 import { getCarList, getAllData } from '../../api/home'
+
 export default {
     namespace: 'homeInfo',
     state: {
@@ -24,6 +25,9 @@ export default {
             }
         },
         *getAllData({ payload }, { call, put }) {
+            payload.provinceCode = '111'
+            payload.cityCode = '111'
+            payload.areaCode = '111'
             const res = yield call(getAllData, payload)
             yield put({ type: 'saveAllData', payload: res })
         }

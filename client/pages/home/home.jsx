@@ -4,8 +4,7 @@ import { connect } from 'dva'
 import CarInfo from './components/carInfo'
 import Loading from '../../components/Loading/Loading'
 
-import { getUserLocation } from '@/common/utils/location.js'
-// require('@/common/utils/location')
+import { getUserLocation } from '@/common/utils/loaction'
 
 const mapStateToProps = (state) => {
     return {

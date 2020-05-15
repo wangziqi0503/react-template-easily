@@ -35,7 +35,7 @@ const config = {
         // 别名,优化编译时间
         alias: {
             react: path.join(__dirname, 'node_modules', 'react'),
-            VIEW: path.resolve(__dirname, 'client')
+            '@': path.resolve(__dirname, 'client')
         },
         modules: [path.resolve(__dirname, 'node_modules')]
     },
