@@ -34,7 +34,8 @@ const config = {
         extensions: ['.jsx', '.js', '.json', '.scss'],
         // 别名,优化编译时间
         alias: {
-            react: path.join(__dirname, 'node_modules', 'react')
+            react: path.join(__dirname, 'node_modules', 'react'),
+            '@': path.resolve(__dirname, 'client')
         },
         modules: [path.resolve(__dirname, 'node_modules')]
     },

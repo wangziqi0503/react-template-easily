@@ -34,7 +34,8 @@ Const.statisticalInfo = {}
 
 Const.requestUrl = {
     allData: '/mClient/maintenance/self-maintenanceUpdate',
-    carList: '/mClient/userCar/listCars4bc'
+    carList: '/mClient/userCar/listCars4bc',
+    address: `/mClient?functionId=addressOperate&body={"operate":"15"}&client=m&uuid='${new Date().valueOf()}`
 }
 
 export default Const

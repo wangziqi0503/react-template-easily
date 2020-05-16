@@ -636,6 +636,4 @@
             []
         )
     }
-
-    common.get
 })(window, document)

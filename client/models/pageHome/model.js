@@ -8,11 +8,11 @@ export default {
         defaultCar: []
     },
     effects: {
-        *getCarList({ payload }, { call, put }) {
+        *getCarList({ payload, mainData }, { call, put }) {
             const res = yield call(getCarList)
             yield put({ type: 'saveCarList', payload: res })
-            if (payload) {
-                yield put({ type: 'saveDefaultCar', payload: payload })
+            if (payload.res) {
+                yield put({ type: 'saveDefaultCar', payload: payload.res })
             } else {
                 let carData = {}
                 res.data.forEach((item) => {
@@ -21,13 +21,12 @@ export default {
                     }
                 })
                 yield put({ type: 'saveDefaultCar', payload: carData })
-                yield put({ type: 'getAllData', payload: carData })
+                const { id, modelId, mileage } = carData
+                const mainData = Object.assign(payload.mainData, { id, modelId, mileage })
+                yield put({ type: 'getAllData', payload: mainData })
             }
         },
         *getAllData({ payload }, { call, put }) {
-            payload.provinceCode = '111'
-            payload.cityCode = '111'
-            payload.areaCode = '111'
             const res = yield call(getAllData, payload)
             yield put({ type: 'saveAllData', payload: res })
         }

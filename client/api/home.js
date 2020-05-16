@@ -8,3 +8,7 @@ export function getCarList() {
 export function getAllData(info) {
     return Service.jsonp(Const.requestUrl.allData, info)
 }
+
+export function getAddress() {
+    return Service.jsonp(Const.requestUrl.address, {})
+}
