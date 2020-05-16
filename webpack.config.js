@@ -63,7 +63,7 @@ const config = {
         rules: [
             {
                 test: [/\.js$/, /\.jsx$/],
-                use: ['babel-loader?cacheDirectory=true'],
+                use: 'babel-loader',
                 exclude: /node_modules/,
                 include: path.resolve(__dirname, './client')
             },

@@ -6,7 +6,6 @@ import Loading from '../../components/Loading/Loading'
 
 /** utils */
 
-import { getAddress } from '@/api/home.js'
 import CarList from './components/carList/carList'
 
 const mapStateToProps = (state) => {
@@ -51,12 +50,6 @@ class Home extends Component {
     }
 
     componentDidMount() {}
-
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     if (nextProps.defaultCar !== this.props.defaultCar) {
-    //         return true
-    //     }
-    // }
 
     render() {
         const { defaultCar, carListStatus } = this.props

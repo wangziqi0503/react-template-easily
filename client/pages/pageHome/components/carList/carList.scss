@@ -1,0 +1,140 @@
+@import '~@/common/style/mixins.scss';
+@import '~@/common/style/base.scss';
+.new-car-list-shade {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 111;
+    background-color: rgba(0, 0, 0, 0.5);
+    .car-list {
+        z-index: 211;
+        position: fixed;
+        bottom: rem(0);
+        left: 0;
+        background: #fff;
+        width: 100%;
+        border-radius: rem(24) rem(24) 0 0;
+        .car-tit {
+            width: 100%;
+            height: rem(108);
+            line-height: rem(108);
+            overflow: hidden;
+            .title {
+                float: left;
+                font-family: PingFangSC-Semibold;
+                @include fontSize(36);
+                color: #262626;
+                letter-spacing: 0;
+                margin-left: 0.36rem;
+                text-align: center;
+            }
+            .car-manage {
+                float: left;
+                width: rem(120);
+                height: rem(40);
+                line-height: rem(40);
+                background: #f2f2f2;
+                border-radius: rem(20);
+                font-family: PingFangSC-Regular;
+                @include fontSize(20);
+                color: #262626;
+                text-align: center;
+                margin-left: rem(338);
+                margin-top: rem(34);
+            }
+            .close {
+                float: right;
+                width: rem(40);
+                height: rem(40);
+                background: url(~@/common/assets/close-car.png) no-repeat;
+                background-size: contain;
+                margin: rem(36) rem(36) 0 0;
+            }
+        }
+        .content {
+            margin-top: rem(24);
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 rem(36);
+        }
+        .car-con {
+            width: rem(678);
+            height: rem(132);
+            @include fontSize(28);
+            color: #333;
+            background: #ffffff;
+            border-radius: rem(12);
+            margin-bottom: rem(24);
+            img {
+                float: left;
+                width: rem(60);
+                height: rem(60);
+                margin: rem(36) 0 0 rem(36);
+            }
+            .car-info {
+                float: left;
+                margin: rem(24) 0 0 rem(24);
+                max-width: rem(522);
+                font-family: PingFangSC-Medium;
+                @include fontSize(28);
+                color: #262626;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                .car-des {
+                    vertical-align: middle;
+                }
+            }
+        }
+
+        .current {
+            border: rem(2) solid #f2270c;
+            box-shadow: 0 rem(10) rem(20) 0 rgba(242, 39, 12, 0.1);
+        }
+
+        .car-default-tag {
+            padding: rem(2) rem(4);
+            height: rem(28);
+            line-height: rem(28);
+            box-sizing: content-box;
+            background: #f2270c;
+            border-radius: rem(4);
+            @include fontSize(22);
+            color: #fff;
+            display: inline-block;
+            vertical-align: middle;
+            transform: translate(0.8);
+            transform-origin: 0;
+            text-align: center;
+        }
+
+        .add-car {
+            width: rem(678);
+            height: rem(76);
+            line-height: rem(76);
+            background-image: linear-gradient(135deg, #f2140c 0%, #f2270c 70%, #f24d0c 100%);
+            border-radius: rem(42);
+            font-family: PingFangSC-Semibold;
+            @include fontSize(26);
+            color: #ffffff;
+            text-align: center;
+            margin: rem(20) auto rem(20);
+        }
+    }
+
+    .maskFade-enter-active,
+    .maskFade-leave-active {
+        transition: transform 0.5s;
+    }
+    .maskFade-enter,
+    .maskFade-leave-active {
+        transform: translate3d(0, 100%, 0);
+    }
+    .opac {
+        opacity: 0;
+    }
+}
