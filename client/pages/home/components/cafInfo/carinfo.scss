@@ -1,5 +1,5 @@
-@import '../../../common/style/mixins.scss';
-@import '../../../common/style/flex.scss';
+@import '~@/common/style/mixins.scss';
+@import '~@/common/style/flex.scss';
 
 .top-ban {
     background: #e1251b;
@@ -58,12 +58,12 @@
     }
 
     .arrow-down {
-        background: url('../../../common/assets/downblack.png') no-repeat 0 0;
+        background: url('~@/common/assets/downblack.png') no-repeat 0 0;
         background-size: contain;
     }
 
     .arrow-up {
-        background: url('../../../common/assets/upblack.png') no-repeat 0 0;
+        background: url('~@/common/assets/upblack.png') no-repeat 0 0;
         background-size: contain;
     }
 }
@@ -100,7 +100,7 @@
     .edit {
         width: rem(20);
         height: rem(20);
-        background: url('../../../common/assets/mileEdit.png') no-repeat 0 0;
+        background: url('~@/common/assets/mileEdit.png') no-repeat 0 0;
         background-size: contain;
         display: inline-block;
     }
@@ -199,12 +199,12 @@
         }
 
         .arrow-down {
-            background: url('../../../common/assets/downblack.png') no-repeat 0 0;
+            background: url('~@/common/assets/downblack.png') no-repeat 0 0;
             background-size: contain;
         }
 
         .arrow-up {
-            background: url('../../../common/assets/upblack.png') no-repeat 0 0;
+            background: url('~@/common/assets/upblack.png') no-repeat 0 0;
             background-size: contain;
         }
     }

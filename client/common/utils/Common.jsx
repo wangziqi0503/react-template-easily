@@ -5,7 +5,7 @@
  * @data 2017/05/25
  * @update 2017/07/26
  */
-
+import { getUserLocation } from '@/common/utils/loaction'
 ;(function (window, document) {
     // rem计算
     const recalc = function (e) {
@@ -47,7 +47,7 @@
     // 登陆
     common.goLogin = (goUrl) => {
         goUrl = goUrl || location.href
-        var setting = getLoginCodeType()
+        var setting = common.getLoginCodeType()
         if (setting == 'wx' || setting == 'qq') {
             if (isWxapplet()) {
                 wxJDK.miniProgram.redirectTo({
@@ -635,5 +635,62 @@
             (a, b) => [].concat(Array.isArray(a) && a ? flattenArr(a) : a, Array.isArray(b) && b ? flattenArr(b) : b),
             []
         )
+    }
+
+    //设置用户地址，坐标信息
+    common.setUserAddress = (response) => {
+        let mainData = {}
+        if (response.code == 0 && response.data != null && response.data.defaultAddress) {
+            let item
+            if (response.data.defaultAddress instanceof Array && response.data.defaultAddress.length > 0) {
+                item = response.data.defaultAddress[0]
+            } else {
+                item = response.data.defaultAddress
+            }
+            common.setCookie('person_area1', item.provinceId, 10000, '/')
+            common.setCookie('person_area2', item.cityId, 10000, '/')
+            common.setCookie('person_area3', item.countyId, 10000, '/')
+            common.setCookie('person_area4', item.townId, 10000, '/')
+            let myPara = item.provinceId + '_' + item.cityId + '_' + item.countyId + '_' + item.townId
+            common.setCookie('person_area', myPara, 10000, '/')
+            // setCookie('person_provinceName', item.provinceName  + '市')
+            common.setCookie('person_provinceName', item.provinceId > 4 ? item.cityName : item.provinceName + '市')
+            // console.log(common.getCookie('person_provinceName'))
+        } else {
+            common.setCookie('person_area1', '1', 10000, '/')
+            common.setCookie('person_area2', '72', 10000, '/')
+            common.setCookie('person_area3', '2799', 10000, '/')
+            common.setCookie('person_area4', '0', 10000, '/')
+            common.setCookie('person_area', '1_72_2799_0', '/')
+            common.setCookie('person_provinceName', '北京市')
+        }
+        getUserLocation()
+            .then((result) => {
+                common.setCookie('longitude', result.lng)
+                common.setCookie('latitude', result.lat)
+            })
+            .catch((err) => {
+                console.log(common)
+                common.setCookie('latitude', 39.907687) // 设置用户纬度
+                common.setCookie('longitude', 116.397625) // 设置用户经度
+            })
+        let provinceCode = common.getCookie('person_area1') ? common.getCookie('person_area1') : '1'
+        let cityCode = common.getCookie('person_area2') ? common.getCookie('person_area2') : '2810'
+        let areaCode = common.getCookie('person_area3') ? common.getCookie('person_area3') : '51081'
+        let lng = common.getCookie('longitude') ? common.getCookie('longitude') : '39.72684'
+        let lat = common.getCookie('latitude') ? common.getCookie('latitude') : '116.34159'
+        let selsctItemIds = JSON.parse(sessionStorage.getItem('SELECT_ITEMIDS'))
+        mainData = {
+            // carUserModelId: defaultCar.id,
+            // modelId: defaultCar.modelId,
+            typeIds: selsctItemIds || '',
+            // mileages: defaultCar.mileage || '',
+            lng: lng ? lng : '',
+            lat: lat ? lat : '',
+            provinceCode: provinceCode,
+            cityCode: cityCode,
+            areaCode: areaCode
+        }
+        return mainData
     }
 })(window, document)

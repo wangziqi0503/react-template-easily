@@ -1,15 +1,26 @@
 import React, { useState, useRef, useMemo, useEffect } from 'react'
 import { connect } from 'dva'
-import Loading from '../../../components/Loading/Loading'
+import Loading from '@/components/Loading/Loading'
 import './carinfo.scss'
 
 const carInfo = (props) => {
     let [isCarListShow, setIsCarListShow] = useState(false)
+    const changeCar = (status) => {
+        setIsCarListShow(status)
+        props.dispatch({
+            type: 'homeInfo/getCarListStatus',
+            status: status
+        })
+    }
     return (
         <div id='carInfo' className='top-ban space-between-r'>
             <div className='car-name'>
                 <span className='car-info'>车辆信息</span>
-                <div className='arrow-change'>
+                <div
+                    className='arrow-change'
+                    onClick={() => {
+                        changeCar(!isCarListShow)
+                    }}>
                     切换
                     {!isCarListShow ? (
                         <span className='arrow arrow-down'></span>
@@ -33,4 +44,4 @@ const carInfo = (props) => {
         </div>
     )
 }
-export default carInfo
+export default connect()(carInfo)

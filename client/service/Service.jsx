@@ -201,10 +201,12 @@ Service.jsonp = function (url, paramters, timeout = 30000) {
             if (data && data.errno !== 0) {
                 // Toast.toastInstance(`服务器开小差:${data.errstr}`, 2000)
             }
-            if (data.data) {
+            if (data.code) {
                 if (data.code === '0') {
                     resolve(data)
                 } else if (data.code === '107') {
+                    console.log('登陆')
+                    window.common.goLogin()
                 }
             } else {
                 reject('请求失败')
