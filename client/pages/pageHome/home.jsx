@@ -5,8 +5,9 @@ import CarInfo from './components/cafInfo/carInfo'
 import Loading from '../../components/Loading/Loading'
 
 /** utils */
-
 import CarList from './components/carList/carList'
+
+import './home.scss'
 
 const mapStateToProps = (state) => {
     return {
@@ -44,7 +45,6 @@ class Home extends Component {
             })
         }))
     }
-
     componentWillMount() {
         this.getInitData()
     }
@@ -61,7 +61,7 @@ class Home extends Component {
                 ) : (
                     <div className='new-scelfmaintain'>
                         <CarInfo carList={defaultCar} />
-                        {carListStatus ? <CarList /> : null}
+                        {carListStatus ? <CarList carListStatus={carListStatus} /> : null}
                     </div>
                 )}
             </div>

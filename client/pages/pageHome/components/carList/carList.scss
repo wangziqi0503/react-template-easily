@@ -125,16 +125,25 @@
             margin: rem(20) auto rem(20);
         }
     }
-
-    .maskFade-enter-active,
-    .maskFade-leave-active {
-        transition: transform 0.5s;
-    }
-    .maskFade-enter,
-    .maskFade-leave-active {
-        transform: translate3d(0, 100%, 0);
-    }
     .opac {
         opacity: 0;
     }
+}
+
+/* 车列表动画*/
+.show-enter,
+.show-appear {
+    transform: translateY(100%);
+}
+.show-enter-active,
+.show-appear-active {
+    transform: translateY(0);
+    transition: all 300ms;
+}
+.show-exit {
+    transform: translateY(0);
+}
+.show-exit-active {
+    transform: translateY(100%);
+    transition: all 300ms ease-in;
 }
