@@ -1,28 +1,30 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-16 17:01:43
- * @LastEditTime: 2020-05-17 19:54:06
+ * @LastEditTime: 2020-05-17 21:42:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/model.js
  */
 
-import { routerRedux } from 'dva/router'
+// import { routerRedux } from 'dva/router'
 import { getCarList, getAllData, getAddress, setDefaultCarData } from '../../api/home'
 const { setUserAddress } = window.common
 export default {
     namespace: 'homeInfo',
     state: {
-        carList: [],
-        allData: [],
-        defaultCar: [],
-        carListStatus: false
+        mainData: [], // 用户地址信息
+        carList: [], // 车辆列表
+        allData: [], // sku商品数据
+        defaultCar: [], // 当前展示车辆信息
+        carListStatus: false // 控制车辆列表展示隐藏开关
     },
     effects: {
         *getAddress({ url }, { call, put }) {
             const res = yield call(getAddress)
             // 获取调用sku接口所需参数
             const mainData = setUserAddress(res)
+            yield put({ type: 'saveMainData', payload: mainData })
             yield put({ type: 'getCarList', payload: { url, mainData } })
         },
         *getCarList({ payload }, { call, put }) {
@@ -66,24 +68,36 @@ export default {
         }
     },
     reducers: {
+        // 保存用户地址信息
+        saveMainData(state, { payload }) {
+            return {
+                ...state,
+                mainData: payload
+            }
+        },
+        // 保存车辆列表信息
         saveCarList(state, { payload }) {
             return {
                 ...state,
                 carList: payload.data
             }
         },
+        // 设置展示车辆信息
         saveDefaultCar(state, { payload }) {
+            console.log('car==', payload)
             return {
                 ...state,
                 defaultCar: payload
             }
         },
+        // 保存当前车辆sku信息
         saveAllData(state, { payload }) {
             return {
                 ...state,
                 ...payload
             }
         },
+        // 更新车辆列表展示隐藏状态
         setCarList(state, { payload }) {
             return {
                 ...state,

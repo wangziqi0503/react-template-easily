@@ -3,10 +3,14 @@ import { useState } from 'react'
 import { connect } from 'dva'
 import { CSSTransition } from 'react-transition-group'
 import './carList.scss'
-
+const mapStateToProps = (state) => {
+    return {
+        mainData: state.homeInfo.mainData
+    }
+}
 const CarList = (props) => {
     const { fullImg } = window.common
-
+    const mainData = props.mainData
     // 关闭车列表弹窗
     const closeList = (event) => {
         // 判断点击区域，点击列表外或X则关闭
@@ -30,9 +34,11 @@ const CarList = (props) => {
                 id: item.id
             })
         }
+
+        console.log(mainData)
         props.dispatch({
-            type: 'homeInfo/setDefaultCarData',
-            payload: reqData
+            type: 'carList/setDefaultCarData',
+            payload: { reqData, item, mainData }
         })
     }
 
@@ -72,4 +78,4 @@ const CarList = (props) => {
         </div>
     )
 }
-export default connect()(CarList)
+export default connect(mapStateToProps)(CarList)

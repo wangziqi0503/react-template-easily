@@ -202,7 +202,8 @@ Service.jsonp = function (url, paramters, timeout = 30000) {
                 // Toast.toastInstance(`服务器开小差:${data.errstr}`, 2000)
             }
             if (data.code) {
-                if (data.code === '0') {
+                if (data.code === '0' || data.code === '-1') {
+                    //问明明-1怎么回事
                     resolve(data)
                 } else if (data.code === '107') {
                     console.log('登陆')
