@@ -3,15 +3,26 @@ import { connect } from 'dva'
 import Loading from '@/components/Loading/Loading'
 import './carinfo.scss'
 
+const mapStateToProps = (state) => {
+    return {
+        carListStatus: state.homeInfo.carListStatus
+    }
+}
+
 const carInfo = (props) => {
     let [isCarListShow, setIsCarListShow] = useState(false)
     const changeCar = (status) => {
-        setIsCarListShow(status)
         props.dispatch({
-            type: 'homeInfo/getCarListStatus',
-            status: status
+            type: 'homeInfo/setCarList',
+            payload: { status: status }
         })
+        setIsCarListShow(status)
     }
+
+    useMemo(() => {
+        setIsCarListShow(props.carListStatus)
+    }, [props.carListStatus])
+
     return (
         <div id='carInfo' className='top-ban space-between-r'>
             <div className='car-name'>
@@ -44,4 +55,4 @@ const carInfo = (props) => {
         </div>
     )
 }
-export default connect()(carInfo)
+export default connect(mapStateToProps)(carInfo)

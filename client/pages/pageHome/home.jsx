@@ -52,7 +52,7 @@ class Home extends Component {
     componentDidMount() {}
 
     render() {
-        const { defaultCar, carListStatus } = this.props
+        const { defaultCar, carListStatus, carList } = this.props
         const isFetch = this.props.loading.global
         return (
             <div id='pagehome'>
@@ -61,7 +61,7 @@ class Home extends Component {
                 ) : (
                     <div className='new-scelfmaintain'>
                         <CarInfo carList={defaultCar} />
-                        {carListStatus ? <CarList carListStatus={carListStatus} /> : null}
+                        {carListStatus ? <CarList carListStatus={carListStatus} carList={carList} /> : null}
                     </div>
                 )}
             </div>

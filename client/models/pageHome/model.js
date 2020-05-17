@@ -1,3 +1,12 @@
+/*
+ * @Author: wangziqi
+ * @Date: 2020-05-16 17:01:43
+ * @LastEditTime: 2020-05-17 11:13:10
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react-template-easily/client/models/pageHome/model.js
+ */
+
 import { routerRedux } from 'dva/router'
 import { getCarList, getAllData, getAddress } from '../../api/home'
 const { setUserAddress } = window.common
@@ -45,8 +54,11 @@ export default {
             const res = yield call(getAllData, payload)
             yield put({ type: 'saveAllData', payload: res })
         },
-        *getCarListStatus({ status }, { call, put }) {
+        *getCarListStatus({ status, callback }, { call, put }) {
             yield put({ type: 'setCarList', payload: { status: status } })
+            if (callback && typeof callback === 'function') {
+                callback(status)
+            }
         }
     },
     reducers: {

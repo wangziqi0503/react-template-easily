@@ -693,4 +693,10 @@ import { getUserLocation } from '@/common/utils/loaction'
         }
         return mainData
     }
+
+    common.fullImg = (src, size, host) => {
+        const _size = size || '100x100'
+        const _host = host || '//img13.360buyimg.com/charity/s'
+        return `${_host}${_size}_${src}`
+    }
 })(window, document)
