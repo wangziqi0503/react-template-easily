@@ -5,6 +5,7 @@
  * @data 2017/07/31
  */
 import Service from '../../service/Service.jsx'
+import { setDefaultCar } from '../../api/home.js'
 
 const Const = {}
 Const.DEBUG = process.env.NODE_ENV === 'dev'
@@ -35,7 +36,8 @@ Const.statisticalInfo = {}
 Const.requestUrl = {
     allData: '/mClient/maintenance/self-maintenanceUpdate',
     carList: '/mClient/userCar/listCars4bc',
-    address: `/mClient?functionId=addressOperate&body={"operate":"15"}&client=m&uuid='${new Date().valueOf()}`
+    address: `/mClient?functionId=addressOperate&body={"operate":"15"}&client=m&uuid='${new Date().valueOf()}`,
+    setDefaultCarData: `/mClient`
 }
 
 export default Const

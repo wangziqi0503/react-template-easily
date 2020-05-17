@@ -22,7 +22,18 @@ const CarList = (props) => {
     // 更换默认车辆
     const setDefaultCar = (e, item) => {
         e.stopPropagation()
-        console.log('itemId==', item.id)
+        const reqData = {
+            functionId: 'usercar',
+            source: 13,
+            body: JSON.stringify({
+                queryType: 13,
+                id: item.id
+            })
+        }
+        props.dispatch({
+            type: 'homeInfo/setDefaultCarData',
+            payload: reqData
+        })
     }
 
     return (

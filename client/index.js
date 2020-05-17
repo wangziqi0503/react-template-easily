@@ -1,3 +1,12 @@
+/*
+ * @Author: wangziqi
+ * @Date: 2020-05-15 22:29:49
+ * @LastEditTime: 2020-05-17 19:25:11
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react-template-easily/client/index.js
+ */
+
 import dva from 'dva'
 import App from './app'
 import createLoading from 'dva-loading'
@@ -21,7 +30,7 @@ app.use(
 )
 
 // model
-app.model(require('./models/pageHome/model').default)
+app.model(require('./models/pageHome/homeModel').default)
 
 // route
 app.router(App)

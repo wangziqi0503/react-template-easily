@@ -1,14 +1,14 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-16 17:01:43
- * @LastEditTime: 2020-05-17 11:13:10
+ * @LastEditTime: 2020-05-17 19:54:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/model.js
  */
 
 import { routerRedux } from 'dva/router'
-import { getCarList, getAllData, getAddress } from '../../api/home'
+import { getCarList, getAllData, getAddress, setDefaultCarData } from '../../api/home'
 const { setUserAddress } = window.common
 export default {
     namespace: 'homeInfo',
@@ -59,6 +59,10 @@ export default {
             if (callback && typeof callback === 'function') {
                 callback(status)
             }
+        },
+        *setDefaultCarData({ payload }, { call, put }) {
+            console.log('payload', payload)
+            const res = yield call(setDefaultCarData, payload)
         }
     },
     reducers: {
