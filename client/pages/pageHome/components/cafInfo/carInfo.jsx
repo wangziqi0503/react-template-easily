@@ -10,6 +10,7 @@ const mapStateToProps = (state) => {
 }
 
 const carInfo = (props) => {
+    const topBan = useRef(null)
     let [isCarListShow, setIsCarListShow] = useState(false)
     const changeCar = (status) => {
         props.dispatch({
@@ -19,12 +20,19 @@ const carInfo = (props) => {
         setIsCarListShow(status)
     }
 
+    useEffect(() => {
+        props.dispatch({
+            type: 'carInfo/getTopBanHeight',
+            payload: topBan.current.clientHeight
+        })
+    }, [])
+
     useMemo(() => {
         setIsCarListShow(props.carListStatus)
     }, [props.carListStatus])
 
     return (
-        <div id='carInfo' className='top-ban space-between-r'>
+        <div id='carInfo' className='top-ban space-between-r' ref={topBan}>
             <div className='car-name'>
                 <span className='car-info'>车辆信息</span>
                 <div
@@ -40,7 +48,7 @@ const carInfo = (props) => {
                     )}
                 </div>
                 <span className='car-now'>
-                    {props.carList.brandName ? `${props.carList.brandName} ${props.carList.brandName}` : '车系信息'}
+                    {props.carList.brandName ? `${props.carList.brandName} ${props.carList.seriesName}` : '车系信息'}
                 </span>
             </div>
             <div className='car-msg'>
@@ -49,7 +57,7 @@ const carInfo = (props) => {
                     编辑
                     <span className='edit'></span>
                 </div>
-                <span className='mile'>{props.carList.mileage ? props.carList.mileage : 0}</span>
+                <span className='mile'>{props.carList.mileage ? props.carList.mileage : '待完善'}</span>
                 <span className='edit-btn'></span>
             </div>
         </div>

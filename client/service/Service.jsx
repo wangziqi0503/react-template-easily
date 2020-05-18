@@ -7,6 +7,7 @@
 
 // 静态常量保存类库
 import Const from '../common/constant/Constant.jsx'
+import { goLogin } from '../common/utils/Common'
 // toast component
 // import Toast from '../component/common/Toast/Toast.jsx'
 
@@ -59,9 +60,9 @@ Service.reqServer = (url, paramters, type = 'GET') => {
                     data += `${key}=${encodeURIComponent(Service.requestPara[key])}&`
                 }
             }
-            data += `t=${new Date().getTime()}`
+            data += `_=${new Date().getTime()}`
         } else {
-            data += `t=${new Date().getTime()}`
+            data += `_=${new Date().getTime()}`
         }
         // 请求参数
         let reqData = ''
@@ -154,9 +155,9 @@ Service.jsonp = function (url, paramters, timeout = 30000) {
                     commonData += `${key}=${encodeURIComponent(Service.requestPara[key])}&`
                 }
             }
-            commonData += `t=${new Date().getTime()}`
+            commonData += `_=${new Date().getTime()}`
         } else {
-            commonData += `t=${new Date().getTime()}`
+            commonData += `_=${new Date().getTime()}`
         }
 
         // console.info('jsonp请求公共参数commonData=', commonData);
@@ -196,7 +197,6 @@ Service.jsonp = function (url, paramters, timeout = 30000) {
         if (/callback=?/.test(url)) {
             url = url.replace('=?', `=${callbackName}`)
         }
-
         global[callbackName] = function (data) {
             if (data && data.errno !== 0) {
                 // Toast.toastInstance(`服务器开小差:${data.errstr}`, 2000)
@@ -207,7 +207,7 @@ Service.jsonp = function (url, paramters, timeout = 30000) {
                     resolve(data)
                 } else if (data.code === '107') {
                     console.log('登陆')
-                    window.common.goLogin()
+                    goLogin()
                 }
             } else {
                 reject('请求失败')

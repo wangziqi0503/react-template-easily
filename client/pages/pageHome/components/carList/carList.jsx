@@ -1,7 +1,8 @@
 import React from 'react'
-import { useState } from 'react'
 import { connect } from 'dva'
 import { CSSTransition } from 'react-transition-group'
+import Toast from '@/components/Toast/Toast'
+import { fullImg, getBasePath } from '@/common/utils/Common'
 import './carList.scss'
 const mapStateToProps = (state) => {
     return {
@@ -9,7 +10,6 @@ const mapStateToProps = (state) => {
     }
 }
 const CarList = (props) => {
-    const { fullImg } = window.common
     const mainData = props.mainData
     // 关闭车列表弹窗
     const closeList = (event) => {
@@ -35,11 +35,34 @@ const CarList = (props) => {
             })
         }
 
-        console.log(mainData)
         props.dispatch({
             type: 'carList/setDefaultCarData',
             payload: { reqData, item, mainData }
         })
+    }
+
+    // 跳转爱车管理
+    const gotoCaraManagement = () => {
+        window.location.href = `${getBasePath()}/carManagement.html#/?type=1`
+    }
+
+    // 添加爱车
+    const addCar = () => {
+        props.dispatch({
+            type: 'homeInfo/setCarList',
+            payload: { status: false }
+        })
+        let completeNum = 0
+        props.carList.forEach((item) => {
+            if (item.type === 1) {
+                completeNum++
+            }
+        })
+        if (completeNum >= 4) {
+            Toast.toastInstance('最多可添加4辆完整车型信息', 150000000)
+        } else {
+            window.location.href = `${getBasePath()}/list.html?backurl=newSelfCareInit.html#`
+        }
     }
 
     return (
@@ -48,7 +71,9 @@ const CarList = (props) => {
                 <div className='car-list'>
                     <div className='car-tit'>
                         <span className='title'>更换车辆</span>
-                        <span className='car-manage'>爱车管理</span>
+                        <span className='car-manage' onClick={gotoCaraManagement}>
+                            爱车管理
+                        </span>
                         <span className='close' onClick={closeList} data-type='carlist-close'></span>
                     </div>
                     <ul className='content'>
@@ -63,6 +88,7 @@ const CarList = (props) => {
                                     <div className='car-info'>
                                         {item.defaultCar === 1 ? <span className='car-default-tag'>默认</span> : null}
                                         <span className='car-des'>
+                                            {`${item.brandName}-${item.seriesName}`}
                                             {item.brandName + '-' + item.seriesName + ' '}
                                             {item.seriesYear ? item.seriesYear + '款' : ''}
                                             {item.modelName || ''}
@@ -72,7 +98,9 @@ const CarList = (props) => {
                             )
                         })}
                     </ul>
-                    <div className='add-car'>添加爱车</div>
+                    <div className='add-car' onClick={addCar}>
+                        添加爱车
+                    </div>
                 </div>
             </CSSTransition>
         </div>

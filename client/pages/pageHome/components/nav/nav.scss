@@ -1,0 +1,113 @@
+@import '~@/common/style/mixins.scss';
+@import '~@/common/style/flex.scss';
+
+.liWidth {
+    width: rem(195);
+    padding: 0 rem(18);
+    position: absolute;
+    opacity: 0;
+}
+.new-tab-manual {
+    display: flex;
+    justify-content: space-around;
+    height: rem(186);
+    background: #e1251b;
+    box-sizing: border-box;
+    padding: 0 rem(72.5);
+    width: 100%;
+    font-family: PingFangSC-Regular;
+    font-size: 24px;
+    color: #ffffff;
+    line-height: 24px;
+    z-index: 100;
+    @include fontSize(24);
+
+    .J_ping {
+        line-height: rem(96);
+    }
+}
+
+.tab-scroll-fixed {
+    position: fixed;
+    z-index: 110;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: rem(96);
+    line-height: rem(96);
+    // padding-left: rem(36);
+    width: 100%;
+    background: #fff;
+    box-sizing: border-box;
+
+    .bg-color {
+        background: #fff;
+    }
+
+    ul {
+        list-style: none;
+        background: #fff;
+
+        li {
+            float: left;
+            width: rem(195);
+            padding: 0 rem(0) 0 rem(22);
+            height: rem(96);
+            line-height: rem(96);
+            text-align: center;
+            font-size: rem(26);
+            text-align: left;
+            pointer-events: auto;
+        }
+
+        li.active {
+            color: #f2270c;
+        }
+    }
+
+    .tab_more {
+        position: absolute;
+        z-index: 12;
+        top: 0;
+        right: 0;
+        width: rem(96);
+        height: rem(96);
+        line-height: rem(96);
+        text-align: center;
+        background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0.3) 0%,
+            rgba(255, 255, 255, 0.6) 18%,
+            rgba(255, 255, 255, 1) 34%
+        );
+
+        .arrow {
+            display: inline-block;
+            width: rem(20);
+            height: rem(21);
+            margin-left: rem(2);
+            vertical-align: middle;
+        }
+
+        .arrow-down {
+            background: url('~@/common/assets/downblack.png') no-repeat 0 0;
+            background-size: contain;
+        }
+
+        .arrow-up {
+            background: url('~@/common/assets/upblack.png') no-repeat 0 0;
+            background-size: contain;
+        }
+    }
+}
+
+.tab-shadow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 109;
+    background-color: rgba(0, 0, 0, 0.8);
+}

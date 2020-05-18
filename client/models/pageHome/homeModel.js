@@ -9,7 +9,7 @@
 
 // import { routerRedux } from 'dva/router'
 import { getCarList, getAllData, getAddress, setDefaultCarData } from '../../api/home'
-const { setUserAddress } = window.common
+import { setUserAddress } from '@/common/utils/Common'
 export default {
     namespace: 'homeInfo',
     state: {
@@ -54,7 +54,7 @@ export default {
         },
         *getAllData({ payload }, { call, put }) {
             const res = yield call(getAllData, payload)
-            yield put({ type: 'saveAllData', payload: res })
+            yield put({ type: 'saveAllData', payload: res.data.classifiedMainItems })
         },
         *getCarListStatus({ status, callback }, { call, put }) {
             yield put({ type: 'setCarList', payload: { status: status } })
@@ -84,7 +84,6 @@ export default {
         },
         // 设置展示车辆信息
         saveDefaultCar(state, { payload }) {
-            console.log('car==', payload)
             return {
                 ...state,
                 defaultCar: payload
@@ -94,7 +93,7 @@ export default {
         saveAllData(state, { payload }) {
             return {
                 ...state,
-                ...payload
+                allData: payload
             }
         },
         // 更新车辆列表展示隐藏状态

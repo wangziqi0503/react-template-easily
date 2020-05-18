@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'dva'
 /* components */
 import CarInfo from './components/cafInfo/carInfo'
+import Nav from './components/nav/nav'
+import CarList from './components/carList/carList'
 import Loading from '../../components/Loading/Loading'
 
 /** utils */
-import CarList from './components/carList/carList'
-
+import { fetchNAParams } from '@/common/utils/Common'
 import './home.scss'
 
 const mapStateToProps = (state) => {
@@ -14,16 +15,17 @@ const mapStateToProps = (state) => {
         carList: state.homeInfo.carList,
         defaultCar: state.homeInfo.defaultCar,
         loading: state.loading,
-        carListStatus: state.homeInfo.carListStatus
+        carListStatus: state.homeInfo.carListStatus,
+        topBanHeight: state.carInfo.topBanHeight,
+        navFixed: state.carInfo.navFixed
     }
 }
-
-// 获取地址栏信息，判断是否需要跳转保养手册页面
-
 class Home extends Component {
     constructor(props) {
         super(props)
         this.getInitData = this.getInitData.bind(this)
+        this.handleScroll = this.handleScroll.bind(this)
+        this.setFixed = this.setFixed.bind(this)
     }
 
     // 跳转保养手册
@@ -35,7 +37,6 @@ class Home extends Component {
     }
 
     getInitData() {
-        const { fetchNAParams } = window.common
         const urlParmas = (this.props.location.search = fetchNAParams(urlParmas).then((res) => {
             // 判断url是否携带车辆信息
             res = JSON.stringify(res) == '{}' ? null : res
@@ -45,11 +46,39 @@ class Home extends Component {
             })
         }))
     }
+
+    //设置导航是否为fixed
+    setFixed(showHide) {
+        this.props.dispatch({
+            type: 'carInfo/getNavFixed',
+            payload: showHide
+        })
+    }
+
+    // 监听页面滚动距离
+    handleScroll(event) {
+        const scrollTop =
+            (event.srcElement ? event.srcElement.documentElement.scrollTop : false) ||
+            window.pageYOffset ||
+            (event.srcElement ? event.srcElement.body.scrollTop : 0)
+        if (scrollTop > this.props.topBanHeight) {
+            this.setFixed(true)
+        } else {
+            this.setFixed(false)
+        }
+    }
+
     componentWillMount() {
         this.getInitData()
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+        window.addEventListener('scroll', this.handleScroll)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll)
+    }
 
     render() {
         const { defaultCar, carListStatus, carList } = this.props
@@ -62,6 +91,10 @@ class Home extends Component {
                 ) : (
                     <div className='new-scelfmaintain'>
                         <CarInfo carList={defaultCar} />
+                        <Nav />
+                        <div
+                            className='wrap'
+                            style={{ height: '2000px', backgroundColor: '#000', margin: '0 auto' }}></div>
                         {carListStatus ? <CarList carListStatus={carListStatus} carList={carList} /> : null}
                     </div>
                 )}
