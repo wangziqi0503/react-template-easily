@@ -44,8 +44,24 @@ const Nav = (props) => {
             scroll ? scroll.refresh() : null
         }
     }, [navFixed])
+    useEffect(() => {
+        if (moreTab) {
+            document.getElementById('tabFixed').addEventListener(
+                'touchmove',
+                (e) => {
+                    // 执行滚动回调
+                    sidebarTouchMove(e)
+                },
+                {
+                    passive: false //  禁止 passive 效果
+                }
+            )
+        }
+    })
 
-    useEffect(() => {})
+    useEffect(() => {
+        // 为元素添加事件监听
+    }, [])
     const changTab = (e, num) => {
         const { id, brandName, seriesName, modelId, mileage, oilFillingQuantity, cylinders } = props.defaultCar
         let url = ''
@@ -76,8 +92,13 @@ const Nav = (props) => {
     }
 
     const showTab = () => {
-        console.log('点击切换')
+        console.log('点击切换', moreTab)
         setMoreTab(!moreTab)
+    }
+
+    const sidebarTouchMove = (e) => {
+        console.log(e)
+        e.preventDefault()
     }
 
     return (
@@ -110,16 +131,16 @@ const Nav = (props) => {
                             )
                         })}
                     </ul>
-                    <div className='tab_more' onClick={showTab}>
+                    <div className='tab_more'>
                         {!moreTab ? (
-                            <span className='arrow arrow-down'></span>
+                            <span className='arrow arrow-down' onClick={showTab}></span>
                         ) : (
-                            <span className='arrow arrow-up'></span>
+                            <span className='arrow arrow-up' onClick={showTab}></span>
                         )}
                     </div>
                 </div>
             )}
-            {moreTab ? <div className='tab-shadow'></div> : null}
+            {moreTab ? <div className='tab-shadow' id='tabFixed'></div> : null}
         </div>
     )
 }

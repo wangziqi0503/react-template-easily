@@ -8,6 +8,7 @@
     height: 100%;
     z-index: 111;
     background-color: rgba(0, 0, 0, 0.5);
+    touch-action: none;
     .car-list {
         z-index: 211;
         position: fixed;
