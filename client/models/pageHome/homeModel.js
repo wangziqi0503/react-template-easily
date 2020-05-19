@@ -1,7 +1,7 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-16 17:01:43
- * @LastEditTime: 2020-05-17 21:42:37
+ * @LastEditTime: 2020-05-19 20:58:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/model.js
@@ -58,9 +58,9 @@ export default {
         },
         *getCarListStatus({ status, callback }, { call, put }) {
             yield put({ type: 'setCarList', payload: { status: status } })
-            if (callback && typeof callback === 'function') {
-                callback(status)
-            }
+            // if (callback && typeof callback === 'function') {
+            //     callback(status)
+            // }
         },
         *setDefaultCarData({ payload }, { call, put }) {
             console.log('payload', payload)
@@ -98,6 +98,7 @@ export default {
         },
         // 更新车辆列表展示隐藏状态
         setCarList(state, { payload }) {
+            console.log('carList', payload)
             return {
                 ...state,
                 carListStatus: payload.status

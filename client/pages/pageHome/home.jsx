@@ -16,19 +16,17 @@ const mapStateToProps = (state) => {
         defaultCar: state.homeInfo.defaultCar,
         loading: state.loading,
         carListStatus: state.homeInfo.carListStatus,
-        topBanHeight: state.carInfo.topBanHeight,
-        navFixed: state.carInfo.navFixed
+        topBanHeight: state.carInfo.topBanHeight
     }
 }
 class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            wsl: false
+            navFixed: false
         }
         this.getInitData = this.getInitData.bind(this)
         this.handleScroll = this.handleScroll.bind(this)
-        this.setFixed = this.setFixed.bind(this)
     }
 
     // 跳转保养手册
@@ -50,21 +48,12 @@ class Home extends Component {
         }))
     }
 
-    shouldComponentUpdate(nexProps, nextState) {
-        if (this.state.wsl !== nextState.wsl) {
-            console.log('...')
-            this.setFixed(nextState.wsl)
-        }
-        return nextState.wsl
-    }
-
-    //设置导航是否为fixed
-    setFixed(showHide) {
-        this.props.dispatch({
-            type: 'carInfo/getNavFixed',
-            payload: showHide
-        })
-    }
+    // shouldComponentUpdate(nexProps, nextState) {
+    //     if (this.state.wsl !== nextState.wsl) {
+    //         this.setFixed(nextState.wsl)
+    //     }
+    //     return nextState.wsl
+    // }
 
     // 监听页面滚动距离
     handleScroll(event) {
@@ -73,15 +62,18 @@ class Home extends Component {
             window.pageYOffset ||
             (event.srcElement ? event.srcElement.body.scrollTop : 0)
         if (scrollTop > this.props.topBanHeight) {
-            this.setFixed(true)
-            // this.setState({
-            //     wsl: true
-            // })
+            // setTimeout 同步执行setState, 防止导航抖动
+            setTimeout(() => {
+                this.setState({
+                    navFixed: true
+                })
+            })
         } else {
-            // this.setState({
-            //     wsl: false
-            // })
-            this.setFixed(false)
+            setTimeout(() => {
+                this.setState({
+                    navFixed: false
+                })
+            })
         }
     }
 
@@ -98,7 +90,7 @@ class Home extends Component {
     }
 
     render() {
-        const { defaultCar, carListStatus, carList, navFixed } = this.props
+        const { defaultCar, carListStatus, carList } = this.props
         // 处理所有接口请求，除了carList以外
         const isFetch = this.props.loading.global && !this.props.loading.models.carList
         return (
@@ -108,10 +100,10 @@ class Home extends Component {
                 ) : (
                     <div className='new-scelfmaintain'>
                         <CarInfo carList={defaultCar} />
-                        <Nav navFixed={navFixed} />
+                        <Nav navFixed={this.state.navFixed} />
                         <div
                             className='wrap'
-                            style={{ height: '2000px', backgroundColor: '#000', margin: '0 auto' }}></div>
+                            style={{ height: '2000px', backgroundColor: '#333', margin: '0 auto' }}></div>
                         {carListStatus ? <CarList carListStatus={carListStatus} carList={carList} /> : null}
                     </div>
                 )}

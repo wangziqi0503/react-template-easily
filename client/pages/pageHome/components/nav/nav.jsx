@@ -5,16 +5,16 @@ import { parseObjectToUrlString, getBasePath } from '@/common/utils/Common'
 import BScroll from 'better-scroll'
 import './nav.scss'
 
+let scroll
+
 const mapStateToProps = (state) => {
     return {
         defaultCar: state.homeInfo.defaultCar,
-        navFixed: state.carInfo.navFixed,
         allData: state.homeInfo.allData
     }
 }
 
 const bindScroll = (data, liWidth) => {
-    console.log('ppp')
     const wrapper = document.querySelector('.tab-scroll-fixed')
     const cont = document.querySelector('.cont')
     const width = (data.length + 0.4) * liWidth.current.clientWidth
@@ -32,19 +32,10 @@ const bindScroll = (data, liWidth) => {
     })
 }
 
-// const Nav = React.memo（(props) => {
-//     console.log(props)
-//     const res = useMemo(() => {
-//         console.log('111')
-//     }, [props.navFixed])
-//     return <div>123</div>
-// }）
-
 const Nav = (props) => {
-    console.log('渲染子组件')
-    const { navFixed, defaultCar, allData } = props
-    let [scroll, setScroll] = useState(null)
+    const { defaultCar, allData, navFixed } = props
     const liWidth = useRef()
+    let [moreTab, setMoreTab] = useState(false)
     useEffect(() => {
         console.log('navFixed==', navFixed)
         if (navFixed) {
@@ -54,6 +45,7 @@ const Nav = (props) => {
         }
     }, [navFixed])
 
+    useEffect(() => {})
     const changTab = (e, num) => {
         const { id, brandName, seriesName, modelId, mileage, oilFillingQuantity, cylinders } = props.defaultCar
         let url = ''
@@ -82,6 +74,12 @@ const Nav = (props) => {
         }
         window.location.href = url
     }
+
+    const showTab = () => {
+        console.log('点击切换')
+        setMoreTab(!moreTab)
+    }
+
     return (
         <div>
             <div className='liWidth' ref={liWidth}></div>
@@ -112,13 +110,16 @@ const Nav = (props) => {
                             )
                         })}
                     </ul>
-                    <div className='tab_more'>
-                        <span className='arrow arrow-down'></span>
-                        <span className='arrow arrow-up'></span>
+                    <div className='tab_more' onClick={showTab}>
+                        {!moreTab ? (
+                            <span className='arrow arrow-down'></span>
+                        ) : (
+                            <span className='arrow arrow-up'></span>
+                        )}
                     </div>
                 </div>
             )}
-            <div className='tab-shadow' style={{ display: 'none' }}></div>
+            {moreTab ? <div className='tab-shadow'></div> : null}
         </div>
     )
 }

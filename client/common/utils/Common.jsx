@@ -653,7 +653,6 @@ export const setUserAddress = (response) => {
             setCookie('latitude', result.lat)
         })
         .catch((err) => {
-            console.log(common)
             setCookie('latitude', 39.907687) // 设置用户纬度
             setCookie('longitude', 116.397625) // 设置用户经度
         })
