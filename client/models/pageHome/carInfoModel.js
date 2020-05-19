@@ -18,8 +18,12 @@ export default {
         *getTopBanHeight({ payload }, { call, put }) {
             yield put({ type: 'setTopBanHeight', payload: payload })
         },
-        *getNavFixed({ payload }, { call, put }) {
-            yield put({ type: 'setNavFixed', payload: payload })
+        *getNavFixed({ payload }, { call, put, select }) {
+            const flag = yield select((state) => state.carInfo.navFixed)
+            if (payload !== flag) {
+                console.log('change')
+                yield put({ type: 'setNavFixed', payload: payload })
+            }
         }
     },
     reducers: {

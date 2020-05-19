@@ -23,6 +23,9 @@ const mapStateToProps = (state) => {
 class Home extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            wsl: false
+        }
         this.getInitData = this.getInitData.bind(this)
         this.handleScroll = this.handleScroll.bind(this)
         this.setFixed = this.setFixed.bind(this)
@@ -47,6 +50,14 @@ class Home extends Component {
         }))
     }
 
+    shouldComponentUpdate(nexProps, nextState) {
+        if (this.state.wsl !== nextState.wsl) {
+            console.log('...')
+            this.setFixed(nextState.wsl)
+        }
+        return nextState.wsl
+    }
+
     //设置导航是否为fixed
     setFixed(showHide) {
         this.props.dispatch({
@@ -63,7 +74,13 @@ class Home extends Component {
             (event.srcElement ? event.srcElement.body.scrollTop : 0)
         if (scrollTop > this.props.topBanHeight) {
             this.setFixed(true)
+            // this.setState({
+            //     wsl: true
+            // })
         } else {
+            // this.setState({
+            //     wsl: false
+            // })
             this.setFixed(false)
         }
     }
@@ -81,7 +98,7 @@ class Home extends Component {
     }
 
     render() {
-        const { defaultCar, carListStatus, carList } = this.props
+        const { defaultCar, carListStatus, carList, navFixed } = this.props
         // 处理所有接口请求，除了carList以外
         const isFetch = this.props.loading.global && !this.props.loading.models.carList
         return (
@@ -91,7 +108,7 @@ class Home extends Component {
                 ) : (
                     <div className='new-scelfmaintain'>
                         <CarInfo carList={defaultCar} />
-                        <Nav />
+                        <Nav navFixed={navFixed} />
                         <div
                             className='wrap'
                             style={{ height: '2000px', backgroundColor: '#000', margin: '0 auto' }}></div>
