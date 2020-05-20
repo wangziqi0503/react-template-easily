@@ -12,7 +12,7 @@ Const.DEBUG = process.env.NODE_ENV === 'dev'
 
 // 开发机环境
 if (process.env.NODE_ENV === 'dev') {
-    Const.server = 'https://assist.m.jd.com'
+    Const.server = 'https://cargw.jd.com'
 }
 // QA环境
 else if (process.env.NODE_ENV === 'test') {

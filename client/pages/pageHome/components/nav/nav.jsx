@@ -14,54 +14,52 @@ const mapStateToProps = (state) => {
     }
 }
 
-const bindScroll = (data, liWidth) => {
-    const wrapper = document.querySelector('.tab-scroll-fixed')
-    const cont = document.querySelector('.cont')
-    const width = (data.length + 0.4) * liWidth.current.clientWidth
-    if (cont && cont != null) {
-        cont.style.width = width + 'px'
+const bindScroll = (wrapper) => {
+    if (!scroll) {
+        scroll = new BScroll(wrapper, {
+            startX: 0,
+            click: true,
+            scrollX: true,
+            scrollY: false,
+            bounce: false,
+            bounceTime: false,
+            eventPassthrough: 'vertical'
+        })
     }
-    scroll = new BScroll(wrapper, {
-        startX: 0,
-        click: true,
-        scrollX: true,
-        scrollY: false,
-        bounce: false,
-        bounceTime: false,
-        eventPassthrough: 'vertical'
-    })
+}
+
+const handleTouchMove = (event) => {
+    event.preventDefault()
 }
 
 const Nav = (props) => {
     const { defaultCar, allData, navFixed } = props
     const liWidth = useRef()
     let [moreTab, setMoreTab] = useState(false)
+
     useEffect(() => {
         console.log('navFixed==', navFixed)
         if (navFixed) {
-            bindScroll(allData, liWidth)
+            const wrapper = document.querySelector('.tab-scroll-fixed')
+            bindScroll(wrapper)
         } else {
             scroll ? scroll.refresh() : null
         }
     }, [navFixed])
-    useEffect(() => {
-        if (moreTab) {
-            document.getElementById('tabFixed').addEventListener(
-                'touchmove',
-                (e) => {
-                    // 执行滚动回调
-                    sidebarTouchMove(e)
-                },
-                {
-                    passive: false //  禁止 passive 效果
-                }
-            )
-        }
-    })
 
     useEffect(() => {
-        // 为元素添加事件监听
+        const cont = document.querySelector('.cont')
+        const width = moreTab ? '100%' : (allData.length + 0.4) * liWidth.current.clientWidth + 'px'
+        console.log(width)
+        if (cont && cont != null) {
+            cont.style.width = width
+        }
+    }, [moreTab])
+
+    useEffect(() => {
+        document.getElementById('tabFixed').addEventListener('mousewheel', handleTouchMove, { passive: false })
     }, [])
+
     const changTab = (e, num) => {
         const { id, brandName, seriesName, modelId, mileage, oilFillingQuantity, cylinders } = props.defaultCar
         let url = ''
@@ -92,55 +90,46 @@ const Nav = (props) => {
     }
 
     const showTab = () => {
-        console.log('点击切换', moreTab)
+        console.log('点击切换')
         setMoreTab(!moreTab)
-    }
 
-    const sidebarTouchMove = (e) => {
-        console.log(e)
-        e.preventDefault()
+        if (moreTab) {
+        } else {
+        }
     }
 
     return (
         <div>
             <div className='liWidth' ref={liWidth}></div>
-            {!navFixed ? (
-                <div className='new-tab-manual'>
-                    <div className='J_ping' id='manual' onClick={(e) => changTab(e, 1)}>
-                        <span>保养手册</span>
-                    </div>
-                    <div className='J_ping selfmain' onClick={(e) => changTab(e, 2)}>
-                        <span>原厂参数</span>
-                    </div>
-                    <div className='J_ping selfmain' onClick={(e) => changTab(e, 3)}>
-                        <span>保养记录</span>
-                    </div>
-                    <div className='J_ping selfmain' onClick={(e) => changTab(e, 4)}>
-                        <span>保养晒单</span>
-                    </div>
+
+            <div className='new-tab-manual' style={{ display: !navFixed ? 'flex' : 'none' }}>
+                <div className='J_ping' id='manual' onClick={(e) => changTab(e, 1)}>
+                    <span>保养手册</span>
                 </div>
-            ) : (
-                <div className='tab-scroll-fixed'>
-                    <ul className='clearfix cont'>
-                        {allData.map((item, index) => {
-                            return (
-                                <li
-                                    key={
-                                        index
-                                    }>{`${item.serviceCategoryName}(${item.havingCount}/${item.totalCount})`}</li>
-                            )
-                        })}
-                    </ul>
-                    <div className='tab_more'>
-                        {!moreTab ? (
-                            <span className='arrow arrow-down' onClick={showTab}></span>
-                        ) : (
-                            <span className='arrow arrow-up' onClick={showTab}></span>
-                        )}
-                    </div>
+                <div className='J_ping selfmain' onClick={(e) => changTab(e, 2)}>
+                    <span>原厂参数</span>
                 </div>
-            )}
-            {moreTab ? <div className='tab-shadow' id='tabFixed'></div> : null}
+                <div className='J_ping selfmain' onClick={(e) => changTab(e, 3)}>
+                    <span>保养记录</span>
+                </div>
+                <div className='J_ping selfmain' onClick={(e) => changTab(e, 4)}>
+                    <span>保养晒单</span>
+                </div>
+            </div>
+
+            <div className='tab-scroll-fixed' style={{ display: navFixed ? 'block' : 'none' }}>
+                <ul className='clearfix cont'>
+                    {allData.map((item, index) => {
+                        return (
+                            <li key={index}>{`${item.serviceCategoryName}(${item.havingCount}/${item.totalCount})`}</li>
+                        )
+                    })}
+                </ul>
+                <div className='tab_more' onClick={showTab}>
+                    {!moreTab ? <span className='arrow arrow-down'></span> : <span className='arrow arrow-up'></span>}
+                </div>
+            </div>
+            <div className='tab-shadow' id='tabFixed' style={{ display: moreTab ? 'block' : 'none' }}></div>
         </div>
     )
 }

@@ -26,4 +26,25 @@
     <body>
         <div id="container"></div>
     </body>
+    <script type="text/javascript">
+        //解决遮罩层滚动穿透问题，分别在遮罩层弹出后和关闭前调用
+        const ModalHelper = ((bodyCls) => {
+            let scrollTop
+            return {
+                onOff: false,
+                afterOpen: function () {
+                    scrollTop = document.scrollingElement.scrollTop
+                    document.body.classList.add(bodyCls)
+                    console.log('here')
+                    // document.body.style.top = 0
+                },
+                beforeClose: function () {
+                    document.body.classList.remove(bodyCls)
+                    // scrollTop lost after set position:fixed, restore it back.
+                    document.scrollingElement.scrollTop = scrollTop
+                    console.log('here are u')
+                }
+            }
+        })('dialog-open')
+    </script>
 </html>

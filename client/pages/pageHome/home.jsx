@@ -48,20 +48,13 @@ class Home extends Component {
         }))
     }
 
-    // shouldComponentUpdate(nexProps, nextState) {
-    //     if (this.state.wsl !== nextState.wsl) {
-    //         this.setFixed(nextState.wsl)
-    //     }
-    //     return nextState.wsl
-    // }
-
     // 监听页面滚动距离
     handleScroll(event) {
         const scrollTop =
             (event.srcElement ? event.srcElement.documentElement.scrollTop : false) ||
             window.pageYOffset ||
             (event.srcElement ? event.srcElement.body.scrollTop : 0)
-        if (scrollTop > this.props.topBanHeight) {
+        if (scrollTop >= this.props.topBanHeight) {
             // setTimeout 同步执行setState, 防止导航抖动
             setTimeout(() => {
                 this.setState({
