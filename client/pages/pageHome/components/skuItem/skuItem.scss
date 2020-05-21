@@ -1,0 +1,463 @@
+@import '~@/common/style/mixins.scss';
+@import '~@/common/style/base.scss';
+@import '~@/common/style/flex.scss';
+
+@media screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) {
+    .maintain-item-header {
+        padding-bottom: rem(10);
+    }
+}
+
+.new-maintain-item {
+    margin-top: rem(0);
+    margin-bottom: rem(28);
+    background-color: $bg-info;
+    border-radius: rem(12) rem(12) rem(12) rem(12);
+}
+
+.header-current {
+    border-radius: rem(12) rem(12) rem(12) rem(12);
+    .maintain-item-header {
+        position: relative;
+        overflow: hidden;
+        padding-bottom: rem(36);
+        .header-bg {
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(90deg, #ffffff 0%, #ecedf1 100%);
+            border-radius: rem(12) rem(12) 0 0;
+            transform: scaleX(-1);
+            position: absolute;
+            z-index: 0;
+        }
+    }
+}
+
+.maintain-item-header {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+    padding-bottom: rem(36);
+    .maintain-item-header-left {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 1;
+        width: rem(93);
+        height: 100%;
+        // .goods-check {
+        //   position: absolute;
+        //   left: 0;
+        //   top: 0;
+        //   bottom: 0;
+        //   right: 0;
+        //   width: 100%; // background: #fff;
+        //   // border: 2px solid #ccc;
+        //   // outline: 0;
+        //   display: inline-block;
+        //   opacity: 0;
+        //   z-index: 10;
+        //   -webkit-tap-highlight-color: transparent;
+        // }
+        // .goods-check:checked+.goods-check-icon {
+        //   position: absolute;
+        //   left: rem(30);
+        //   top: rem(33);
+        //   width: rem(40);
+        //   height: rem(40);
+        //   background: url('../../assets/checked.png') no-repeat top left;
+        //   background-size: contain;
+        // }
+        // .goods-check-icon {
+        //   position: absolute;
+        //   left: rem(30);
+        //   top: rem(33);
+        //   width: rem(40);
+        //   height: rem(40);
+        //   background: url('../../assets/noChecked.png') no-repeat top left;
+        //   background-size: contain;
+        // }
+        .goods-check {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            outline: none;
+            border: none;
+            display: inline-block;
+            background: url('~@/common/assets/noChecked.png') no-repeat center center;
+            background-size: rem(54) rem(54);
+            -webkit-appearance: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .goods-check:checked {
+            background-image: url('~@/common/assets/checked.png');
+            -webkit-appearance: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+    }
+    .maintain-item-header-middle {
+        height: 100%;
+        padding: 0 rem(60) 0 rem(93);
+        position: relative;
+        .maintain-item-header-middle-top {
+            padding-top: rem(36);
+            .maintain-item-title {
+                @include fontSize(28);
+                color: $font-size-title;
+                font-weight: 700;
+            }
+            .maintain-item-tip {
+                width: rem(30);
+                height: rem(30);
+                display: inline-block;
+                background: url(~@/common/assets/tip-bg.png) no-repeat;
+                background-size: contain;
+                vertical-align: middle;
+            }
+            .maintain-item-status-icon {
+                width: rem(30);
+                height: rem(30);
+                display: inline-block;
+                background: url(~@/common/assets/urgency.png) no-repeat;
+                background-size: contain;
+                vertical-align: middle;
+            }
+            .maintain-item-status-text {
+                display: inline-block;
+                font-family: PingFangSC-Regular;
+                @include fontSize(20);
+                transform: scale(0.8);
+                transform-origin: 0;
+                color: #f2270c;
+            }
+        }
+
+        .maintain-item-describe {
+            @include fontSize(22);
+            color: $color-content-soft;
+        }
+
+        .maintain-item-header-middle-bottom {
+            margin-top: rem(10);
+            font-size: rem(20);
+            overflow: hidden;
+            .discount-icon {
+                font-family: PingFangSC-Regular;
+                width: rem(54);
+                height: rem(32);
+                float: left;
+                color: #fff;
+                background: #f2270c;
+                border-radius: rem(4);
+                // text-align: center;
+                // line-height: rem(32);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .discount-icon-text {
+                width: rem(100);
+                height: rem(40);
+                line-height: rem(40);
+                float: right;
+                background: #f2f2f2;
+                color: #262626;
+                border-radius: rem(20);
+                text-align: center;
+            }
+
+            .maintain-item-discount {
+                margin-left: rem(12);
+                height: rem(32);
+                line-height: rem(32);
+                color: #000;
+                font-family: PingFangSC-Medium;
+                color: #262626;
+            }
+        }
+    }
+    .maintain-item-header-right {
+        position: absolute;
+        right: rem(36);
+        top: rem(36);
+        font-size: rem(24);
+        .edit,
+        .editing {
+            display: inline-block;
+        }
+    }
+}
+
+.maintain-item-content {
+    .maintain-item-goods {
+        position: relative;
+        padding: rem(48) rem(20) rem(19) rem(41);
+        overflow: hidden;
+        .maintain-item-goods-img {
+            position: absolute;
+            float: left;
+            width: rem(106);
+            height: rem(106);
+            border-radius: rem(12);
+            img {
+                width: rem(106);
+                height: rem(106);
+            }
+        }
+        .maintain-item-goods-imgcls {
+            width: rem(120);
+            height: rem(120);
+        }
+        .tag {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: rem(70);
+            height: rem(26);
+            line-height: rem(26);
+            padding-left: rem(6);
+            background: url('~@/common/assets/originTag.png') no-repeat top left;
+            background-size: contain;
+            color: #fff;
+            @include fontSize(18);
+        }
+        .maintain-item-goods-change-btn {
+            position: absolute;
+            z-index: 99;
+            top: rem(48);
+            right: rem(36);
+            font-family: PingFangSC-Regular;
+            @include fontSize(24);
+            color: #8c8c8c;
+        }
+
+        .maintain-item-goods-detail {
+            padding-left: rem(153);
+            .maintain-item-goods-detail-title .goods-title {
+                width: rem(368);
+                @include fontSize(26);
+                color: $color-title;
+                height: rem(72);
+                line-height: rem(38);
+                display: -webkit-box; // 将元素设为弹性盒模型
+                -webkit-line-clamp: 2; // 文本最大行数
+                -webkit-box-orient: vertical; // 模型内元素垂直排列
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            .maintain-item-goods-tag {
+                margin-top: rem(10);
+                padding-bottom: rem(4);
+                @include fontSize(20);
+                transform: scale(0.8);
+                transform-origin: 0;
+                .warp {
+                    font-family: PingFangSC-Regular;
+                    height: rem(28);
+                    line-height: rem(28);
+                    background: rgba(242, 39, 12, 0.1);
+                    box-sizing: content-box;
+                    border-radius: rem(4);
+                    color: $color-theme;
+                    display: inline-block;
+                    padding: rem(4);
+                }
+                .blue {
+                    background: rgba(41, 98, 255, 0.1);
+                    color: #2962ff;
+                }
+            }
+            .maintain-item-goods-number-show {
+                height: rem(42);
+                line-height: rem(42);
+                color: #f2270c;
+                padding-bottom: rem(10);
+                .maintain-item-goods-price-flag {
+                    @include fontSize(24);
+                }
+                .maintain-item-goods-price {
+                    font-family: PingFangSC-Light;
+                    @include fontSize(24);
+                    font-weight: 700;
+                    color: #f2270c;
+                }
+                .maintain-item-goods-num-flag {
+                    float: right;
+                    padding-right: rem(20);
+                    @include fontSize(24);
+                    color: $color-content;
+                    font-family: PingFangSC-Light;
+                    color: #8c8c8c;
+                    text-align: right;
+                }
+            }
+            .maintain-item-goods-gift {
+                transform: scale(0.9);
+                transform-origin: 0;
+                font-family: PingFangSC-Light;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                @include fontSize(24);
+                color: #262626;
+                .gift-icon {
+                    display: inline-block;
+                    margin-right: rem(10);
+                    width: rem(32.5);
+                    height: rem(32.5);
+                    line-height: rem(32.5);
+                    text-align: center;
+                    background: #f2270c;
+                    border-radius: rem(4);
+                    font-family: PingFangSC-Regular;
+                    @include fontSize(18);
+                    color: #ffffff;
+                }
+            }
+            .oil-quantity {
+                height: rem(30);
+                line-height: rem(30);
+                @include fontSize(22);
+                padding-bottom: rem(14);
+                color: $color-content;
+                .oil {
+                    color: $color-theme;
+                }
+            }
+        }
+        .maintain-item-goods-change {
+            overflow: hidden;
+            float: right;
+            .goods-change {
+                float: left;
+                padding-top: rem(8);
+                left: 0;
+                padding-right: rem(38);
+                height: rem(30);
+                line-height: rem(26);
+                .change-tag {
+                    font-size: 0;
+                    display: inline-block;
+                    vertical-align: middle;
+                    width: rem(26);
+                    height: rem(30);
+                    padding-right: rem(10);
+                    background: url('~@/common/assets/change.png') no-repeat top left;
+                    background-size: contain;
+                }
+                .change-text {
+                    vertical-align: middle;
+                    @include fontSize(22);
+                    line-height: rem(30);
+                    color: $color-theme;
+                }
+            }
+            .maintain-item-goods-number-change {
+                float: left;
+                width: rem(140);
+                height: rem(36);
+                line-height: rem(36); // margin-top: rem(64);
+                border-radius: rem(6);
+                text-align: center;
+                color: #262626;
+                font-weight: 200;
+                .number-change {
+                    float: right;
+                    height: 100%;
+                    width: rem(34);
+                    line-height: rem(30);
+                    text-align: center;
+                    @include fontSize(26);
+                    font-family: PingFang SC;
+                    font-weight: 900;
+                }
+                .number-show {
+                    float: right;
+                    width: rem(72);
+                    height: 100%;
+                    line-height: rem(36);
+                    @include fontSize(22);
+                    box-sizing: border-box;
+                    background: #f2f2f2;
+                }
+            }
+        }
+    }
+    .maintain-item-server {
+        height: rem(44);
+        line-height: rem(44);
+        @include fontSize(20);
+        color: #bfbfbf;
+        padding-left: rem(93);
+    }
+    .maintain-item-footer {
+        height: rem(60);
+        line-height: rem(60);
+        text-align: center;
+        background-color: #fff;
+        .up {
+            width: rem(22);
+            height: rem(14);
+        }
+    }
+}
+
+.maintainItem-mask {
+    background-color: rgba(0, 0, 0, 0.85);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 143;
+}
+
+.mask-delete {
+    position: fixed;
+    width: rem(650);
+    height: rem(294);
+    border-radius: rem(24);
+    background: #fff;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 155;
+    .mask-text {
+        height: rem(190);
+        line-height: rem(190);
+        text-align: center;
+        font-family: PingFangSC-Medium;
+        @include fontSize(32);
+        color: #262626;
+        letter-spacing: 0;
+        border-bottom: 1px solid #eee;
+    }
+    .mask-status {
+        height: rem(102);
+        line-height: rem(102);
+        @include fontSize(30);
+        font-family: PingFangSC-Regular;
+        text-align: center;
+        .cancel {
+            width: 50%;
+            color: #8c8c8c;
+            letter-spacing: 0;
+            border-right: 1px solid #eee;
+            box-sizing: border-box;
+            float: left;
+        }
+        .confirm {
+            width: 50%;
+            color: #262626;
+            letter-spacing: 0;
+            border-left: 1px solid #eee;
+            box-sizing: border-box;
+            float: left;
+        }
+    }
+}

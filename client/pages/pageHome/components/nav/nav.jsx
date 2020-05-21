@@ -1,18 +1,10 @@
 import React from 'react'
-import { useRef, useEffect, useState, useMemo } from 'react'
-import { connect } from 'dva'
+import { useRef, useEffect, useState } from 'react'
 import { parseObjectToUrlString, getBasePath } from '@/common/utils/Common'
 import BScroll from 'better-scroll'
 import './nav.scss'
 
 let scroll
-
-const mapStateToProps = (state) => {
-    return {
-        defaultCar: state.homeInfo.defaultCar,
-        allData: state.homeInfo.allData
-    }
-}
 
 const bindScroll = (wrapper) => {
     if (!scroll) {
@@ -23,6 +15,7 @@ const bindScroll = (wrapper) => {
             scrollY: false,
             bounce: false,
             bounceTime: false,
+            momentum: false,
             eventPassthrough: 'vertical'
         })
     }
@@ -32,13 +25,25 @@ const handleTouchMove = (event) => {
     event.preventDefault()
 }
 
-const Nav = (props) => {
+const Nav = React.memo((props) => {
     const { defaultCar, allData, navFixed } = props
     const liWidth = useRef()
     let [moreTab, setMoreTab] = useState(false)
 
+    const jumpTo = (index) => {
+        if (moreTab) {
+            let leftMove = liWidth.current.clientWidth * index * 0.5
+            setTimeout(() => {
+                scroll.scrollTo(-leftMove, 0, 800)
+            }, 70)
+
+            setMoreTab(false)
+        } else {
+            return false
+        }
+    }
+
     useEffect(() => {
-        console.log('navFixed==', navFixed)
         if (navFixed) {
             const wrapper = document.querySelector('.tab-scroll-fixed')
             bindScroll(wrapper)
@@ -49,11 +54,22 @@ const Nav = (props) => {
 
     useEffect(() => {
         const cont = document.querySelector('.cont')
-        const width = moreTab ? '100%' : (allData.length + 0.4) * liWidth.current.clientWidth + 'px'
-        console.log(width)
-        if (cont && cont != null) {
-            cont.style.width = width
-        }
+        const scrollWidth = (allData.length + 0.1) * liWidth.current.clientWidth + 'px'
+        let width = '100%'
+        // setTimeout 防止触发两次showTab事件
+        setTimeout(() => {
+            if (moreTab) {
+                width = width
+                scroll ? scroll.disable() : null
+                scroll ? scroll.scrollTo(0, 0, 0) : null
+            } else {
+                width = scrollWidth
+                scroll ? scroll.enable() : null
+            }
+            if (cont && cont != null) {
+                cont.style.width = width
+            }
+        })
     }, [moreTab])
 
     useEffect(() => {
@@ -90,12 +106,8 @@ const Nav = (props) => {
     }
 
     const showTab = () => {
-        console.log('点击切换')
-        setMoreTab(!moreTab)
-
-        if (moreTab) {
-        } else {
-        }
+        console.log('times')
+        moreTab ? setMoreTab(false) : setMoreTab(true)
     }
 
     return (
@@ -121,7 +133,11 @@ const Nav = (props) => {
                 <ul className='clearfix cont'>
                     {allData.map((item, index) => {
                         return (
-                            <li key={index}>{`${item.serviceCategoryName}(${item.havingCount}/${item.totalCount})`}</li>
+                            <li
+                                key={index}
+                                onClick={() => {
+                                    jumpTo(index)
+                                }}>{`${item.serviceCategoryName}(${item.havingCount}/${item.totalCount})`}</li>
                         )
                     })}
                 </ul>
@@ -132,6 +148,6 @@ const Nav = (props) => {
             <div className='tab-shadow' id='tabFixed' style={{ display: moreTab ? 'block' : 'none' }}></div>
         </div>
     )
-}
+})
 
-export default connect(mapStateToProps)(Nav)
+export default Nav

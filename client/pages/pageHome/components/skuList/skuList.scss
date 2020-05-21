@@ -1,0 +1,46 @@
+@import '~@/common/style/base.scss';
+@import '~@/common/style/mixins.scss';
+.new-selfhelpMain {
+    background: #f7f7f7;
+    // min-height: rem(1380);
+    position: relative;
+    z-index: 6;
+
+    .bgred {
+        display: none;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: rem(90);
+        background: #e1251b;
+    }
+}
+
+.viewScroll {
+    background: #f7f7f7 !important;
+}
+.new-maintain-list {
+    position: absolute;
+    z-index: 7;
+    width: rem(678);
+    top: rem(-92);
+    left: rem(36);
+    margin: 0 auto;
+    padding-top: rem(2);
+    padding-bottom: rem(248);
+}
+
+.wrap-title {
+    font-family: PingFangSC-Regular;
+    @include fontSize(30);
+    color: #262626;
+    line-height: 30px;
+    width: 100%;
+    text-align: center;
+    margin: rem(46) 0 rem(36) 0;
+}
+
+.mask {
+    z-index: 101;
+}

@@ -4,6 +4,7 @@ import { connect } from 'dva'
 import CarInfo from './components/cafInfo/carInfo'
 import Nav from './components/nav/nav'
 import CarList from './components/carList/carList'
+import SkuList from './components/skuList/skuList'
 import Loading from '../../components/Loading/Loading'
 
 /** utils */
@@ -14,8 +15,9 @@ const mapStateToProps = (state) => {
     return {
         carList: state.homeInfo.carList,
         defaultCar: state.homeInfo.defaultCar,
-        loading: state.loading,
         carListStatus: state.homeInfo.carListStatus,
+        allData: state.homeInfo.allData,
+        loading: state.loading,
         topBanHeight: state.carInfo.topBanHeight
     }
 }
@@ -83,7 +85,7 @@ class Home extends Component {
     }
 
     render() {
-        const { defaultCar, carListStatus, carList } = this.props
+        const { defaultCar, carListStatus, carList, allData } = this.props
         // 处理所有接口请求，除了carList以外
         const isFetch = this.props.loading.global && !this.props.loading.models.carList
         return (
@@ -93,10 +95,11 @@ class Home extends Component {
                 ) : (
                     <div className='new-scelfmaintain'>
                         <CarInfo carList={defaultCar} />
-                        <Nav navFixed={this.state.navFixed} />
-                        <div
+                        <Nav navFixed={this.state.navFixed} defaultCar={defaultCar} allData={allData} />
+                        <SkuList allData={allData} />
+                        {/* <div
                             className='wrap'
-                            style={{ height: '2000px', backgroundColor: '#333', margin: '0 auto' }}></div>
+                            style={{ height: '2000px', backgroundColor: '#333', margin: '0 auto' }}></div> */}
                         {carListStatus ? <CarList carListStatus={carListStatus} carList={carList} /> : null}
                     </div>
                 )}
