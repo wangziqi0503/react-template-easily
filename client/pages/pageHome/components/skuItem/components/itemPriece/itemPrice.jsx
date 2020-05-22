@@ -8,9 +8,6 @@ const mapStateToProps = (state) => {
 const ItemPrice = (props) => {
     console.log('ItemPrice')
     const { item, sku } = props
-    useMemo(() => {
-        console.log('change')
-    }, [props.allData])
     return (
         <div className='maintain-item-goods-number-show'>
             {sku.carBSku.mJdPrice == '暂无报价' || sku.carBSku.mJdPrice == null ? (
@@ -34,7 +31,7 @@ const ItemPrice = (props) => {
                         <div className='number-change add-number J_ping' report-eventid='MCarSteward_SelfService_Add'>
                             +
                         </div>
-                        <span className='number-show'>{goods.skuNumber}</span>
+                        <span className='number-show'>{sku.skuNumber}</span>
                         {sku.skuNumber <= 1 ? (
                             <div className='number-change sub-number gray'>-</div>
                         ) : (

@@ -8,9 +8,14 @@ const mapStateToProps = (state) => {
 }
 
 const ItemHeader = (props) => {
-    const allData = props.allData
-    const item = props.item
-    let [showType, setShowType] = useState(item.showType)
+    const allData = JSON.parse(JSON.stringify(props.allData))
+    const item = JSON.parse(JSON.stringify(props.item))
+    // const allData = [...props.allData]
+    // const item = props.item
+    // const item = props.item
+    // console.log('item===', props)
+    const [showType, setShowType] = useState(1)
+
     const editShowType = () => {
         if (showType === 1) {
             console.log('here')
@@ -20,7 +25,7 @@ const ItemHeader = (props) => {
         }
     }
 
-    useMemo(() => {
+    useEffect(() => {
         item.showType = showType
         allData[props.index].maintenanceItemInstances[props.subIndex] = item
         props.dispatch({
