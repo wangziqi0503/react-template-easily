@@ -91,6 +91,7 @@ export default {
         },
         // 保存当前车辆sku信息
         saveAllData(state, { payload }) {
+            console.log('payload==', payload[0].maintenanceItemInstances[0].showType)
             return {
                 ...state,
                 allData: payload

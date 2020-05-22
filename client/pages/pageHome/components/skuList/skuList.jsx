@@ -14,7 +14,7 @@ const SkuList = React.memo((props) => {
                                   <div className='wrap-title' style={{ display: index !== 0 ? 'block' : 'none' }}>
                                       {`${item.serviceCategoryName}(${item.havingCount}/${item.totalCount})`}
                                   </div>
-                                  <SkuItem data={allData[index]} />
+                                  <SkuItem data={allData[index]} index={index} />
                               </div>
                           )
                       })

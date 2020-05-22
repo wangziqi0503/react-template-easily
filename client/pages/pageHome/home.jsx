@@ -85,6 +85,7 @@ class Home extends Component {
     }
 
     render() {
+        console.log('?')
         const { defaultCar, carListStatus, carList, allData } = this.props
         // 处理所有接口请求，除了carList以外
         const isFetch = this.props.loading.global && !this.props.loading.models.carList
@@ -97,9 +98,6 @@ class Home extends Component {
                         <CarInfo carList={defaultCar} />
                         <Nav navFixed={this.state.navFixed} defaultCar={defaultCar} allData={allData} />
                         <SkuList allData={allData} />
-                        {/* <div
-                            className='wrap'
-                            style={{ height: '2000px', backgroundColor: '#333', margin: '0 auto' }}></div> */}
                         {carListStatus ? <CarList carListStatus={carListStatus} carList={carList} /> : null}
                     </div>
                 )}

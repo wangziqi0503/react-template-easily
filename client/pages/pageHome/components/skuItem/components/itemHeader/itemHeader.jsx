@@ -1,10 +1,37 @@
-import React from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
+import { connect } from 'dva'
 
-const ItemHeader = (item) => {
-    item = item.data
+const mapStateToProps = (state) => {
+    return {
+        allData: state.homeInfo.allData
+    }
+}
+
+const ItemHeader = (props) => {
+    const allData = props.allData
+    const item = props.item
+    let [showType, setShowType] = useState(item.showType)
+    const editShowType = () => {
+        if (showType === 1) {
+            console.log('here')
+            setShowType(2)
+        } else if (showType === 2) {
+            setShowType(1)
+        }
+    }
+
+    useMemo(() => {
+        item.showType = showType
+        allData[props.index].maintenanceItemInstances[props.subIndex] = item
+        props.dispatch({
+            type: 'homeInfo/saveAllData',
+            payload: allData
+        })
+    }, [showType])
+
     return (
         <div className='maintain-item-header'>
-            <div className='header-bg' style={{ display: item.checked == 1 ? 'block' : 'none' }}></div>
+            <div className='header-bg' style={{ display: item.checked === 1 ? 'block' : 'none' }}></div>
             <div className='maintain-item-header-left'>
                 <input
                     type='checkbox'
@@ -57,7 +84,7 @@ const ItemHeader = (item) => {
                     </span>
                 </div>
             </div>
-            <div className='maintain-item-header-right'>
+            <div className='maintain-item-header-right' onClick={editShowType}>
                 {item.showType === 1 ? <span className='edit J_ping'>编辑</span> : null}
                 {item.showType === 2 ? <span className='editing'>保存</span> : null}
             </div>
@@ -65,4 +92,4 @@ const ItemHeader = (item) => {
     )
 }
 
-export default ItemHeader
+export default connect(mapStateToProps)(ItemHeader)
