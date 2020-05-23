@@ -6,6 +6,7 @@ import Nav from './components/nav/nav'
 import CarList from './components/carList/carList'
 import SkuList from './components/skuList/skuList'
 import Loading from '../../components/Loading/Loading'
+import Test from '../pageHome/components/test/test'
 
 /** utils */
 import { fetchNAParams } from '@/common/utils/Common'
@@ -94,6 +95,8 @@ class Home extends Component {
                     <Loading />
                 ) : (
                     <div className='new-scelfmaintain'>
+                        {/* <Test allData={allData} /> */}
+
                         <CarInfo carList={defaultCar} />
                         <Nav navFixed={this.state.navFixed} defaultCar={defaultCar} allData={allData} />
                         <SkuList allData={allData} />

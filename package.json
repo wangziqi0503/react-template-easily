@@ -33,6 +33,7 @@
         "file-loader": "^1.1.5",
         "history": "^4.7.2",
         "html-webpack-plugin": "^4.2.0",
+        "immutable": "^4.0.0-rc.12",
         "lint-staged": "^10.2.2",
         "node-sass": "^4.5.3",
         "postcss-loader": "^2.0.8",

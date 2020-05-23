@@ -1,7 +1,7 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-16 17:01:43
- * @LastEditTime: 2020-05-23 10:33:48
+ * @LastEditTime: 2020-05-23 10:54:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/model.js
@@ -10,6 +10,7 @@
 // import { routerRedux } from 'dva/router'
 import { getCarList, getAllData, getAddress, setDefaultCarData } from '../../api/home'
 import { setUserAddress } from '@/common/utils/Common'
+import { fromJS } from 'immutable'
 export default {
     namespace: 'homeInfo',
     state: {
@@ -85,14 +86,14 @@ export default {
         saveDefaultCar(state, { payload }) {
             return {
                 ...state,
-                defaultCar: payload
+                defaultCar: fromJS(payload)
             }
         },
         // 保存当前车辆sku信息
         saveAllData(state, { payload }) {
             return {
                 ...state,
-                allData: payload
+                allData: fromJS(payload)
             }
         },
         // 更新车辆列表展示隐藏状态

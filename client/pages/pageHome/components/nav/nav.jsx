@@ -27,6 +27,8 @@ const handleTouchMove = (event) => {
 
 const Nav = React.memo((props) => {
     const { defaultCar, allData, navFixed } = props
+    const allDataJs = allData.size > 0 ? allData.toJS() : null
+    console.log(allDataJs)
     const liWidth = useRef()
     let [moreTab, setMoreTab] = useState(false)
 
@@ -54,7 +56,7 @@ const Nav = React.memo((props) => {
 
     useEffect(() => {
         const cont = document.querySelector('.cont')
-        const scrollWidth = (allData.length + 0.1) * liWidth.current.clientWidth + 'px'
+        const scrollWidth = (allDataJs ? allDataJs.length + 0.1 : 0) * liWidth.current.clientWidth + 'px'
         let width = '100%'
         // setTimeout 防止触发两次showTab事件
         setTimeout(() => {
@@ -130,15 +132,17 @@ const Nav = React.memo((props) => {
 
             <div className='tab-scroll-fixed' style={{ display: navFixed ? 'block' : 'none' }}>
                 <ul className='clearfix cont'>
-                    {allData.map((item, index) => {
-                        return (
-                            <li
-                                key={index}
-                                onClick={() => {
-                                    jumpTo(index)
-                                }}>{`${item.serviceCategoryName}(${item.havingCount}/${item.totalCount})`}</li>
-                        )
-                    })}
+                    {allDataJs
+                        ? allDataJs.map((item, index) => {
+                              return (
+                                  <li
+                                      key={index}
+                                      onClick={() => {
+                                          jumpTo(index)
+                                      }}>{`${item.serviceCategoryName}(${item.havingCount}/${item.totalCount})`}</li>
+                              )
+                          })
+                        : null}
                 </ul>
                 <div className='tab_more' onClick={showTab}>
                     {!moreTab ? <span className='arrow arrow-down'></span> : <span className='arrow arrow-up'></span>}

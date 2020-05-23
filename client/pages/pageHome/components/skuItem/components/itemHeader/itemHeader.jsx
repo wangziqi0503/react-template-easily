@@ -8,14 +8,11 @@ const mapStateToProps = (state) => {
 }
 
 const ItemHeader = (props) => {
-    const allData = JSON.parse(JSON.stringify(props.allData))
-    const item = JSON.parse(JSON.stringify(props.item))
-    // const allData = [...props.allData]
-    // const item = props.item
-    // const item = props.item
-    // console.log('item===', props)
+    const allData = props.allData.toJS()
+    const item = props.item
     const [showType, setShowType] = useState(1)
 
+    // 编辑，保存模式切换
     const editShowType = () => {
         if (showType === 1) {
             setShowType(2)
