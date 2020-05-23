@@ -10,6 +10,7 @@ const mapStateToProps = (state) => {
 }
 
 const carInfo = (props) => {
+    const carList = props.carList.size > 0 ? props.carList.toJS() : null
     const topBan = useRef(null)
     let [isCarListShow, setIsCarListShow] = useState(false)
     const changeCar = (status) => {
@@ -47,9 +48,7 @@ const carInfo = (props) => {
                         <span className='arrow arrow-up'></span>
                     )}
                 </div>
-                <span className='car-now'>
-                    {props.carList.brandName ? `${props.carList.brandName} ${props.carList.seriesName}` : '车系信息'}
-                </span>
+                <span className='car-now'>{carList ? `${carList.brandName} ${carList.seriesName}` : '车系信息'}</span>
             </div>
             <div className='car-msg'>
                 <span className='mile-info'>行驶里程</span>
@@ -57,7 +56,7 @@ const carInfo = (props) => {
                     编辑
                     <span className='edit'></span>
                 </div>
-                <span className='mile'>{props.carList.mileage ? props.carList.mileage : '待完善'}</span>
+                <span className='mile'>{carList ? carList.mileage : '待完善'}</span>
                 <span className='edit-btn'></span>
             </div>
         </div>

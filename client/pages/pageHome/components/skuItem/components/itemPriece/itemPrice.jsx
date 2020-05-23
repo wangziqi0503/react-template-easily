@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'dva'
 const mapStateToProps = (state) => {
     return {
@@ -7,6 +7,15 @@ const mapStateToProps = (state) => {
 }
 const ItemPrice = (props) => {
     const { item, sku } = props
+    const allData = props.allData.toJS()
+    const addNum = () => {
+        sku.skuNumber++
+        props.dispatch({
+            type: 'homeInfo/saveAllData',
+            payload: allData
+        })
+    }
+    useEffect(() => {}, [])
     return (
         <div className='maintain-item-goods-number-show'>
             {sku.carBSku.mJdPrice == '暂无报价' || sku.carBSku.mJdPrice == null ? (
@@ -27,7 +36,7 @@ const ItemPrice = (props) => {
             {item.showType === 2 ? (
                 <div className='maintain-item-goods-change'>
                     <div className='maintain-item-goods-number-change'>
-                        <div className='number-change add-number J_ping' report-eventid='MCarSteward_SelfService_Add'>
+                        <div className='number-change add-number J_ping' onClick={addNum}>
                             +
                         </div>
                         <span className='number-show'>{sku.skuNumber}</span>

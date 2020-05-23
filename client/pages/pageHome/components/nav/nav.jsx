@@ -28,7 +28,6 @@ const handleTouchMove = (event) => {
 const Nav = React.memo((props) => {
     const { defaultCar, allData, navFixed } = props
     const allDataJs = allData.size > 0 ? allData.toJS() : null
-    console.log(allDataJs)
     const liWidth = useRef()
     let [moreTab, setMoreTab] = useState(false)
 
