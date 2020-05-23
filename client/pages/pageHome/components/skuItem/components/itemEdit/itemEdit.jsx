@@ -42,8 +42,6 @@ const ItemEdit = (props) => {
                             type: 'homeInfo/resetAllData',
                             payload: allData
                         })
-                    } else {
-                        return
                     }
                 }
             })

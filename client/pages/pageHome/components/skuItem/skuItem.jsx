@@ -19,7 +19,8 @@ const SkuItem = React.memo((props) => {
                               className={`new-maintain-item ${item.checked === 1 ? 'header-current' : ''}`}
                               key={subIndex}>
                               <ItemHeader item={item} index={index} subIndex={subIndex} />
-                              {item.showType === 1 || item.showType === 2 ? (
+                              {(item.showType === 1 && item.checked === 1) ||
+                              (item.showType === 2 && item.checked === 1) ? (
                                   <div className='maintain-item-content'>
                                       {item.relateService
                                           ? item.relateService.map((relateService, relateServiceIndex) => {
