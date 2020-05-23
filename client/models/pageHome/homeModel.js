@@ -1,7 +1,7 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-16 17:01:43
- * @LastEditTime: 2020-05-19 20:58:14
+ * @LastEditTime: 2020-05-23 10:33:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/model.js
@@ -63,7 +63,6 @@ export default {
             // }
         },
         *setDefaultCarData({ payload }, { call, put }) {
-            console.log('payload', payload)
             const res = yield call(setDefaultCarData, payload)
         }
     },
@@ -91,7 +90,6 @@ export default {
         },
         // 保存当前车辆sku信息
         saveAllData(state, { payload }) {
-            console.log('payload==', payload[0].maintenanceItemInstances[0].showType)
             return {
                 ...state,
                 allData: payload
@@ -99,7 +97,6 @@ export default {
         },
         // 更新车辆列表展示隐藏状态
         setCarList(state, { payload }) {
-            console.log('carList', payload)
             return {
                 ...state,
                 carListStatus: payload.status

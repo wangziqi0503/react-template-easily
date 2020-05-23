@@ -106,7 +106,6 @@ const Nav = React.memo((props) => {
     }
 
     const showTab = () => {
-        console.log('times')
         moreTab ? setMoreTab(false) : setMoreTab(true)
     }
 

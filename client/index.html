@@ -35,14 +35,12 @@
                 afterOpen: function () {
                     scrollTop = document.scrollingElement.scrollTop
                     document.body.classList.add(bodyCls)
-                    console.log('here')
                     // document.body.style.top = 0
                 },
                 beforeClose: function () {
                     document.body.classList.remove(bodyCls)
                     // scrollTop lost after set position:fixed, restore it back.
                     document.scrollingElement.scrollTop = scrollTop
-                    console.log('here are u')
                 }
             }
         })('dialog-open')

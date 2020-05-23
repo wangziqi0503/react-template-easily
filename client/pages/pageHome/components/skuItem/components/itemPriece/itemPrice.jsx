@@ -6,7 +6,6 @@ const mapStateToProps = (state) => {
     }
 }
 const ItemPrice = (props) => {
-    console.log('ItemPrice')
     const { item, sku } = props
     return (
         <div className='maintain-item-goods-number-show'>

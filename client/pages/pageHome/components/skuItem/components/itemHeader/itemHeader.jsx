@@ -18,7 +18,6 @@ const ItemHeader = (props) => {
 
     const editShowType = () => {
         if (showType === 1) {
-            console.log('here')
             setShowType(2)
         } else if (showType === 2) {
             setShowType(1)

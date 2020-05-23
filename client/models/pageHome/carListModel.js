@@ -1,7 +1,7 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-17 20:36:58
- * @LastEditTime: 2020-05-17 21:47:43
+ * @LastEditTime: 2020-05-23 10:33:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/carListModel.js
@@ -13,7 +13,6 @@ export default {
     state: {},
     effects: {
         *setDefaultCarData({ payload }, { call, put }) {
-            console.log('payload', payload)
             const res = yield call(setDefaultCarData, payload.reqData)
             if (res.code === '-1') {
                 yield put({ type: 'homeInfo/setCarList', payload: { status: false } })

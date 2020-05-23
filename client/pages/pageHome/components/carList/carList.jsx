@@ -77,7 +77,6 @@ const CarList = (props) => {
                         <span className='close' onClick={closeList} data-type='carlist-close'></span>
                     </div>
                     <ul className='content'>
-                        {console.log(props)}
                         {props.carList.map((item, index) => {
                             return (
                                 <li

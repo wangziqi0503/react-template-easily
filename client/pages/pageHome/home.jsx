@@ -85,7 +85,6 @@ class Home extends Component {
     }
 
     render() {
-        console.log('?')
         const { defaultCar, carListStatus, carList, allData } = this.props
         // 处理所有接口请求，除了carList以外
         const isFetch = this.props.loading.global && !this.props.loading.models.carList
