@@ -8,12 +8,13 @@ const mapStateToProps = (state) => {
 }
 
 const ItemHeader = (props) => {
-    const allData = props.allData.toJS()
+    const allData = props.allData.size > 0 ? props.allData.toJS() : null
     const item = props.item
-    const [showType, setShowType] = useState(1)
 
-    // 编辑，保存模式切换
-    const editShowType = () => {
+    const [showType, setShowType] = useState(-1)
+
+    // 编辑保存切换
+    const editShowType = (showType) => {
         if (showType === 1) {
             setShowType(2)
         } else if (showType === 2) {
@@ -22,13 +23,19 @@ const ItemHeader = (props) => {
     }
 
     useEffect(() => {
-        item.showType = showType
-        allData[props.index].maintenanceItemInstances[props.subIndex] = item
-        props.dispatch({
-            type: 'homeInfo/saveAllData',
-            payload: allData
-        })
+        if (showType !== -1) {
+            item.showType = showType
+            allData[props.index].maintenanceItemInstances[props.subIndex] = item
+            props.dispatch({
+                type: 'homeInfo/saveAllData',
+                payload: allData
+            })
+        }
     }, [showType])
+
+    const changeChecked = (type) => {
+        console.log(type)
+    }
 
     return (
         <div className='maintain-item-header'>
@@ -39,7 +46,7 @@ const ItemHeader = (props) => {
                     className='goods-check J_ping'
                     checked={item.checked === 1}
                     onChange={() => {
-                        console.log('aaa')
+                        changeChecked(item.checked)
                     }}
                 />
             </div>
@@ -85,7 +92,7 @@ const ItemHeader = (props) => {
                     </span>
                 </div>
             </div>
-            <div className='maintain-item-header-right' onClick={editShowType}>
+            <div className='maintain-item-header-right' onClick={() => editShowType(item.showType)}>
                 {item.showType === 1 ? <span className='edit J_ping'>编辑</span> : null}
                 {item.showType === 2 ? <span className='editing'>保存</span> : null}
             </div>

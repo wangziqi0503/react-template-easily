@@ -56,7 +56,7 @@ const carInfo = (props) => {
                     编辑
                     <span className='edit'></span>
                 </div>
-                <span className='mile'>{carList ? carList.mileage : '待完善'}</span>
+                <span className='mile'>{carList ? `${carList.mileage} 公里` : '待完善'}</span>
                 <span className='edit-btn'></span>
             </div>
         </div>

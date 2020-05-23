@@ -1,7 +1,7 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-16 17:01:43
- * @LastEditTime: 2020-05-23 10:54:36
+ * @LastEditTime: 2020-05-23 18:07:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/model.js
@@ -57,10 +57,19 @@ export default {
             const res = yield call(getAllData, payload)
             yield put({ type: 'saveAllData', payload: res.data.classifiedMainItems })
         },
+        *resetAllData({ payload, callback }, { call, put }) {
+            console.log('reset', payload)
+            yield put({ type: 'saveAllData', payload: payload })
+            if (callback && typeof callback === 'function') {
+                callback()
+            }
+        },
         *getCarListStatus({ status, callback }, { call, put }) {
             yield put({ type: 'setCarList', payload: { status: status } })
             // if (callback && typeof callback === 'function') {
-            //     callback(status)
+            //     console.log('1111')
+            // } else {
+            //     console.log('ca', callback)
             // }
         },
         *setDefaultCarData({ payload }, { call, put }) {
@@ -90,10 +99,13 @@ export default {
             }
         },
         // 保存当前车辆sku信息
-        saveAllData(state, { payload }) {
+        saveAllData(state, { payload, callback }) {
             return {
                 ...state,
-                allData: fromJS(payload)
+                allData: fromJS(payload),
+                callback: () => {
+                    console.log('wocao')
+                }
             }
         },
         // 更新车辆列表展示隐藏状态

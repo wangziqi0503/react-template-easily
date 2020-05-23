@@ -1,7 +1,55 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { connect } from 'dva'
+const mapStateToProps = (state) => {
+    return {
+        allData: state.homeInfo.allData
+    }
+}
+
+// 校验当前保养项目下全部sku数量都为0方法
+const checkAdult = (item) => {
+    return item.skuNumber === 0
+}
 
 const ItemEdit = (props) => {
-    const { item, sku } = props
+    const { item, sku, index, subIndex, relateServiceIndex, skuIndex } = props
+    const [num, setNum] = useState(-1)
+    const allData = props.allData.toJS()
+
+    // 删除当前sku，数量置为0
+    const deleteItem = () => {
+        setNum(0)
+    }
+    useEffect(() => {
+        if (num !== -1) {
+            allData[index].maintenanceItemInstances[subIndex].relateService[relateServiceIndex].maintenanceBSkus[
+                skuIndex
+            ].skuNumber = num
+
+            props.dispatch({
+                type: 'homeInfo/resetAllData',
+                payload: allData,
+                callback: () => {
+                    const arr =
+                        allData[index].maintenanceItemInstances[subIndex].relateService[relateServiceIndex]
+                            .maintenanceBSkus
+                    // 商品数量全为0，关闭当前栏目
+                    if (arr.every(checkAdult)) {
+                        allData[index].maintenanceItemInstances[subIndex].showType = 0
+                        allData[index].maintenanceItemInstances[subIndex].checked = 0
+                        console.log(allData)
+                        props.dispatch({
+                            type: 'homeInfo/resetAllData',
+                            payload: allData
+                        })
+                    } else {
+                        return
+                    }
+                }
+            })
+            // console.log(item)
+        }
+    }, [num])
     return (
         <React.Fragment>
             {item.showType === 1 ? (
@@ -12,7 +60,9 @@ const ItemEdit = (props) => {
 
             {item.showType === 2 ? (
                 <div className='maintain-item-goods-change-btn'>
-                    <span className='change-text'>删除</span>
+                    <span className='change-text' onClick={deleteItem}>
+                        删除
+                    </span>
                 </div>
             ) : null}
             {sku.mask ? (
@@ -28,4 +78,4 @@ const ItemEdit = (props) => {
     )
 }
 
-export default ItemEdit
+export default connect(mapStateToProps)(ItemEdit)
