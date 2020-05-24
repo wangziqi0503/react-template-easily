@@ -35,9 +35,9 @@ const ItemEdit = (props) => {
                             .maintenanceBSkus
                     // 商品数量全为0，关闭当前栏目
                     if (arr.every(checkAdult)) {
+                        allData[index].havingCount--
                         allData[index].maintenanceItemInstances[subIndex].showType = 0
                         allData[index].maintenanceItemInstances[subIndex].checked = 0
-                        console.log(allData)
                         props.dispatch({
                             type: 'homeInfo/resetAllData',
                             payload: allData

@@ -16,9 +16,22 @@ const ItemHeader = (props) => {
     const allData = props.allData.size > 0 ? props.allData.toJS() : null
     const item = props.item
     const { index, subIndex } = props
-
     const [showType, setShowType] = useState(-1)
     const [checked, setChecked] = useState(-1)
+
+    // 检查栏目下所有SKU数量是否全部为0
+    const checkSkuNumber = () => {
+        item.checked = checked
+        item.relateService.forEach((items, i) => {
+            if (items.maintenanceBSkus.every(checkAdult)) {
+                items.maintenanceBSkus.forEach((subItem, j) => {
+                    if (subItem.skuNumber === 0) {
+                        item.relateService[i].maintenanceBSkus[j].skuNumber = checked
+                    }
+                })
+            }
+        })
+    }
     // 编辑保存切换
     const editShowType = (showType) => {
         if (showType === 1) {
@@ -32,16 +45,7 @@ const ItemHeader = (props) => {
         if (showType !== -1) {
             item.showType = showType
             if (checked === 1) {
-                item.checked = checked
-                item.relateService.forEach((items, i) => {
-                    if (items.maintenanceBSkus.every(checkAdult)) {
-                        items.maintenanceBSkus.forEach((subItem, j) => {
-                            if (subItem.skuNumber === 0) {
-                                item.relateService[i].maintenanceBSkus[j].skuNumber = checked
-                            }
-                        })
-                    }
-                })
+                checkSkuNumber()
             }
             allData[index].maintenanceItemInstances[subIndex] = item
             props.dispatch({
@@ -56,33 +60,38 @@ const ItemHeader = (props) => {
         if (checked === 0) {
             setShowType(1)
             setChecked(1)
-        } else {
-            setShowType(0)
-            setChecked(0)
-        }
-    }
-
-    useEffect(() => {
-        allData[index].maintenanceItemInstances[subIndex].relateService.forEach((item, i) => {
-            if (item.maintenanceBSkus.every(checkAdult)) {
-                item.maintenanceBSkus.forEach((subItem, j) => {
-                    if (subItem.skuNumber === 0) {
-                        allData[index].maintenanceItemInstances[subIndex].relateService[i].maintenanceBSkus[
-                            j
-                        ].skuNumber = checked
-                    }
-                })
-            }
-        })
-        console.log('allData', allData)
-        allData[index].maintenanceItemInstances[subIndex].checked = checked
-        allData[index].maintenanceItemInstances[subIndex].showType = checked
-
-        if (checked !== -1) {
+            allData[index].havingCount++
             props.dispatch({
                 type: 'homeInfo/resetAllData',
                 payload: allData
             })
+        } else {
+            setShowType(0)
+            setChecked(0)
+            allData[index].havingCount--
+            props.dispatch({
+                type: 'homeInfo/resetAllData',
+                payload: allData
+            })
+        }
+    }
+
+    useEffect(() => {
+        if (checked !== -1) {
+            // 当前栏目展开项目数量
+            // checked === 1 ? allData[index].havingCount++ : allData[index].havingCount--
+
+            // 检查skuNumber
+            checkSkuNumber()
+
+            item.showType = checked
+            allData[index].maintenanceItemInstances[subIndex] = item
+            if (checked !== -1) {
+                props.dispatch({
+                    type: 'homeInfo/resetAllData',
+                    payload: allData
+                })
+            }
         }
     }, [checked])
 
