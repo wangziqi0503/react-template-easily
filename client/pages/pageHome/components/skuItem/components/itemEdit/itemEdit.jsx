@@ -14,12 +14,26 @@ const checkAdult = (item) => {
 const ItemEdit = (props) => {
     const { item, sku, index, subIndex, relateServiceIndex, skuIndex } = props
     const [num, setNum] = useState(-1)
+    const [mask, setMask] = useState(false)
     const allData = props.allData.toJS()
 
     // 删除当前sku，数量置为0
     const deleteItem = () => {
-        setNum(0)
+        setMask(true)
+        ModalHelper.afterOpen()
     }
+
+    const cancelDelete = () => {
+        setMask(false)
+        ModalHelper.beforeClose()
+    }
+
+    const confirmDelete = () => {
+        setNum(0)
+        setMask(false)
+        ModalHelper.beforeClose()
+    }
+
     useEffect(() => {
         if (num !== -1) {
             allData[index].maintenanceItemInstances[subIndex].relateService[relateServiceIndex].maintenanceBSkus[
@@ -35,8 +49,6 @@ const ItemEdit = (props) => {
                             .maintenanceBSkus
                     // 商品数量全为0，关闭当前栏目
                     if (arr.every(checkAdult)) {
-                        // allData[index].havingCount--
-                        // allData[index].maintenanceItemInstances[subIndex].showType = 1
                         allData[index].maintenanceItemInstances[subIndex].checked = 0
                         props.dispatch({
                             type: 'homeInfo/resetAllData',
@@ -63,14 +75,21 @@ const ItemEdit = (props) => {
                     </span>
                 </div>
             ) : null}
-            {sku.mask ? (
-                <div className='mask-delete'>
-                    <div className='mask-text'>确定要删除这个商品么</div>
-                    <div className='mask-status'>
-                        <div className='cancel'>取消</div>
-                        <div className='confirm'>删除</div>
+            {mask ? (
+                <React.Fragment>
+                    <div className='maintainItem-mask'></div>
+                    <div className='mask-delete'>
+                        <div className='mask-text'>确定要删除这个商品么</div>
+                        <div className='mask-status'>
+                            <div className='cancel' onClick={cancelDelete}>
+                                取消
+                            </div>
+                            <div className='confirm' onClick={confirmDelete}>
+                                删除
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </React.Fragment>
             ) : null}
         </React.Fragment>
     )

@@ -33,15 +33,32 @@ const Nav = React.memo((props) => {
 
     const jumpTo = (index) => {
         if (moreTab) {
-            let leftMove = liWidth.current.clientWidth * index * 0.5
+            let leftMove = liWidth.current.clientWidth * index * 0.8
             setTimeout(() => {
-                scroll.scrollTo(-leftMove, 0, 800)
+                scroll.scrollTo(-leftMove, 0, 0)
+                goTo(index)
             }, 70)
-
             setMoreTab(false)
         } else {
+            goTo(index)
             return false
         }
+    }
+
+    const goTo = (index) => {
+        const goToIndex = `list-${index}`
+        const returnEle = document.getElementById(goToIndex)
+
+        if (index != 0) {
+            getScrollTop(returnEle)
+        } else {
+            getScrollTop(0)
+        }
+    }
+
+    const getScrollTop = (element) => {
+        const scrollHeight = element.offsetTop - 40
+        window.scrollTo(0, scrollHeight)
     }
 
     useEffect(() => {

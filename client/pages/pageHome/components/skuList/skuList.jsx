@@ -4,6 +4,7 @@ import './skuList.scss'
 
 const SkuList = React.memo((props) => {
     const allData = props.allData.size > 0 ? props.allData.toJS() : null
+
     return (
         <div className='new-selfhelpMain'>
             <div className='new-maintain-list'>

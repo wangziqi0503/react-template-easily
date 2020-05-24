@@ -84,10 +84,14 @@ const ItemHeader = (props) => {
             setChecked(0)
             allData[index].havingCount--
         }
-        props.dispatch({
-            type: 'homeInfo/resetAllData',
-            payload: allData
-        })
+
+        // 初始化时禁止dispatch,否则会产生奇怪的bug,并且增加没必要的渲染
+        if (checked !== -1) {
+            props.dispatch({
+                type: 'homeInfo/resetAllData',
+                payload: allData
+            })
+        }
     }, [props.item.checked])
 
     return (
