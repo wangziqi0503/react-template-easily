@@ -1,7 +1,7 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-16 17:01:43
- * @LastEditTime: 2020-05-24 12:57:55
+ * @LastEditTime: 2020-05-24 14:26:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/model.js
@@ -99,7 +99,6 @@ export default {
         },
         // 保存当前车辆sku信息
         saveAllData(state, { payload, callback }) {
-            console.log('in model')
             return {
                 ...state,
                 allData: fromJS(payload),

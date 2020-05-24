@@ -19,9 +19,8 @@ const ItemHeader = (props) => {
     const [showType, setShowType] = useState(-1)
     const [checked, setChecked] = useState(-1)
 
-    // 检查栏目下所有SKU数量是否全部为0
+    // 若当前栏目sku全部删除，则将当前栏目下sku的skuNmuber置为1，否则不进行处理
     const checkSkuNumber = () => {
-        item.checked = checked
         item.relateService.forEach((items, i) => {
             if (items.maintenanceBSkus.every(checkAdult)) {
                 items.maintenanceBSkus.forEach((subItem, j) => {
@@ -44,9 +43,6 @@ const ItemHeader = (props) => {
     useEffect(() => {
         if (showType !== -1) {
             item.showType = showType
-            if (checked === 1) {
-                checkSkuNumber()
-            }
             allData[index].maintenanceItemInstances[subIndex] = item
             props.dispatch({
                 type: 'homeInfo/saveAllData',
@@ -58,19 +54,16 @@ const ItemHeader = (props) => {
     // 改变checked状态
     const changeChecked = (checked) => {
         if (checked === 0) {
-            setShowType(1)
             setChecked(1)
         } else {
-            setShowType(0)
             setChecked(0)
         }
     }
 
     useEffect(() => {
         if (checked !== -1) {
-            // 检查skuNumber
+            item.checked = checked
             checkSkuNumber()
-            item.showType = checked
             allData[index].maintenanceItemInstances[subIndex] = item
             if (checked !== -1) {
                 props.dispatch({
@@ -81,10 +74,16 @@ const ItemHeader = (props) => {
         }
     }, [checked])
 
-    // 监听全局checked状态，修改havingCount数量
+    // 监听itemEdit组件将checked置0时处理
     useEffect(() => {
-        props.item.checked === 1 ? allData[index].havingCount++ : allData[index].havingCount--
-        props.item.checked === 0 ? (props.item.showType = 0) : (props.item.showType = 1)
+        if (props.item.checked === 1) {
+            setChecked(1)
+            setShowType(1)
+            allData[index].havingCount++
+        } else {
+            setChecked(0)
+            allData[index].havingCount--
+        }
         props.dispatch({
             type: 'homeInfo/resetAllData',
             payload: allData
@@ -146,10 +145,12 @@ const ItemHeader = (props) => {
                     </span>
                 </div>
             </div>
-            <div className='maintain-item-header-right' onClick={() => editShowType(item.showType)}>
-                {item.showType === 1 ? <span className='edit'>编辑</span> : null}
-                {item.showType === 2 ? <span className='editing'>保存</span> : null}
-            </div>
+            {item.checked === 1 ? (
+                <div className='maintain-item-header-right' onClick={() => editShowType(item.showType)}>
+                    {item.showType === 1 ? <span className='edit'>编辑</span> : null}
+                    {item.showType === 2 ? <span className='editing'>保存</span> : null}
+                </div>
+            ) : null}
         </div>
     )
 }
