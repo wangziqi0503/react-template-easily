@@ -37,7 +37,9 @@ Const.requestUrl = {
     allData: '/mClient/maintenance/self-maintenanceUpdate',
     carList: '/mClient/userCar/listCars4bc',
     address: `/mClient?functionId=addressOperate&body={"operate":"15"}&client=m&uuid='${new Date().valueOf()}`,
-    setDefaultCarData: `/mClient`
+    setDefaultCarData: '/mClient',
+    discountAndFreeData: '/mClient/maintenance/discountAndFree',
+    getOspPublishData: '/mClient/maintenance/ospPublish'
 }
 
 export default Const

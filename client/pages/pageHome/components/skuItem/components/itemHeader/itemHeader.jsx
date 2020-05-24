@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'dva'
-
+import { getCookie } from '@/common/utils/Common'
 const mapStateToProps = (state) => {
     return {
         allData: state.homeInfo.allData
@@ -31,6 +31,32 @@ const ItemHeader = (props) => {
             }
         })
     }
+    // 获取满减接口所需参数
+    const getFreeParams = () => {
+        let skuArr = []
+        item.relateService.forEach((item, i) => {
+            item.maintenanceBSkus.forEach((item, index) => {
+                if (item.skuNumber !== 0) {
+                    skuArr.push(item.carBSku.sku)
+                }
+            })
+        })
+        const data = {
+            provinceCode: getCookie('person_area1'),
+            skuIds: skuArr.join(','),
+            lng: getCookie('longitude') ? getCookie('longitude') : '',
+            lat: getCookie('latitude') ? getCookie('latitude') : '',
+            cityCode: getCookie('person_area2') ? getCookie('person_area2') : '',
+            areaCode: getCookie('person_area3') ? getCookie('person_area3') : ''
+        }
+        const SkuData = {
+            skuArr,
+            data
+        }
+
+        return SkuData
+    }
+
     // 编辑保存切换
     const editShowType = (showType) => {
         if (showType === 1) {
@@ -64,6 +90,16 @@ const ItemHeader = (props) => {
         if (checked !== -1) {
             item.checked = checked
             checkSkuNumber()
+            if (checked === 1) {
+                // const getParmas = getFreeParams()
+                // props.dispatch({
+                //     type: 'homeInfo/getDiscount',
+                //     payload: getParmas.data,
+                //     callback: () => {
+                //         console.log('-------------')
+                //     }
+                // })
+            }
             allData[index].maintenanceItemInstances[subIndex] = item
             if (checked !== -1) {
                 props.dispatch({
@@ -129,7 +165,7 @@ const ItemHeader = (props) => {
                     <p
                         className='discount-icon'
                         style={{
-                            display: item.discountInfo != null && item.discountInfo != '' ? 'block' : 'none'
+                            display: item.discountInfo !== null && item.discountInfo !== '' ? 'block' : 'none'
                         }}>
                         满减
                     </p>

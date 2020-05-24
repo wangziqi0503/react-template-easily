@@ -1,12 +1,11 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-17 20:36:58
- * @LastEditTime: 2020-05-19 21:43:36
+ * @LastEditTime: 2020-05-24 21:17:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/carListModel.js
  */
-import { setDefaultCarData } from '../../api/home'
 
 export default {
     namespace: 'carInfo',

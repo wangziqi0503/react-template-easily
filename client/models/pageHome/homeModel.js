@@ -1,14 +1,21 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-16 17:01:43
- * @LastEditTime: 2020-05-24 14:26:53
+ * @LastEditTime: 2020-05-24 23:29:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/model.js
  */
 
 // import { routerRedux } from 'dva/router'
-import { getCarList, getAllData, getAddress, setDefaultCarData } from '../../api/home'
+import {
+    getCarList,
+    getAllData,
+    getAddress,
+    setDefaultCarData,
+    getDiscountAndFree,
+    getOspPublish
+} from '../../api/home'
 import { setUserAddress } from '@/common/utils/Common'
 import { fromJS } from 'immutable'
 export default {
@@ -58,6 +65,7 @@ export default {
             yield put({ type: 'saveAllData', payload: res.data.classifiedMainItems })
         },
         *resetAllData({ payload, callback }, { call, put }) {
+            console.log(payload)
             yield put({ type: 'saveAllData', payload: payload })
             if (callback && typeof callback === 'function') {
                 callback()
@@ -65,14 +73,20 @@ export default {
         },
         *getCarListStatus({ status, callback }, { call, put }) {
             yield put({ type: 'setCarList', payload: { status: status } })
-            // if (callback && typeof callback === 'function') {
-            //     console.log('1111')
-            // } else {
-            //     console.log('ca', callback)
-            // }
         },
         *setDefaultCarData({ payload }, { call, put }) {
             const res = yield call(setDefaultCarData, payload)
+        },
+        *getDiscount({ payload, callback }, { call, put }) {
+            console.log('无限循环')
+            const res = yield call(getDiscountAndFree, payload)
+            console.log('res==', res)
+            if (callback && typeof callback === 'function') {
+                callback(res)
+            }
+        },
+        *getOspPublish({ payload }, { call, put }) {
+            yield call(getOspPublish)
         }
     },
     reducers: {
