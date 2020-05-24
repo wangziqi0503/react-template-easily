@@ -1,7 +1,7 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-16 17:01:43
- * @LastEditTime: 2020-05-23 18:07:55
+ * @LastEditTime: 2020-05-24 12:57:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/model.js
@@ -58,7 +58,6 @@ export default {
             yield put({ type: 'saveAllData', payload: res.data.classifiedMainItems })
         },
         *resetAllData({ payload, callback }, { call, put }) {
-            console.log('reset', payload)
             yield put({ type: 'saveAllData', payload: payload })
             if (callback && typeof callback === 'function') {
                 callback()
@@ -100,12 +99,11 @@ export default {
         },
         // 保存当前车辆sku信息
         saveAllData(state, { payload, callback }) {
+            console.log('in model')
             return {
                 ...state,
                 allData: fromJS(payload),
-                callback: () => {
-                    console.log('wocao')
-                }
+                callback: () => {}
             }
         },
         // 更新车辆列表展示隐藏状态
