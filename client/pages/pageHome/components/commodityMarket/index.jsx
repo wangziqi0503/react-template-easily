@@ -1,6 +1,6 @@
 import React from 'react'
 import './index.scss'
-import FilterCommondity from './components/filterCommodity/index'
+import FilterCommondity from './components/filterCommodity/filterCommodity'
 
 const CommodityMarket = () => {
     return (

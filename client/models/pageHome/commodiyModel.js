@@ -1,13 +1,13 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-17 20:36:58
- * @LastEditTime: 2020-05-23 10:33:18
+ * @LastEditTime: 2020-05-25 22:54:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/carListModel.js
  */
 import { setDefaultCarData } from '../../api/home'
-
+import { fromJS } from 'immutable'
 export default {
     namespace: 'commodiy',
     state: {
@@ -34,6 +34,11 @@ export default {
     },
     effects: {},
     reducers: {
-        setShowTag() {}
+        setShowTag(state, { payload }) {
+            return {
+                ...state,
+                showTag: payload
+            }
+        }
     }
 }

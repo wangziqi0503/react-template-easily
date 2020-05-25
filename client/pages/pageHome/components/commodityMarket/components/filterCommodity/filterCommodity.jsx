@@ -9,9 +9,8 @@ const mapStateToProps = (state) => {
 }
 
 const FilterCommondity = (props) => {
-    const { showTag } = props
+    const showTag = [...props.showTag]
     const filterGoods = (index) => {
-        console.log(index)
         for (let i = 0; i < showTag.length; i++) {
             if (i == index) {
                 if (i > 2) {
@@ -32,6 +31,10 @@ const FilterCommondity = (props) => {
                 }
             }
         }
+        props.dispatch({
+            type: 'commodiy/setShowTag',
+            payload: showTag
+        })
         // this.$emit('update-sort', this.showTag)
 
         // if (index < 3) {
@@ -70,11 +73,13 @@ const FilterCommondity = (props) => {
                                                 alt=''
                                             />
                                         ) : null}
-                                        <img
-                                            className='arrow-img'
-                                            src={require('../../../../../../common/assets/down.png')}
-                                            alt=''
-                                        />
+                                        {!item.tag && !item.sort ? (
+                                            <img
+                                                className='arrow-img'
+                                                src={require('../../../../../../common/assets/down.png')}
+                                                alt=''
+                                            />
+                                        ) : null}
                                     </div>
                                 ) : null}
                             </li>
