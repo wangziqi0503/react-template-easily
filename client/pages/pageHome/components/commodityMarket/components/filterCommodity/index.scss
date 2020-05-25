@@ -1,0 +1,185 @@
+@import '~@/common/style/mixins.scss';
+@import '~@/common/style/base.scss';
+
+.red {
+    color: $color-theme;
+}
+
+.checked {
+    background: #fff3e6;
+    border: 1px solid $color-theme;
+    color: $color-theme;
+}
+
+.filter-view {
+    border-bottom: 1px solid #f5f6f9;
+    background-color: #fff; // position: fixed;
+    position: relative;
+    z-index: 100;
+    top: 0;
+    width: 100%;
+    border-radius: rem(10) rem(10) 0 0;
+    text-align: center; // box-sizing: content-box;
+    .title {
+        height: rem(100);
+        line-height: rem(100);
+        @include fontSize(36);
+        color: $color-title;
+    }
+    .filter {
+        height: rem(80);
+        border-bottom: 1px solid #f2f2f2;
+        color: $color-content;
+        .filter-item {
+            width: 25%;
+            float: left;
+            height: rem(80);
+            line-height: rem(80);
+            position: relative;
+            .arrow {
+                display: inline-block;
+                width: rem(22);
+                height: rem(14);
+                .arrow-img {
+                    width: rem(22);
+                    height: rem(14);
+                }
+            }
+        }
+    }
+    .brand-list {
+        position: absolute;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        .brand-content {
+            background: #fff;
+            position: relative;
+            z-index: 201;
+            // max-height: rem(870);
+            max-height: rem(720);
+            .content-info {
+                // max-height: rem(730);
+                max-height: rem(580);
+                padding: 0 rem(43) rem(140) rem(43);
+                overflow: scroll;
+                .list-item {
+                    text-align: left;
+                    .price-str {
+                        @include fontSize($font-size-title);
+                        padding: rem(24) 0 rem(24) rem(10);
+                        color: $color-title;
+                        height: rem(40);
+                        text-align: left;
+                    }
+                    .price-input {
+                        height: rem(56);
+                        padding-bottom: rem(10);
+                        input {
+                            width: rem(120);
+                            height: rem(30);
+                            border: 1px solid #999;
+                            line-height: rem(30);
+                            @include fontSize($font-size-content);
+                            padding: rem(12);
+                            text-align: center;
+                            border-radius: rem(6);
+                        }
+                        .low {
+                            margin-right: rem(15);
+                        }
+                        span {
+                            color: $color-content-soft;
+                            text-align: center;
+                            display: inline-block;
+                        }
+                        .high {
+                            margin-left: rem(15);
+                        }
+                    }
+                    .filter-classify {
+                        padding: rem(10) 0;
+                        height: rem(40);
+                        line-height: rem(40);
+                        overflow: hidden;
+                        .filter-name {
+                            float: left;
+                            @include fontSize($font-size-title);
+                        }
+                        .more-btn-up {
+                            @include fontSize($font-size-content);
+                            color: $color-content;
+                            vertical-align: middle;
+                            float: right;
+                            padding: 0 rem(15) 0 0;
+                            .icon-up {
+                                width: rem(22);
+                                height: rem(14);
+                                .img {
+                                    width: rem(22);
+                                    height: rem(14);
+                                }
+                            }
+                        }
+                    }
+                    .sub-view {
+                        @include fontSize(0);
+                        color: $color-content-soft;
+                        .sub-item {
+                            float: left;
+                            border-radius: rem(6);
+                            border: 1px solid #999;
+                            @include fontSize($font-size-content);
+                            padding: rem(16) rem(22);
+                            margin: rem(10) rem(44) rem(10) 0;
+                            width: rem(192);
+                            height: rem(64);
+                            line-height: rem(32);
+                            text-align: center;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            box-sizing: border-box;
+                            &:nth-child(3n) {
+                                margin-right: 0;
+                            }
+                            &.checked {
+                                background: #fff3e6;
+                                border: 1px solid $color-theme;
+                                color: $color-theme;
+                            }
+                        }
+                    }
+                }
+            }
+            .bottom-bar {
+                border-top: 1px solid #f5f6f9;
+                background: #fff;
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                height: rem(100);
+                line-height: rem(100);
+                @include fontSize(36);
+                text-align: center;
+                box-sizing: border-box;
+                .reset {
+                    width: 50%;
+                    @include fontSize(36);
+                    line-height: rem(100);
+                    height: rem(100);
+                    float: left;
+                    color: $color-content;
+                }
+                .ensure {
+                    width: 50%;
+                    @include fontSize(36);
+                    line-height: rem(100);
+                    height: rem(100);
+                    float: left;
+                    color: #fff;
+                    background-color: $color-theme;
+                }
+            }
+        }
+    }
+}

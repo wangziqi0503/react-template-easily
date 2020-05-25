@@ -5,6 +5,7 @@ import CarInfo from './components/cafInfo/carInfo'
 import Nav from './components/nav/nav'
 import CarList from './components/carList/carList'
 import SkuList from './components/skuList/skuList'
+import CommodityMarket from './components/commodityMarket/index'
 import Loading from '../../components/Loading/Loading'
 import Test from '../pageHome/components/test/test'
 
@@ -96,11 +97,11 @@ class Home extends Component {
                 ) : (
                     <div className='new-scelfmaintain'>
                         {/* <Test allData={allData} /> */}
-
                         <CarInfo carList={defaultCar} />
                         <Nav navFixed={this.state.navFixed} defaultCar={defaultCar} allData={allData} />
                         <SkuList allData={allData} />
                         {carListStatus ? <CarList carListStatus={carListStatus} carList={carList} /> : null}
+                        <CommodityMarket />
                     </div>
                 )}
             </div>

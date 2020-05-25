@@ -28,22 +28,24 @@ const ItemPrice = (props) => {
     }, [num])
 
     return (
-        <div className='maintain-item-goods-number-show'>
-            {sku.carBSku.mJdPrice == '暂无报价' || sku.carBSku.mJdPrice == null ? (
-                <span className='maintain-item-goods-price-flag hide'>¥</span>
-            ) : (
-                <span className='maintain-item-goods-price-flag'>¥</span>
-            )}
-            {sku.carBSku.mJdPrice == '暂无报价' || sku.carBSku.mJdPrice == null ? (
-                <span className='maintain-item-goods-price'>暂无报价</span>
-            ) : (
-                <span className='maintain-item-goods-price'>{sku.carBSku.mJdPrice}</span>
-            )}
-            {item.showType == 1 ? (
-                <div className='maintain-item-goods-num-flag'>
-                    X<span className='maintain-item-goods-num'>{sku.skuNumber}</span>
-                </div>
-            ) : null}
+        <React.Fragment>
+            <div className='maintain-item-goods-number-show'>
+                {sku.carBSku.mJdPrice == '暂无报价' || sku.carBSku.mJdPrice == null ? (
+                    <span className='maintain-item-goods-price-flag hide'>¥</span>
+                ) : (
+                    <span className='maintain-item-goods-price-flag'>¥</span>
+                )}
+                {sku.carBSku.mJdPrice == '暂无报价' || sku.carBSku.mJdPrice == null ? (
+                    <span className='maintain-item-goods-price'>暂无报价</span>
+                ) : (
+                    <span className='maintain-item-goods-price'>{sku.carBSku.mJdPrice}</span>
+                )}
+                {item.showType == 1 ? (
+                    <div className='maintain-item-goods-num-flag'>
+                        X<span className='maintain-item-goods-num'>{sku.skuNumber}</span>
+                    </div>
+                ) : null}
+            </div>
             {item.showType === 2 ? (
                 <div className='maintain-item-goods-change'>
                     <div className='maintain-item-goods-number-change'>
@@ -75,7 +77,7 @@ const ItemPrice = (props) => {
                     {sku.carBSku.complimentarySkuNames}
                 </div>
             ) : null}
-        </div>
+        </React.Fragment>
     )
 }
 
