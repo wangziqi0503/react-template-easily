@@ -22,7 +22,7 @@ const ItemLable = (props) => {
                 </div>
             ) : null}
             {sku.carBSku.freeInstall ? (
-                <div className='warp' className={sku.carBSku.freeInstall ? 'blue' : ''}>
+                <div className='warp' className={sku.carBSku.freeInstall ? 'warp blue' : ''}>
                     <span className='maintain-item-type'>免费安装</span>
                 </div>
             ) : null}

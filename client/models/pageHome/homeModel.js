@@ -65,7 +65,6 @@ export default {
             yield put({ type: 'saveAllData', payload: res.data.classifiedMainItems })
         },
         *resetAllData({ payload, callback }, { call, put }) {
-            console.log(payload)
             yield put({ type: 'saveAllData', payload: payload })
             if (callback && typeof callback === 'function') {
                 callback()
@@ -78,9 +77,7 @@ export default {
             const res = yield call(setDefaultCarData, payload)
         },
         *getDiscount({ payload, callback }, { call, put }) {
-            console.log('无限循环')
             const res = yield call(getDiscountAndFree, payload)
-            console.log('res==', res)
             if (callback && typeof callback === 'function') {
                 callback(res)
             }

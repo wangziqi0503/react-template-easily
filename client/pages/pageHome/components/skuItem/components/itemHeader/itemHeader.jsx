@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'dva'
-import { getCookie } from '@/common/utils/Common'
+import { getCookie, isNotEmpty } from '@/common/utils/Common'
 const mapStateToProps = (state) => {
     return {
         allData: state.homeInfo.allData
@@ -34,8 +34,11 @@ const ItemHeader = (props) => {
     // 获取满减接口所需参数
     const getFreeParams = () => {
         let skuArr = []
-        item.relateService.forEach((item, i) => {
-            item.maintenanceBSkus.forEach((item, index) => {
+        let maintenanceBSkusArr = []
+
+        item.relateService.forEach((ele, i) => {
+            maintenanceBSkusArr = ele.maintenanceBSkus
+            ele.maintenanceBSkus.forEach((item, index) => {
                 if (item.skuNumber !== 0) {
                     skuArr.push(item.carBSku.sku)
                 }
@@ -51,6 +54,7 @@ const ItemHeader = (props) => {
         }
         const SkuData = {
             skuArr,
+            maintenanceBSkusArr,
             data
         }
 
@@ -81,52 +85,84 @@ const ItemHeader = (props) => {
     const changeChecked = (checked) => {
         if (checked === 0) {
             setChecked(1)
+            // allData[index].havingCount++
         } else {
             setChecked(0)
+            // allData[index].havingCount--
         }
     }
 
     useEffect(() => {
+        console.log('change')
         if (checked !== -1) {
+            console.log('change111')
             item.checked = checked
             checkSkuNumber()
             if (checked === 1) {
-                // const getParmas = getFreeParams()
-                // props.dispatch({
-                //     type: 'homeInfo/getDiscount',
-                //     payload: getParmas.data,
-                //     callback: () => {
-                //         console.log('-------------')
-                //     }
-                // })
-            }
-            allData[index].maintenanceItemInstances[subIndex] = item
-            if (checked !== -1) {
+                item.showType = 1
+                const getParmas = getFreeParams()
                 props.dispatch({
-                    type: 'homeInfo/resetAllData',
-                    payload: allData
+                    type: 'homeInfo/getDiscount',
+                    payload: getParmas.data,
+                    callback: (res) => {
+                        if (res.code === '0') {
+                            // 满减
+                            if (isNotEmpty(res.data.discounts) && res.data.discounts != null) {
+                                item.discountInfo = res.data.discounts
+                            }
+                            // // 免费安装
+                            if (res.data.skuFreeInstalls) {
+                                res.data.skuFreeInstalls.forEach((element, index) => {
+                                    if (element.freeInstall) {
+                                        if (element.skuId == getParmas.skuArr[index]) {
+                                            getParmas.maintenanceBSkusArr[index].carBSku.freeInstall =
+                                                element.freeInstall
+                                        }
+                                    } else {
+                                        getParmas.maintenanceBSkusArr[index].carBSku.freeInstall = false
+                                    }
+                                    getParmas.maintenanceBSkusArr[index].carBSku.complimentarySkuNames =
+                                        res.data.skuFreeInstalls[index].complimentarySkuNames
+                                })
+                                item.relateService.forEach((element) => {
+                                    element = getParmas.maintenanceBSkusArr
+                                })
+                            }
+                            // 优惠券显示与否
+                            item.skuCouponFlag = res.data.skuCouponFlag
+                        }
+                        allData[index].havingCount++
+                        allData[index].maintenanceItemInstances[subIndex] = item
+
+                        props.dispatch({
+                            type: 'homeInfo/resetAllData',
+                            payload: allData
+                        })
+                    }
                 })
+            } else {
+                allData[index].havingCount--
+                allData[index].maintenanceItemInstances[subIndex] = item
+                if (checked !== -1) {
+                    props.dispatch({
+                        type: 'homeInfo/resetAllData',
+                        payload: allData
+                    })
+                }
             }
         }
     }, [checked])
 
     // 监听itemEdit组件将checked置0时处理
     useEffect(() => {
-        if (props.item.checked === 1) {
-            setChecked(1)
-            setShowType(1)
-            allData[index].havingCount++
-        } else {
-            setChecked(0)
-            allData[index].havingCount--
-        }
-
-        // 初始化时禁止dispatch,否则会产生奇怪的bug,并且增加没必要的渲染
+        // 加一层判断，初始化时不执行setChecked
         if (checked !== -1) {
-            props.dispatch({
-                type: 'homeInfo/resetAllData',
-                payload: allData
-            })
+            if (props.item.checked === 1) {
+                setChecked(1)
+                setShowType(1)
+            } else {
+                setChecked(0)
+            }
         }
     }, [props.item.checked])
 
@@ -165,14 +201,14 @@ const ItemHeader = (props) => {
                     <p
                         className='discount-icon'
                         style={{
-                            display: item.discountInfo !== null && item.discountInfo !== '' ? 'block' : 'none'
+                            display: item.discountInfo !== null && item.discountInfo !== '' ? 'flex' : 'none'
                         }}>
                         满减
                     </p>
                     <span
                         className='maintain-item-discount'
                         style={{
-                            display: item.discountInfo != null && item.discountInfo != '' ? 'block' : 'none'
+                            display: item.discountInfo != null && item.discountInfo != '' ? 'inline-block' : 'none'
                         }}>
                         {item.discountInfo}
                     </span>
