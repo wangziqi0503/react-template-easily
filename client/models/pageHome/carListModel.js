@@ -12,14 +12,20 @@ export default {
     namespace: 'carList',
     state: {},
     effects: {
-        *setDefaultCarData({ payload }, { call, put }) {
+        *setDefaultCarData({ payload }, { call, put, select }) {
             const res = yield call(setDefaultCarData, payload.reqData)
-            if (res.code === '-1') {
+            if (res.code === '0') {
+                // 先将所有车辆defaultCar置位0
+                let carList = yield select((state) => state.homeInfo.carList)
+                carList.forEach((item) => {
+                    item.defaultCar = 0
+                })
+                yield put({ type: 'homeInfo/saveCarList', payload: { data: carList } })
                 yield put({ type: 'homeInfo/setCarList', payload: { status: false } })
                 yield put({ type: 'homeInfo/saveDefaultCar', payload: payload.item })
                 // 根据车辆信息，补全情况sku接口所需参数
                 const { id, modelId, mileage } = payload.item
-                const mainData = Object.assign(payload.mainData, { id, modelId, mileage })
+                const mainData = Object.assign(payload.mainData, { carUserModelId: id, modelId, mileages: mileage })
                 // 获取车辆sku信息
                 yield put({ type: 'homeInfo/getAllData', payload: mainData })
             }

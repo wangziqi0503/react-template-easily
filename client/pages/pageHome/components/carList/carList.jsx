@@ -30,7 +30,7 @@ const CarList = (props) => {
             functionId: 'usercar',
             source: 13,
             body: JSON.stringify({
-                queryType: 13,
+                queryType: '13',
                 id: item.id
             })
         }

@@ -85,17 +85,13 @@ const ItemHeader = (props) => {
     const changeChecked = (checked) => {
         if (checked === 0) {
             setChecked(1)
-            // allData[index].havingCount++
         } else {
             setChecked(0)
-            // allData[index].havingCount--
         }
     }
 
     useEffect(() => {
-        console.log('change')
         if (checked !== -1) {
-            console.log('change111')
             item.checked = checked
             checkSkuNumber()
             if (checked === 1) {
@@ -123,9 +119,6 @@ const ItemHeader = (props) => {
                                     }
                                     getParmas.maintenanceBSkusArr[index].carBSku.complimentarySkuNames =
                                         res.data.skuFreeInstalls[index].complimentarySkuNames
-                                })
-                                item.relateService.forEach((element) => {
-                                    element = getParmas.maintenanceBSkusArr
                                 })
                             }
                             // 优惠券显示与否
