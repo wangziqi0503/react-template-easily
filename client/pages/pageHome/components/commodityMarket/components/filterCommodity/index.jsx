@@ -4,11 +4,12 @@ import './index.scss'
 
 const mapStateToProps = (state) => {
     return {
-        allData: state.homeInfo.allData
+        showTag: state.commodiy.showTag
     }
 }
 
-const FilterCommondity = () => {
+const FilterCommondity = (props) => {
+    const { showTag } = props
     const filterGoods = (index) => {
         console.log(index)
         for (let i = 0; i < showTag.length; i++) {
@@ -151,4 +152,4 @@ const FilterCommondity = () => {
     )
 }
 
-export default FilterCommondity
+export default connect(mapStateToProps)(FilterCommondity)
