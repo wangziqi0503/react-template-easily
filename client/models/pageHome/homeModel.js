@@ -54,7 +54,7 @@ export default {
 
                 // 根据车辆信息，补全情况sku接口所需参数
                 const { id, modelId, mileage } = carData
-                const mainData = Object.assign(payload.mainData, { carUserModelId: id, modelId, mileages: mileage })
+                const mainData = Object.assign(payload.mainData, { carUserModelId: id, modelId, mileages: mileage ? mileage : ''})
 
                 // 获取车辆sku信息
                 yield put({ type: 'getAllData', payload: mainData })

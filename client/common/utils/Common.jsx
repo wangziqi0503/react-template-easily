@@ -681,3 +681,99 @@ export const fullImg = (src, size, host) => {
     const _host = host || '//img13.360buyimg.com/charity/s'
     return `${_host}${_size}_${src}`
 }
+
+// 根据筛选条件调用接口获取商品列表
+export const updateCommodityData = (commodityParams) => {
+    let filterSession = filterSessionData()
+    let commonParam = commonParams()
+    let data = {
+        carButlerId: commodityParams.carButlerId,
+        page: 1,
+        pageSize: 20,
+        modelId: commodityParams.modelId,
+        cid3: commodityParams.cid3 || '',
+        priceStart: filterSession.priceStart,
+        priceEnd: filterSession.priceEnd,
+        brandIds: filterSession.brandIds,
+        extAttrs: filterSession.extAttrs,
+        scene: filterSession.scene,
+        hasStock: true,
+        sid: commonParam.sid || '',
+        area: commonParam.area || '',
+        area1: commonParam.area1 || '',
+        area2: commonParam.area2 || '',
+        area3: commonParam.area3 || '',
+        area4: commonParam.area4 || '',
+        clientVersion: commonParam.clientVersion || ''
+    }
+
+    return data
+}
+
+// 获取车品页面session中的筛选条件
+export const filterSessionData = () => {
+    let filterSession = JSON.parse(sessionStorage.getItem('LOCAL_FILTER_DATA'))
+    let priceRangeSession = JSON.parse(sessionStorage.getItem('LOCAL_PRICE_RANGE'))
+    let showTagSession = JSON.parse(sessionStorage.getItem('LOCAL_SHOW_TAG'))
+    let filterBrandId
+    let extAttrs = []
+    let scene
+    if (!filterSession && !priceRangeSession && !showTagSession) {
+        return
+    }
+    if (filterSession) {
+        for (let i = 0; i < filterSession.length; i++) {
+            let item = filterSession[i]
+            let subList = item.subList
+            if (i == 0) {
+                for (let j = 0; j < subList.length; j++) {
+                    if (subList[j].checked) {
+                        filterBrandId = subList[j].subId
+                    }
+                }
+            } else {
+                let extA = item.NameId
+                let extB
+                for (let j = 0; j < subList.length; j++) {
+                    if (subList[j].checked) {
+                        extB = subList[j].subId
+                        extAttrs.push(extA + '-' + extB)
+                    }
+                }
+            }
+        }
+    }
+    for (let i = 0; i < showTagSession.length - 1; i++) {
+        let item = showTagSession[i]
+        if (i == 0 && item.tag) {
+            scene = 11
+        } else if (i == 1 && item.tag) {
+            scene = 6
+        } else if (i == 2 && item.tag) {
+            if (item.sort) {
+                scene = 3
+            } else {
+                scene = 2
+            }
+        }
+    }
+    let data = {
+        priceStart: priceRangeSession ? priceRangeSession.lowPrice : '',
+        priceEnd: priceRangeSession ? priceRangeSession.highPrice : '',
+        brandIds: filterBrandId,
+        extAttrs: extAttrs.join(',') || '',
+        scene: scene || 11
+    }
+
+    return data
+}
+
+export const setSort = (val) => {
+    sessionStorage.setItem('LOCAL_SHOW_TAG', JSON.stringify(val))
+    return val
+}
+
+export const setPrice = (val) => {
+    sessionStorage.setItem('LOCAL_PRICE_RANGE', JSON.stringify(val)) //筛选价格的范围
+    return val
+}

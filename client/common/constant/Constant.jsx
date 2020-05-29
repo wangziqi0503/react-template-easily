@@ -39,7 +39,9 @@ Const.requestUrl = {
     address: `/mClient?functionId=addressOperate&body={"operate":"15"}&client=m&uuid='${new Date().valueOf()}`,
     setDefaultCarData: '/mClient',
     discountAndFreeData: '/mClient/maintenance/discountAndFree',
-    getOspPublishData: '/mClient/maintenance/ospPublish'
+    getOspPublishData: '/mClient/maintenance/ospPublish',
+    getSkuData:  '/mClient/sku/search',
+    getShaiXuanData: '/mClient/sku/agg'
 }
 
 export default Const

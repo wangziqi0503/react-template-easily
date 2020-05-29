@@ -39,3 +39,13 @@ export function getDiscountAndFree(data) {
 export function getOspPublish(data) {
     return Service.jsonp(Const.requestUrl.getOspPublishData, data)
 }
+
+// 获取车品列表
+export function getSkuData(data) {
+    return Service.jsonp(Const.requestUrl.getSkuData, data)
+}
+
+// 更换商品的筛选列表拉取
+export function getShaiXuanData(data) {
+    return Service.jsonp(Const.requestUrl.getShaiXuanData, data)
+}

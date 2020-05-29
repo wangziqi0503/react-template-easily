@@ -1,0 +1,124 @@
+@import '~@/common/style/mixins.scss';
+@import '~@/common/style/base.scss';
+.commodity-item {
+  position: relative;
+  background-color: $bg-info;
+  margin-left: rem(40);
+  border-bottom: 1px solid #f2f2f2;
+  .goods-img {
+    float: left;
+    padding: rem(22) rem(18) rem(36) 0;
+    width: rem(120);
+    height: rem(120);
+    img {
+      width: rem(120);
+      height: rem(120);
+    }
+    .origin-tag {
+      position: absolute;
+      left: 0;
+      bottom: rem(36);
+      width: rem(70);
+      height: rem(26);
+      line-height: rem(26);
+      padding-left: rem(6);
+      background: url('~@/common/assets/originTag.png') no-repeat top left;
+      background-size: contain;
+      color: #fff;
+      @include fontSize(18);
+    }
+  }
+  .goods-info-wrap {
+    border-bottom: 1px solid #f5f6f9;
+    height: rem(178);
+    margin-left: rem(178);
+    padding-right: rem(20);
+    padding-left: rem(6);
+    .goods-name {
+      padding-top: rem(14);
+      height: rem(74);
+      .title {
+        height: rem(72);
+        @include fontSize(26);
+        color: $color-title;
+        line-height: rem(36);
+        display: -webkit-box; // 将元素设为弹性盒模型
+        -webkit-line-clamp: 2; // 文本最大行数
+        -webkit-box-orient: vertical; // 模型内元素垂直排列
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+    .goods-content {
+      height: rem(78);
+      padding-top: rem(2);
+      position: relative;
+      .goods-price {
+        width: 100%;
+        height: rem(42);
+        .price-str {
+          color: $color-muted;
+          @include fontSize(22);
+          height: rem(30);
+          line-height: rem(30);
+        }
+        .price {
+          display: inline-block;
+          @include fontSize(30);
+          height: rem(42);
+          line-height: rem(42);
+          color: $color-muted;
+        }
+        .same-car-people {
+          display: inline-block;
+          @include fontSize(22);
+          color: $color-content-soft;
+          max-width: rem(260);
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+      .goods-comment {
+        padding-top: rem(6);
+        height: rem(34);
+        font-size: 0;
+        .goods-comment-span1 {
+          display: inline-block;
+          font-size: rem(20);
+          height: rem(28);
+          line-height: rem(28);
+          text-align: center;
+          color: $color-muted;
+          border-radius: rem(6);
+          border: 1px solid $color-muted;
+          box-sizing: content-box;
+          padding: 0 rem(9);
+          margin-right: rem(10);
+        }
+        .goods-comment-span3 {
+          display: inline-block;
+          height: rem(32);
+          line-height: rem(32);
+          @include fontSize(20);
+          color: $color-content;
+        }
+      }
+    }
+  }
+  .selectBtn {
+    z-index: 50;
+    position: absolute;
+    bottom: rem(22);
+    right: rem(30);
+    width: rem(142);
+    @include fontSize($font-size-content);
+    height: rem(54);
+    line-height: rem(54);
+    text-align: center;
+    border: 1px solid $color-theme;
+    color: $color-theme;
+    border-radius: rem(6);
+    box-sizing: content-box;
+  }
+}
