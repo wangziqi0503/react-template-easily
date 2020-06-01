@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'dva'
 const mapStateToProps = (state) => {
     return {
-        allData: state.homeInfo.allData
+        allData: state.homeInfo.allData,
+        defaultCar: state.homeInfo.defaultCar
     }
 }
 
@@ -13,8 +14,10 @@ const checkAdult = (item) => {
 
 const ItemEdit = (props) => {
     const { item, sku, index, subIndex, relateServiceIndex, skuIndex } = props
+    let defaultCar = props.defaultCar.size > 0 ? props.defaultCar.toJS() : null
     const [num, setNum] = useState(-1)
     const [mask, setMask] = useState(false)
+    const [changeStatus, setChangeStatus] = useState(false)
     const allData = props.allData.toJS()
 
     // 删除当前sku，数量置为0
@@ -33,6 +36,33 @@ const ItemEdit = (props) => {
         setMask(false)
         ModalHelper.beforeClose()
     }
+
+    const changeSku = () => {
+        setChangeStatus(true)
+    }
+
+    useEffect(() => {
+        console.log('wsl33')
+        if (changeStatus) {
+            defaultCar.cid3 =
+                allData[index].maintenanceItemInstances[subIndex].relateService[relateServiceIndex].maintenanceBSkus[
+                    skuIndex
+                ].carBSku.cid3
+            props.dispatch({
+                type: 'commodiy/setSkuData',
+                payload: []
+            })
+            props.dispatch({
+                type: 'homeInfo/saveDefaultCar',
+                payload: defaultCar
+            })
+            props.dispatch({
+                type: 'commodiy/setStatus',
+                payload: true
+            })
+        }
+        setChangeStatus(false)
+    }, [changeStatus])
 
     useEffect(() => {
         if (num !== -1) {
@@ -64,7 +94,9 @@ const ItemEdit = (props) => {
         <React.Fragment>
             {item.showType === 1 ? (
                 <div className='maintain-item-goods-change-btn'>
-                    <span className='change-text'>更换</span>
+                    <span className='change-text' onClick={changeSku}>
+                        更换
+                    </span>
                 </div>
             ) : null}
 

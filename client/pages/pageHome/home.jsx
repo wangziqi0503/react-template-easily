@@ -20,14 +20,16 @@ const mapStateToProps = (state) => {
         carListStatus: state.homeInfo.carListStatus,
         allData: state.homeInfo.allData,
         loading: state.loading,
-        topBanHeight: state.carInfo.topBanHeight
+        topBanHeight: state.carInfo.topBanHeight,
+        commodiyStatus: state.commodiy.commodiyStatus
     }
 }
 class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            navFixed: false
+            navFixed: false,
+            commodiyFlag: false
         }
         this.getInitData = this.getInitData.bind(this)
         this.handleScroll = this.handleScroll.bind(this)
@@ -87,7 +89,7 @@ class Home extends Component {
     }
 
     render() {
-        const { defaultCar, carListStatus, carList, allData } = this.props
+        const { defaultCar, carListStatus, commodiyStatus, carList, allData } = this.props
         // 处理所有接口请求，除了carList以外
         const isFetch = this.props.loading.models['homeInfo'] && !this.props.loading.effects['homeInfo/getDiscount']
         return (
@@ -101,7 +103,7 @@ class Home extends Component {
                         <Nav navFixed={this.state.navFixed} defaultCar={defaultCar} allData={allData} />
                         <SkuList allData={allData} />
                         {carListStatus ? <CarList carListStatus={carListStatus} carList={carList} /> : null}
-                        <CommodityMarket />
+                        {commodiyStatus ? <CommodityMarket /> : null}
                     </div>
                 )}
             </div>

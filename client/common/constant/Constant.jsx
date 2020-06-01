@@ -40,7 +40,7 @@ Const.requestUrl = {
     setDefaultCarData: '/mClient',
     discountAndFreeData: '/mClient/maintenance/discountAndFree',
     getOspPublishData: '/mClient/maintenance/ospPublish',
-    getSkuData:  '/mClient/sku/search',
+    getSkuData: '/mClient/sku/search',
     getShaiXuanData: '/mClient/sku/agg'
 }
 

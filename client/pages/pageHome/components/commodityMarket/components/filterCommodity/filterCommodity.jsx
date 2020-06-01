@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'dva'
+import { updateCommodityData, setSort } from '@/common/utils/Common'
 import './index.scss'
 
 const mapStateToProps = (state) => {
     return {
-        showTag: state.commodiy.showTag
+        showTag: state.commodiy.showTag,
+        defaultCar: state.homeInfo.defaultCar
     }
 }
 
 const FilterCommondity = (props) => {
     const showTag = [...props.showTag]
+    const defaultCar = props.defaultCar.size > 0 ? props.defaultCar.toJS() : null   
+    const sessionTag = JSON.parse(sessionStorage.getItem('LOCAL_SHOW_TAG'))
+    if(sessionTag){
+        useEffect(() => {
+            props.dispatch({
+                type: 'commodiy/setShowTag',
+                payload: sessionTag
+            })
+        }, [])
+    }
+
     const filterGoods = (index) => {
         for (let i = 0; i < showTag.length; i++) {
             if (i == index) {
@@ -31,17 +44,28 @@ const FilterCommondity = (props) => {
                 }
             }
         }
+
+        setSort(showTag)
+
         props.dispatch({
             type: 'commodiy/setShowTag',
             payload: showTag
         })
         // this.$emit('update-sort', this.showTag)
 
-        // if (index < 3) {
-        //     this.$emit('clear-sku-data', [])
-        //     this.$emit('update-sku-data', updateCommodityData(_this.commodityParams))
-        // }
+        if (index < 3) {
+            props.dispatch({
+                type: 'commodiy/setSkuData',
+                payload: []
+            })
+            props.dispatch({
+                type: 'commodiy/getSkuData',
+                payload: updateCommodityData(defaultCar)
+            })
+            // this.$emit('update-sku-data', updateCommodityData(_this.commodityParams))
+        }
     }
+
     return (
         <div className='filter-view'>
             <div className='title'>选择商品</div>

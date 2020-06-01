@@ -31,13 +31,12 @@ export default {
                 sort: 0
             }
         ],
-        skuData: []
+        skuData: [],
+        commodiyStatus: false
     },
     effects: {
         *getSkuData({ payload }, { call, put }) {
-            console.log('进来了')
-            const res = yield call(getSkuData)
-            console.log('res==', res)
+            const res = yield call(getSkuData, payload)
             yield put({ type: 'setSkuData', payload: res.data.data })
         }
     },
@@ -52,6 +51,12 @@ export default {
             return {
                 ...state,
                 skuData: fromJS(payload)
+            }
+        },
+        setStatus(state, { payload }) {
+            return {
+                ...state,
+                commodiyStatus: payload
             }
         }
     }

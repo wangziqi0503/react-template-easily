@@ -682,21 +682,80 @@ export const fullImg = (src, size, host) => {
     return `${_host}${_size}_${src}`
 }
 
+//新接口统一使用该方法请求
+export const commonParams = () => {
+    let opt = {} //如果不声明新变量，以后设置会互相污染
+    /*登录公共参数*/
+    let _sid = getCookie('sid')
+    if (isNotEmpty(_sid)) {
+        opt.sid = _sid
+    }
+    if (isNotEmpty(getCookie('person_area'))) {
+        opt.area = getCookie('person_area')
+    }
+    if (
+        isNotEmpty(getCookie('person_area1')) &&
+        isNotEmpty(getCookie('person_area2')) &&
+        isNotEmpty(getCookie('person_area3'))
+    ) {
+        opt.area1 = getCookie('person_area1')
+        opt.area2 = getCookie('person_area2')
+        opt.area3 = getCookie('person_area3')
+        opt.area4 = getCookie('person_area4')
+    }
+
+    /*版本信息*/
+    opt.clientVersion = '1.6.0'
+    return opt
+}
+export const getFilterSort = () => {
+    const filterSortStr = sessionStorage.getItem('LOCAL_SHOW_TAG')
+    if (isNotEmpty(filterSortStr)) {
+        setSort(JSON.parse(filterSortStr))
+        return
+    }
+    setSort([
+        {
+            name: '综合',
+            tag: true,
+            eventid: 'MCarSteward_SelfServiceSynthetic'
+        },
+        {
+            name: '销量',
+            tag: false,
+            eventid: 'MCarSteward_SelfServiceProductSale'
+        },
+        {
+            name: '价格',
+            tag: false,
+            sort: 0,
+            eventid: 'MCarSteward_SelfServiceProductPrice'
+        },
+        {
+            name: '筛选',
+            tag: false,
+            sort: 0,
+            eventid: 'MCarSteward_SelfServiceProductFilter'
+        }
+    ])
+}
+
 // 根据筛选条件调用接口获取商品列表
 export const updateCommodityData = (commodityParams) => {
     let filterSession = filterSessionData()
+    console.log('filterSession==', filterSession)
     let commonParam = commonParams()
     let data = {
-        carButlerId: commodityParams.carButlerId,
+        carButlerId: '',
         page: 1,
         pageSize: 20,
         modelId: commodityParams.modelId,
         cid3: commodityParams.cid3 || '',
-        priceStart: filterSession.priceStart,
-        priceEnd: filterSession.priceEnd,
-        brandIds: filterSession.brandIds,
-        extAttrs: filterSession.extAttrs,
-        scene: filterSession.scene,
+        priceStart: filterSession && filterSession.priceStart ? filterSession.priceStart : '',
+        priceEnd: filterSession && filterSession.priceEnd ? filterSession.priceEnd : '',
+        brandIds: filterSession && filterSession.brandIds ? filterSession.brandIds : '',
+        scene: filterSession && filterSession.scene ? filterSession.scene : 11,
+        extAttrs: filterSession && filterSession.extAttrs ? filterSession.extAttrs : '',
         hasStock: true,
         sid: commonParam.sid || '',
         area: commonParam.area || '',

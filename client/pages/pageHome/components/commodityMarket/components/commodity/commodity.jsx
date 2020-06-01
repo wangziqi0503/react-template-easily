@@ -9,7 +9,6 @@ const mapStateToProps = (state) => {
 }
 
 const Commodity = (props) => {
-    console.log(props)
     const commodity = props.data
     return (
         <div className='commodity-item'>
