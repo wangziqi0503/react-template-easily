@@ -49,3 +49,12 @@ export function getSkuData(data) {
 export function getShaiXuanData(data) {
     return Service.jsonp(Const.requestUrl.getShaiXuanData, data)
 }
+
+// 查询实时价格
+export const querySkuPrice = (skuArr, callback) => {
+    return jsonp('//pm.3.cn/prices/mgets', {
+        skuids: skuArr.join(','),
+        source: 'jdcar',
+        origin: 2
+    })
+}

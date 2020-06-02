@@ -32,12 +32,29 @@ export default {
             }
         ],
         skuData: [],
+        filterData: [],
+        commodityPageIndex: 1,
+        loadStatus: true,
         commodiyStatus: false
     },
     effects: {
-        *getSkuData({ payload }, { call, put }) {
-            const res = yield call(getSkuData, payload)
-            yield put({ type: 'setSkuData', payload: res.data.data })
+        *getSkuData({ payload, isMore }, { call, put, select }) {
+            console.log('payload', payload)
+            const flag = yield select((state) => state.commodiy.loadStatus)
+            if (flag) {
+                yield put({ type: 'setLoadStatus', payload: false })
+                const res = yield call(getSkuData, payload)
+                let newArr = []
+                if (isMore) {
+                    let skuData = yield select((state) => state.commodiy.skuData)
+                    // newArr = skuData.toJS()
+                    newArr = skuData.toJS().concat(res.data.data)
+                } else {
+                    newArr = res.data.data
+                }
+                yield put({ type: 'setSkuData', payload: newArr })
+                yield put({ type: 'setLoadStatus', payload: true })
+            }
         }
     },
     reducers: {
@@ -53,10 +70,29 @@ export default {
                 skuData: fromJS(payload)
             }
         },
+        concatSkuData(state, { payload }) {
+            return {
+                ...state,
+                skuData: payload
+            }
+        },
         setStatus(state, { payload }) {
             return {
                 ...state,
                 commodiyStatus: payload
+            }
+        },
+        setPage(state, { payload }) {
+            console.log('payload', payload)
+            return {
+                ...state,
+                commodityPageIndex: payload
+            }
+        },
+        setLoadStatus(state, { payload }) {
+            return {
+                ...state,
+                loadStatus: payload
             }
         }
     }

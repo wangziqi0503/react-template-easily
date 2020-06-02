@@ -98,7 +98,7 @@ class Home extends Component {
                     <Loading />
                 ) : (
                     <div className='new-scelfmaintain'>
-                        {/* <Test allData={allData} /> */}
+                        {/* <Test allData={allData} /> */} 
                         <CarInfo carList={defaultCar} />
                         <Nav navFixed={this.state.navFixed} defaultCar={defaultCar} allData={allData} />
                         <SkuList allData={allData} />

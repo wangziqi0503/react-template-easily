@@ -708,6 +708,7 @@ export const commonParams = () => {
     opt.clientVersion = '1.6.0'
     return opt
 }
+
 export const getFilterSort = () => {
     const filterSortStr = sessionStorage.getItem('LOCAL_SHOW_TAG')
     if (isNotEmpty(filterSortStr)) {
@@ -825,6 +826,12 @@ export const filterSessionData = () => {
     }
 
     return data
+}
+
+//更新筛选车品的数据
+export const filterData = (val) => {
+    sessionStorage.setItem('LOCAL_FILTER_DATA', JSON.stringify(val)) //品牌等筛选信息
+    return val
 }
 
 export const setSort = (val) => {
