@@ -1,0 +1,10 @@
+@import '~@/common/style/mixins.scss';
+@import '~@/common/style/base.scss';
+.loadingmore {
+    width: 100%;
+    height: rem(116);
+    line-height: rem(116);
+    text-align: center;
+    @include fontSize(30);
+    color: #999;
+}

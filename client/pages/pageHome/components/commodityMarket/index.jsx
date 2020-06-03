@@ -3,21 +3,22 @@ import { connect } from 'dva'
 import { filterSessionData, commonParams, getFilterSort } from '@/common/utils/Common'
 import Commodity from './components/commodity/commodity'
 import FilterCommondity from './components/filterCommodity/filterCommodity'
+import LoadState from './components/loadState/loadState'
 import { CSSTransition } from 'react-transition-group'
 import './index.scss'
 
 const mapStateToProps = (state) => {
     return {
         defaultCar: state.homeInfo.defaultCar,
-        loading: state.loading,
         skuData: state.commodiy.skuData,
         showTag: state.commodiy.showTag,
+        loadStatus: state.commodiy.loadStatus,
+        isAll: state.commodiy.isAll,
         commodityPageIndex: state.commodiy.commodityPageIndex
     }
 }
 
 const CommodityMarket = (props) => {
-    const isFetch = props.loading.effects['commodiy/getSkuData']
     const filterSession = filterSessionData()
     const commonParam = commonParams()
     getFilterSort()
@@ -51,6 +52,17 @@ const CommodityMarket = (props) => {
             type: 'commodiy/setStatus',
             payload: false
         })
+        props.dispatch({
+            type: 'commodiy/setPage',
+            payload: 0
+        })
+        props.dispatch({
+            type: 'commodiy/setIsAll',
+            payload: false
+        })
+        sessionStorage.removeItem('LOCAL_FILTER_DATA')
+        sessionStorage.removeItem('LOCAL_PRICE_RANGE')
+        sessionStorage.removeItem('LOCAL_SHOW_TAG')
     }
 
     useEffect(() => {
@@ -79,70 +91,68 @@ const CommodityMarket = (props) => {
                 // } else {
                 //     _this.backToTopShow = false
                 // }
-
-                if (scrollTop + offsetHeight + 150 > scrollHeight) {
-                    let page = props.commodityPageIndex
-                    console.log('page===', page)
-                    page += 1
-                    props.dispatch({
-                        type: 'commodiy/setPage',
-                        payload: page
-                    })
-
-                    let scene, extAttrs, brandIds
-                    // 获取排序参数
-                    for (let i = 0; i < props.showTag.length - 1; i++) {
-                        let item = props.showTag[i]
-                        if (i == 0 && item.tag) {
-                            scene = 11
-                        } else if (i == 1 && item.tag) {
-                            scene = 6
-                        } else if (i == 2 && item.tag) {
-                            if (item.sort) {
-                                scene = 3
-                            } else {
-                                scene = 2
+                console.log('isAll', props.isAll)
+                if (props.isAll) {
+                    // console.log('不执行', props.isAll)
+                    return false
+                } else {
+                    if (scrollTop + offsetHeight + 150 > scrollHeight) {
+                        // console.log('执行', props.isAll)
+                        let page = props.commodityPageIndex
+                        let scene, extAttrs, brandIds
+                        // 获取排序参数
+                        for (let i = 0; i < props.showTag.length - 1; i++) {
+                            let item = props.showTag[i]
+                            if (i == 0 && item.tag) {
+                                scene = 11
+                            } else if (i == 1 && item.tag) {
+                                scene = 6
+                            } else if (i == 2 && item.tag) {
+                                if (item.sort) {
+                                    scene = 3
+                                } else {
+                                    scene = 2
+                                }
                             }
                         }
-                    }
 
-                    // 获取筛选参数
-                    // for (let i = 0; i < _this.filterData.length; i++) {
-                    //     let item = _this.filterData[i]
-                    //     let subList = item.subList
-                    //     if (i == 0) {
-                    //         for (let j = 0; j < subList.length; j++) {
-                    //             if (subList[j].checked) {
-                    //                 brandIds = subList[j].subId
-                    //             }
-                    //         }
-                    //     } else {
-                    //         let extA = item.NameId
-                    //         let extB
-                    //         for (let j = 0; j < subList.length; j++) {
-                    //             if (subList[j].checked) {
-                    //                 extB = subList[j].subId
-                    //                 extAttrs.push(extA + '-' + extB)
-                    //             }
-                    //         }
-                    //     }
-                    // }
-                    const newData = { page, scene }
-                    getParam = Object.assign(getParam, newData)
-                    console.log('getParam', getParam)
-                    // 加载更多商品数据
-                    props.dispatch({
-                        type: 'commodiy/getSkuData',
-                        payload: getParam,
-                        isMore: true
-                    })
+                        // 获取筛选参数
+                        // for (let i = 0; i < _this.filterData.length; i++) {
+                        //     let item = _this.filterData[i]
+                        //     let subList = item.subList
+                        //     if (i == 0) {
+                        //         for (let j = 0; j < subList.length; j++) {
+                        //             if (subList[j].checked) {
+                        //                 brandIds = subList[j].subId
+                        //             }
+                        //         }
+                        //     } else {
+                        //         let extA = item.NameId
+                        //         let extB
+                        //         for (let j = 0; j < subList.length; j++) {
+                        //             if (subList[j].checked) {
+                        //                 extB = subList[j].subId
+                        //                 extAttrs.push(extA + '-' + extB)
+                        //             }
+                        //         }
+                        //     }
+                        // }
+                        const newData = { page, scene }
+                        getParam = Object.assign(getParam, newData)
+                        // 加载更多商品数据
+                        props.dispatch({
+                            type: 'commodiy/getSkuData',
+                            payload: getParam,
+                            isMore: true
+                        })
+                    }
                 }
             },
             true
         )
-    }, [props.showTag, props.commodityPageIndex])
+    }, [props.showTag, props.commodityPageIndex, props.isAll])
 
-    const skuData = props.skuData.size > 0 ? props.skuData.toJS() : null
+    const skuData = props.skuData && props.skuData.size > 0 ? props.skuData.toJS() : null
 
     return (
         <div className='commodity-container'>
@@ -159,6 +169,7 @@ const CommodityMarket = (props) => {
                                   })
                                 : null}
                         </div>
+                        <LoadState />
                     </div>
                 </div>
             </CSSTransition>
