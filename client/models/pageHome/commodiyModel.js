@@ -42,8 +42,8 @@ export default {
         *getSkuData({ payload, isMore }, { call, put, select }) {
             const flag = yield select((state) => state.commodiy.loadStatus)
             const isAll = yield select((state) => state.commodiy.isAll)
-            console.log('11111', isAll)
             if (!flag && !isAll) {
+                console.log('------------------------')
                 let pageIndex = yield select((state) => state.commodiy.commodityPageIndex)
                 let pageSize = 20
                 yield put({ type: 'setLoadStatus', payload: true })
