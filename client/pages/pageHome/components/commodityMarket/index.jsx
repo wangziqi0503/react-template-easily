@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useLayoutEffect } from 'react'
+import React, { useMemo, useEffect, useLayoutEffect, useCallback } from 'react'
 import { connect } from 'dva'
 import { filterSessionData, commonParams, getFilterSort } from '@/common/utils/Common'
 import Commodity from './components/commodity/commodity'
@@ -65,7 +65,7 @@ const CommodityMarket = (props) => {
         sessionStorage.removeItem('LOCAL_SHOW_TAG')
     }
 
-    const handleScroll = (element) => {
+    const handleScroll = (element, isAll) => {
         let scrollTop =
             element.scrollTop ||
             (document.documentElement && document.documentElement.scrollTop) ||
@@ -83,8 +83,8 @@ const CommodityMarket = (props) => {
         // } else {
         //     _this.backToTopShow = false
         // }
-        console.log('isAll', props.isAll)
-        if (props.isAll) {
+        console.log('isAll', isAll)
+        if (isAll) {
             // console.log('不执行', props.isAll)
             return false
         } else {
@@ -141,24 +141,32 @@ const CommodityMarket = (props) => {
         }
     }
 
+    const changHandle = useCallback(() => {
+        const element = document.getElementsByClassName('goods-list-data')[0]
+        return handleScroll(element, props.isAll)
+    }, [props.isAll])
+
     useEffect(() => {
         props.dispatch({
             type: 'commodiy/getSkuData',
             payload: getParam
         })
-    }, [])
-
-    useEffect(() => {
+        console.log('1')
         const element = document.getElementsByClassName('goods-list-data')[0]
-        element.addEventListener('scroll', () => {
-            handleScroll(element)
+        element.removeEventListener('scroll', () => {
+            handleScroll(element, !props.isAll)
         })
+        element.addEventListener('scroll', changHandle)
+        console.log('2')
         return () => {
-            element.removeEventListener('scroll', () => {
-                handleScroll(element)
-            })
+            element.removeEventListener('scroll', changHandle)
         }
-    }, [props.showTag, props.commodityPageIndex, props.isAll])
+    }, [props.isAll])
+
+    // useEffect(() => {
+    //     const element = document.getElementsByClassName('goods-list-data')[0]
+    //     handleScroll(element, props.isAll)
+    // }, [props.showTag, props.commodityPageIndex, props.isAll])
 
     const skuData = props.skuData && props.skuData.size > 0 ? props.skuData.toJS() : null
 
