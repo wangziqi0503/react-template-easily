@@ -19,7 +19,9 @@ const mapStateToProps = (state) => {
 }
 
 const CommodityMarket = (props) => {
-    const savedHandler = useRef()
+    const isAllFlag = useRef()
+    const isPage = useRef()
+    const isShowTag = useRef()
     const filterSession = filterSessionData()
     const commonParam = commonParams()
     const defaultCar = props.defaultCar.size > 0 ? props.defaultCar.toJS() : null
@@ -85,17 +87,17 @@ const CommodityMarket = (props) => {
         // } else {
         //     _this.backToTopShow = false
         // }
-        if (savedHandler.current) {
+        if (isAllFlag.current) {
             console.log('不执行', props.isAll)
             return false
         } else {
             if (scrollTop + offsetHeight + 150 > scrollHeight) {
                 console.log('执行', props.isAll)
-                let page = props.commodityPageIndex
+                let page = isPage.current
                 let scene, extAttrs, brandIds
                 // 获取排序参数
-                for (let i = 0; i < props.showTag.length - 1; i++) {
-                    let item = props.showTag[i]
+                for (let i = 0; i < isShowTag.current.length - 1; i++) {
+                    let item = isShowTag.current[i]
                     if (i == 0 && item.tag) {
                         scene = 11
                     } else if (i == 1 && item.tag) {
@@ -143,8 +145,10 @@ const CommodityMarket = (props) => {
     }
 
     useEffect(() => {
-        savedHandler.current = props.isAll
-    }, [props.isAll])
+        isAllFlag.current = props.isAll
+        isPage.current = props.commodityPageIndex
+        isShowTag.current = props.showTag
+    }, [props.isAll, props.showTag, props.commodityPageIndex])
 
     useEffect(() => {
         props.dispatch({
