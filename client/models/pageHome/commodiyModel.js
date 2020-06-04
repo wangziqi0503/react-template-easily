@@ -64,8 +64,6 @@ export default {
                 // 判断数据是否已经全部加载
                 if (res.data.totalCount <= pageIndex * pageSize) {
                     yield put({ type: 'setIsAll', payload: true })
-                    console.log('close')
-                    return
                 }
             }
         }

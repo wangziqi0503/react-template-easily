@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useLayoutEffect, useCallback } from 'react'
+import React, { useMemo, useEffect, useLayoutEffect, useCallback, useRef } from 'react'
 import { connect } from 'dva'
 import { filterSessionData, commonParams, getFilterSort } from '@/common/utils/Common'
 import Commodity from './components/commodity/commodity'
@@ -19,10 +19,11 @@ const mapStateToProps = (state) => {
 }
 
 const CommodityMarket = (props) => {
+    const savedHandler = useRef()
     const filterSession = filterSessionData()
     const commonParam = commonParams()
-    getFilterSort()
     const defaultCar = props.defaultCar.size > 0 ? props.defaultCar.toJS() : null
+    getFilterSort()
     let getParam = {}
     if (defaultCar) {
         getParam = {
@@ -65,7 +66,8 @@ const CommodityMarket = (props) => {
         sessionStorage.removeItem('LOCAL_SHOW_TAG')
     }
 
-    const handleScroll = (element, isAll) => {
+    const handleScroll = () => {
+        const element = document.getElementsByClassName('goods-list-data')[0]
         let scrollTop =
             element.scrollTop ||
             (document.documentElement && document.documentElement.scrollTop) ||
@@ -83,13 +85,12 @@ const CommodityMarket = (props) => {
         // } else {
         //     _this.backToTopShow = false
         // }
-        console.log('isAll', isAll)
-        if (isAll) {
-            // console.log('不执行', props.isAll)
+        if (savedHandler.current) {
+            console.log('不执行', props.isAll)
             return false
         } else {
             if (scrollTop + offsetHeight + 150 > scrollHeight) {
-                // console.log('执行', props.isAll)
+                console.log('执行', props.isAll)
                 let page = props.commodityPageIndex
                 let scene, extAttrs, brandIds
                 // 获取排序参数
@@ -141,9 +142,8 @@ const CommodityMarket = (props) => {
         }
     }
 
-    const changHandle = useCallback(() => {
-        const element = document.getElementsByClassName('goods-list-data')[0]
-        return handleScroll(element, props.isAll)
+    useEffect(() => {
+        savedHandler.current = props.isAll
     }, [props.isAll])
 
     useEffect(() => {
@@ -151,22 +151,12 @@ const CommodityMarket = (props) => {
             type: 'commodiy/getSkuData',
             payload: getParam
         })
-        console.log('1')
         const element = document.getElementsByClassName('goods-list-data')[0]
-        element.removeEventListener('scroll', () => {
-            handleScroll(element, !props.isAll)
-        })
-        element.addEventListener('scroll', changHandle)
-        console.log('2')
+        element.addEventListener('scroll', handleScroll)
         return () => {
-            element.removeEventListener('scroll', changHandle)
+            element.removeEventListener('scroll', handleScroll)
         }
-    }, [props.isAll])
-
-    // useEffect(() => {
-    //     const element = document.getElementsByClassName('goods-list-data')[0]
-    //     handleScroll(element, props.isAll)
-    // }, [props.showTag, props.commodityPageIndex, props.isAll])
+    }, [])
 
     const skuData = props.skuData && props.skuData.size > 0 ? props.skuData.toJS() : null
 
