@@ -1,12 +1,12 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-17 20:36:58
- * @LastEditTime: 2020-06-06 18:46:28
+ * @LastEditTime: 2020-06-06 23:50:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/carListModel.js
  */
-import { setDefaultCarData, getSkuData, getShaiXuanData } from '../../api/home'
+import { setDefaultCarData, getSkuData, getShaiXuanData, getSkuMakeUp } from '../../api/home'
 import { isNotEmpty } from '../../common/utils/Common'
 import { fromJS } from 'immutable'
 export default {
@@ -38,35 +38,45 @@ export default {
         loadStatus: false, // 加载数据中
         isAll: false, // 当前sku是否已经全部加载完成
         commodiyStatus: false, // 是否展示更换商品模块
-        priceRange: {}
+        hasCommodity: true, // 是否sku有数据
+        indexArr: [] // 当前更换商品的sku下标集合
     },
     effects: {
         *getSkuData({ payload, isMore }, { call, put, select }) {
             const flag = yield select((state) => state.commodiy.loadStatus)
             const isAll = yield select((state) => state.commodiy.isAll)
-            console.log('payload', payload, isAll)
+            yield put({ type: 'setHasCommodity', payload: true })
             if (!flag && !isAll) {
-                console.log('get in')
                 let pageIndex = yield select((state) => state.commodiy.commodityPageIndex)
                 let pageSize = 20
-                yield put({ type: 'setLoadStatus', payload: true })
-                yield put({ type: 'setPage', payload: ++pageIndex })
+                yield put({ type: 'setLoadStatus', payload: true }) // 设置状态为数据请求中
+                yield put({ type: 'setPage', payload: ++pageIndex }) // 设置分页页码
                 payload.page = pageIndex // 获取页码数
-                const res = yield call(getSkuData, payload)
-                let newArr = []
-                // 是否是加载更多
-                if (isMore) {
-                    let skuData = yield select((state) => state.commodiy.skuData)
-                    newArr = skuData.toJS().concat(res.data.data)
-                } else {
-                    newArr = res.data.data
-                }
-                yield put({ type: 'setSkuData', payload: newArr })
-                yield put({ type: 'setLoadStatus', payload: false })
+                const res = yield call(getSkuData, payload) // 获取sku数据
+                if (res.code == 0 && isNotEmpty(res.data) && isNotEmpty(res.data.data)) {
+                    let newArr = []
+                    // 是否是加载更多
+                    if (isMore) {
+                        let skuData = yield select((state) => state.commodiy.skuData)
+                        newArr = skuData.toJS().concat(res.data.data)
+                    } else {
+                        newArr = res.data.data
+                    }
+                    yield put({ type: 'setSkuData', payload: newArr })
+                    yield put({ type: 'setLoadStatus', payload: false })
 
-                // 判断数据是否已经全部加载
-                if (res.data.totalCount <= pageIndex * pageSize) {
+                    // 判断数据是否已经全部加载
+                    if (res.data.totalCount <= pageIndex * pageSize) {
+                        yield put({ type: 'setIsAll', payload: true })
+                    }
+                } else if (res.code == 0 && res.data.totalCount == 0) {
+                    yield put({ type: 'setHasCommodity', payload: false })
                     yield put({ type: 'setIsAll', payload: true })
+                    yield put({ type: 'setLoadStatus', payload: false })
+                } else {
+                    yield put({ type: 'setHasCommodity', payload: false })
+                    yield put({ type: 'setIsAll', payload: true })
+                    yield put({ type: 'setLoadStatus', payload: false })
                 }
             }
         },
@@ -164,13 +174,13 @@ export default {
                         }
                     )
                     yield put({ type: 'setFilterData', payload: tempValuesArr })
-                    // setFilterData(tempValuesArr)
-                    // console.log(tempValuesArr)
-                    // context.commit(FILTERDATA, tempValuesArr)
-                    // context.commit(UPDATELOADSTATE, false)
-                    // context.commit('updateCommodityTimeout', true)
                 }
             }
+        },
+        *getSkuMakeUp({ payload }, { call, put }) {
+            console.log('payload', payload)
+            const res = yield call(getSkuMakeUp, payload)
+            console.log('res==', res)
         }
     },
     reducers: {
@@ -222,6 +232,20 @@ export default {
             return {
                 ...state,
                 isAll: payload
+            }
+        },
+        // 接口是否能够获取到数据
+        setHasCommodity(state, { payload }) {
+            return {
+                ...state,
+                hasCommodity: payload
+            }
+        },
+        // 设置下标集合
+        setIndexArr(state, { payload }) {
+            return {
+                ...state,
+                indexArr: fromJS(payload)
             }
         }
     }

@@ -2,7 +2,7 @@
  * @file Constant.jsx
  * @desc 常量
  * @author wangziqi
- * @data 2017/07/31
+ * @data 2020/05/10
  */
 import Service from '../../service/Service.jsx'
 import { setDefaultCar } from '../../api/home.js'
@@ -41,7 +41,8 @@ Const.requestUrl = {
     discountAndFreeData: '/mClient/maintenance/discountAndFree',
     getOspPublishData: '/mClient/maintenance/ospPublish',
     getSkuData: '/mClient/sku/search',
-    getShaiXuanData: '/mClient/sku/agg'
+    getShaiXuanData: '/mClient/sku/agg',
+    skuMakeUp: '/mClient/maintenance/skuMakeUp'
 }
 
 export default Const

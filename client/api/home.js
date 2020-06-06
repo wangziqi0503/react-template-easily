@@ -1,7 +1,7 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-16 17:01:43
- * @LastEditTime: 2020-05-24 21:16:29
+ * @LastEditTime: 2020-06-06 23:16:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/api/home.js
@@ -52,9 +52,14 @@ export function getShaiXuanData(data) {
 
 // 查询实时价格
 export const querySkuPrice = (skuArr, callback) => {
-    return jsonp('//pm.3.cn/prices/mgets', {
+    return Service.jsonp('//pm.3.cn/prices/mgets', {
         skuids: skuArr.join(','),
         source: 'jdcar',
         origin: 2
     })
+}
+
+//更换商品时sku补全接口
+export const getSkuMakeUp = (data) => {
+    return Service.jsonp(Const.requestUrl.skuMakeUp, data)
 }

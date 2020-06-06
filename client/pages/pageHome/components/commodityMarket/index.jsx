@@ -16,6 +16,7 @@ const mapStateToProps = (state) => {
         showTag: state.commodiy.showTag,
         loadStatus: state.commodiy.loadStatus,
         isAll: state.commodiy.isAll,
+        hasCommodity: state.commodiy.hasCommodity,
         commodityPageIndex: state.commodiy.commodityPageIndex
     }
 }
@@ -140,7 +141,6 @@ const CommodityMarket = (props) => {
                         for (let j = 0; j < subList.length; j++) {
                             if (subList[j].checked) {
                                 brandIds = subList[j].subId
-                                console.log('?', brandIds)
                             }
                         }
                     } else {
@@ -209,7 +209,7 @@ const CommodityMarket = (props) => {
                                   })
                                 : null}
                         </div>
-                        <NoCommodity />
+                        {!props.hasCommodity ? <NoCommodity /> : null}
                         <LoadState />
                     </div>
                 </div>

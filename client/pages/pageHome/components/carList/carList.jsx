@@ -59,7 +59,7 @@ const CarList = (props) => {
             }
         })
         if (completeNum >= 4) {
-            Toast.toastInstance('最多可添加4辆完整车型信息', 150000000)
+            Toast.toastInstance('最多可添加4辆完整车型信息', 1500)
         } else {
             window.location.href = `${getBasePath()}/list.html?backurl=newSelfCareInit.html#`
         }

@@ -3,11 +3,10 @@ import './noCommodity.scss'
 import '../../../../../../common/assets/default_icon.png'
 
 const NoCommodity = () => {
-    const imgUrl = '../../../../../../common/assets/default_icon.png'
     return (
         <div className='no-data'>
             <div className='top-interest'>
-                <img src={imgUrl} className='iconImg' />
+                <img src={require('../../../../../../common/assets/default_icon.png')} className='iconImg' />
                 <div className='not-content-txt'>
                     <span className='sorry'>对不起 暂无此车品</span>
                 </div>

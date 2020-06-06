@@ -37,12 +37,16 @@ const ItemEdit = (props) => {
         ModalHelper.beforeClose()
     }
 
-    const changeSku = () => {
+    const changeSku = (index, subIndex, relateServiceIndex, skuIndex) => {
         setChangeStatus(true)
+        const arr = [index, subIndex, relateServiceIndex, skuIndex]
+        props.dispatch({
+            type: 'commodiy/setIndexArr',
+            payload: arr
+        })
     }
 
     useEffect(() => {
-        console.log('wsl33')
         if (changeStatus) {
             defaultCar.cid3 =
                 allData[index].maintenanceItemInstances[subIndex].relateService[relateServiceIndex].maintenanceBSkus[
@@ -94,7 +98,11 @@ const ItemEdit = (props) => {
         <React.Fragment>
             {item.showType === 1 ? (
                 <div className='maintain-item-goods-change-btn'>
-                    <span className='change-text' onClick={changeSku}>
+                    <span
+                        className='change-text'
+                        onClick={() => {
+                            changeSku(index, subIndex, relateServiceIndex, skuIndex)
+                        }}>
                         更换
                     </span>
                 </div>

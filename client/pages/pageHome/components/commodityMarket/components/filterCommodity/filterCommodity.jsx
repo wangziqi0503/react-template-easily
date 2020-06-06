@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'dva'
-import { updateCommodityData, setSort, setPrice } from '@/common/utils/Common'
+import { updateCommodityData, setSort, setPrice, setFilterData } from '@/common/utils/Common'
+import Toast from '@/components/Toast/Toast'
 import './index.scss'
 
 const mapStateToProps = (state) => {
@@ -127,11 +128,7 @@ const FilterCommondity = (props) => {
     const ensure = () => {
         const myPriceRange = JSON.parse(sessionStorage.getItem('LOCAL_PRICE_RANGE'))
         if (myPriceRange.lowPrice - myPriceRange.highPrice > 0) {
-            // this.toastData = {
-            //     visible: true,
-            //     message: '最低价不可大于最高价',
-            //     position: 'middle-bottom'
-            // }
+            Toast.toastInstance('最低价不可高于最高价', 1500)
             return
         }
         showTag[3].tag = false
@@ -146,6 +143,7 @@ const FilterCommondity = (props) => {
             type: 'commodiy/setFilterData',
             payload: filterData
         })
+        setFilterData(filterData)
         resetData()
     }
 

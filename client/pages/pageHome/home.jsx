@@ -7,7 +7,6 @@ import CarList from './components/carList/carList'
 import SkuList from './components/skuList/skuList'
 import CommodityMarket from './components/commodityMarket/index'
 import Loading from '../../components/Loading/Loading'
-import Test from '../pageHome/components/test/test'
 
 /** utils */
 import { fetchNAParams } from '@/common/utils/Common'
@@ -90,7 +89,6 @@ class Home extends Component {
 
     render() {
         const { defaultCar, carListStatus, commodiyStatus, carList, allData } = this.props
-        // 处理所有接口请求，除了carList以外
         const isFetch = this.props.loading.models['homeInfo'] && !this.props.loading.effects['homeInfo/getDiscount']
         return (
             <div id='pagehome'>
@@ -98,7 +96,7 @@ class Home extends Component {
                     <Loading />
                 ) : (
                     <div className='new-scelfmaintain'>
-                        {/* <Test allData={allData} /> */} 
+                        {/* <Test allData={allData} /> */}
                         <CarInfo carList={defaultCar} />
                         <Nav navFixed={this.state.navFixed} defaultCar={defaultCar} allData={allData} />
                         <SkuList allData={allData} />

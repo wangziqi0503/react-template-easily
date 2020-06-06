@@ -757,7 +757,6 @@ export const getFilterInput = () => {
 // 根据筛选条件调用接口获取商品列表
 export const updateCommodityData = (commodityParams) => {
     let filterSession = filterSessionData()
-    console.log('filterSession==', filterSession)
     let commonParam = commonParams()
     let data = {
         carButlerId: '',
@@ -842,7 +841,7 @@ export const filterSessionData = () => {
 }
 
 //更新筛选车品的数据
-export const filterData = (val) => {
+export const setFilterData = (val) => {
     sessionStorage.setItem('LOCAL_FILTER_DATA', JSON.stringify(val)) //品牌等筛选信息
     return val
 }
