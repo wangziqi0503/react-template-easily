@@ -1,0 +1,32 @@
+@import '~@/common/style/mixins.scss';
+@import '~@/common/style/base.scss';
+.no-data {
+    .top-interest {
+        text-align: center;
+        .iconImg {
+            display: inline-block;
+            width: rem(100);
+            height: rem(100);
+            margin-top: rem(30);
+        }
+        .not-content-txt {
+            padding-top: rem(20);
+            .sorry {
+                @include fontSize(26);
+            }
+        }
+    }
+    .feedback {
+        margin-top: rem(40);
+        text-align: center;
+        .feedback-to {
+            margin: auto;
+            @include fontSize(26);
+            width: rem(120);
+            color: #094c9d;
+            border: 1px solid #094c9d;
+            border-radius: rem(6);
+            padding: rem(14) rem(20);
+        }
+    }
+}

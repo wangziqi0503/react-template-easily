@@ -741,6 +741,19 @@ export const getFilterSort = () => {
     ])
 }
 
+// 商品价格筛选的input框内容
+export const getFilterInput = () => {
+    const filterInputStr = sessionStorage.getItem('LOCAL_PRICE_RANGE')
+    if (isNotEmpty(filterInputStr)) {
+        setPrice(JSON.parse(filterInputStr))
+        return
+    }
+    setPrice({
+        lowPrice: ''.replace(/[^0-9]/g, ''),
+        highPrice: ''.replace(/[^0-9]/g, '')
+    })
+}
+
 // 根据筛选条件调用接口获取商品列表
 export const updateCommodityData = (commodityParams) => {
     let filterSession = filterSessionData()
@@ -822,7 +835,7 @@ export const filterSessionData = () => {
         priceEnd: priceRangeSession ? priceRangeSession.highPrice : '',
         brandIds: filterBrandId,
         extAttrs: extAttrs.join(',') || '',
-        scene: scene || 11
+        scene: scene ? scene : 11
     }
 
     return data

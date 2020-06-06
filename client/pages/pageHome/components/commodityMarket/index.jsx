@@ -1,9 +1,10 @@
 import React, { useMemo, useEffect, useLayoutEffect, useCallback, useRef } from 'react'
 import { connect } from 'dva'
-import { filterSessionData, commonParams, getFilterSort } from '@/common/utils/Common'
+import { filterSessionData, commonParams, getFilterSort, getFilterInput, isNotEmpty } from '@/common/utils/Common'
 import Commodity from './components/commodity/commodity'
 import FilterCommondity from './components/filterCommodity/filterCommodity'
 import LoadState from './components/loadState/loadState'
+import NoCommodity from './components/noCommodity/noCommodity'
 import { CSSTransition } from 'react-transition-group'
 import './index.scss'
 
@@ -11,6 +12,7 @@ const mapStateToProps = (state) => {
     return {
         defaultCar: state.homeInfo.defaultCar,
         skuData: state.commodiy.skuData,
+        filterData: state.commodiy.filterData,
         showTag: state.commodiy.showTag,
         loadStatus: state.commodiy.loadStatus,
         isAll: state.commodiy.isAll,
@@ -22,10 +24,13 @@ const CommodityMarket = (props) => {
     const isAllFlag = useRef()
     const isPage = useRef()
     const isShowTag = useRef()
+    const isFilterData = useRef()
     const filterSession = filterSessionData()
     const commonParam = commonParams()
     const defaultCar = props.defaultCar.size > 0 ? props.defaultCar.toJS() : null
-    getFilterSort()
+
+    getFilterSort() // 获取商品的排序信息
+    getFilterInput() // 商品价格筛选的input框内容
     let getParam = {}
     if (defaultCar) {
         getParam = {
@@ -50,6 +55,7 @@ const CommodityMarket = (props) => {
         }
     }
 
+    // 关闭更换商品弹窗
     const closeMaker = () => {
         props.dispatch({
             type: 'commodiy/setStatus',
@@ -66,6 +72,21 @@ const CommodityMarket = (props) => {
         sessionStorage.removeItem('LOCAL_FILTER_DATA')
         sessionStorage.removeItem('LOCAL_PRICE_RANGE')
         sessionStorage.removeItem('LOCAL_SHOW_TAG')
+    }
+
+    // 获取筛选数据
+    const getFilterData = () => {
+        const filterStr = sessionStorage.getItem('LOCAL_FILTER_DATA') // 获取筛选数据
+        if (isNotEmpty(filterStr)) {
+            context.commit(FILTERDATA, JSON.parse(filterStr))
+            return
+        }
+        const { cid3, carButlerId, modelId } = getParam
+        const filterParam = { cid3, carButlerId, modelId }
+        props.dispatch({
+            type: 'commodiy/getShaixuan',
+            payload: filterParam
+        })
     }
 
     const handleScroll = () => {
@@ -88,11 +109,9 @@ const CommodityMarket = (props) => {
         //     _this.backToTopShow = false
         // }
         if (isAllFlag.current) {
-            console.log('不执行', props.isAll)
-            return false
+            return
         } else {
             if (scrollTop + offsetHeight + 150 > scrollHeight) {
-                console.log('执行', props.isAll)
                 let page = isPage.current
                 let scene, extAttrs, brandIds
                 // 获取排序参数
@@ -110,29 +129,37 @@ const CommodityMarket = (props) => {
                         }
                     }
                 }
+                const filterData =
+                    isFilterData.current && isFilterData.current.size > 0 ? isFilterData.current.toJS() : null
 
                 // 获取筛选参数
-                // for (let i = 0; i < _this.filterData.length; i++) {
-                //     let item = _this.filterData[i]
-                //     let subList = item.subList
-                //     if (i == 0) {
-                //         for (let j = 0; j < subList.length; j++) {
-                //             if (subList[j].checked) {
-                //                 brandIds = subList[j].subId
-                //             }
-                //         }
-                //     } else {
-                //         let extA = item.NameId
-                //         let extB
-                //         for (let j = 0; j < subList.length; j++) {
-                //             if (subList[j].checked) {
-                //                 extB = subList[j].subId
-                //                 extAttrs.push(extA + '-' + extB)
-                //             }
-                //         }
-                //     }
-                // }
-                const newData = { page, scene }
+                for (let i = 0; i < filterData.length; i++) {
+                    let item = filterData[i]
+                    let subList = item.subList
+                    if (i == 0) {
+                        for (let j = 0; j < subList.length; j++) {
+                            if (subList[j].checked) {
+                                brandIds = subList[j].subId
+                                console.log('?', brandIds)
+                            }
+                        }
+                    } else {
+                        let extA = item.NameId
+                        let extB
+                        for (let j = 0; j < subList.length; j++) {
+                            if (subList[j].checked) {
+                                extB = subList[j].subId
+                                extAttrs.push(extA + '-' + extB)
+                            }
+                        }
+                    }
+                }
+
+                extAttrs = extAttrs ? extAttrs.join(',') : ''
+                brandIds = brandIds || ''
+                scene = scene || 11
+
+                const newData = { page, scene, brandIds, extAttrs }
                 getParam = Object.assign(getParam, newData)
                 // 加载更多商品数据
                 props.dispatch({
@@ -144,17 +171,20 @@ const CommodityMarket = (props) => {
         }
     }
 
+    // 实时获取最新的状态
     useEffect(() => {
         isAllFlag.current = props.isAll
         isPage.current = props.commodityPageIndex
         isShowTag.current = props.showTag
-    }, [props.isAll, props.showTag, props.commodityPageIndex])
+        isFilterData.current = props.filterData
+    }, [props.isAll, props.showTag, props.commodityPageIndex, props.filterData])
 
     useEffect(() => {
         props.dispatch({
             type: 'commodiy/getSkuData',
             payload: getParam
         })
+        getFilterData()
         const element = document.getElementsByClassName('goods-list-data')[0]
         element.addEventListener('scroll', handleScroll)
         return () => {
@@ -179,6 +209,7 @@ const CommodityMarket = (props) => {
                                   })
                                 : null}
                         </div>
+                        <NoCommodity />
                         <LoadState />
                     </div>
                 </div>
