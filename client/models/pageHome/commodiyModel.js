@@ -78,6 +78,7 @@ export default {
         },
         // 设置当前展示数据
         setSkuData(state, { payload }) {
+            console.log('payload', payload)
             return {
                 ...state,
                 skuData: fromJS(payload)

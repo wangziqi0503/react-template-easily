@@ -12,9 +12,9 @@ const mapStateToProps = (state) => {
 
 const FilterCommondity = (props) => {
     const showTag = [...props.showTag]
-    const defaultCar = props.defaultCar.size > 0 ? props.defaultCar.toJS() : null   
+    const defaultCar = props.defaultCar.size > 0 ? props.defaultCar.toJS() : null
     const sessionTag = JSON.parse(sessionStorage.getItem('LOCAL_SHOW_TAG'))
-    if(sessionTag){
+    if (sessionTag) {
         useEffect(() => {
             props.dispatch({
                 type: 'commodiy/setShowTag',
@@ -51,9 +51,18 @@ const FilterCommondity = (props) => {
             type: 'commodiy/setShowTag',
             payload: showTag
         })
+
         // this.$emit('update-sort', this.showTag)
 
         if (index < 3) {
+            props.dispatch({
+                type: 'commodiy/setPage',
+                payload: 0
+            })
+            props.dispatch({
+                type: 'commodiy/setIsAll',
+                payload: false
+            })
             props.dispatch({
                 type: 'commodiy/setSkuData',
                 payload: []
