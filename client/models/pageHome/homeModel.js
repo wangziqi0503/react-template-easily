@@ -16,7 +16,8 @@ import {
     getDiscountAndFree,
     getOspPublish
 } from '../../api/home'
-import { setUserAddress } from '@/common/utils/Common'
+import { setUserAddress, getSkuArr, isNotEmpty, filterPrice, updatePrice } from '@/common/utils/Common'
+import { querySkuPrice } from '@/api/home'
 import { fromJS } from 'immutable'
 export default {
     namespace: 'homeInfo',
@@ -54,21 +55,61 @@ export default {
 
                 // 根据车辆信息，补全情况sku接口所需参数
                 const { id, modelId, mileage } = carData
-                const mainData = Object.assign(payload.mainData, { carUserModelId: id, modelId, mileages: mileage ? mileage : ''})
+                const mainData = Object.assign(payload.mainData, {
+                    carUserModelId: id,
+                    modelId,
+                    mileages: mileage ? mileage : ''
+                })
 
                 // 获取车辆sku信息
                 yield put({ type: 'getAllData', payload: mainData })
             }
         },
-        *getAllData({ payload }, { call, put }) {
+        *getAllData({ payload }, { call, put, select }) {
             const res = yield call(getAllData, payload)
             yield put({ type: 'saveAllData', payload: res.data.classifiedMainItems })
+            let allData = yield select((state) => state.homeInfo.allData)
+            allData = allData.size > 0 ? allData.toJS() : []
+            let maintenanceItemTotalList = []
+            let maintenanceItemList = []
+            let priceArr = []
+            let newAllData = []
+            allData.forEach((item) => {
+                maintenanceItemTotalList.push(...item.maintenanceItemInstances)
+            })
+            maintenanceItemTotalList.forEach((element) => {
+                // 获取保养项目中服务的id数组
+                if (!element.serviceMaintenance) {
+                    // 判断是否保养项目中只有服务的项目
+                    maintenanceItemList.push(element)
+                }
+            })
+            if (maintenanceItemList.length > 0) {
+                const skuArr = getSkuArr(maintenanceItemList, [])
+                // 查询实时价格，并替换保养项目中的车品价格
+                if (isNotEmpty(skuArr)) {
+                    const res = yield call(querySkuPrice, skuArr)
+                    if (res && res.length > 0) {
+                        let retArr = []
+                        if (res != null && res.length > 0) {
+                            retArr = res
+                        }
+                        filterPrice ? filterPrice(retArr) : ''
+                        priceArr = retArr
+                        newAllData = updatePrice(allData, priceArr)
+                        yield put({ type: 'saveAllData', payload: newAllData })
+                    }
+                }
+            }
         },
         *resetAllData({ payload, callback }, { call, put }) {
             yield put({ type: 'saveAllData', payload: payload })
             if (callback && typeof callback === 'function') {
                 callback()
             }
+        },
+        *getPrice({ payload }, { call, put }) {
+            const res = yield call(querySkuPrice, payload)
         },
         *getCarListStatus({ status, callback }, { call, put }) {
             yield put({ type: 'setCarList', payload: { status: status } })
@@ -109,7 +150,7 @@ export default {
                 defaultCar: fromJS(payload)
             }
         },
-        // 保存当前车辆sku信息
+        // 保存当前全部sku信息
         saveAllData(state, { payload, callback }) {
             return {
                 ...state,

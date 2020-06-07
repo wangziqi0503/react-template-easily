@@ -90,6 +90,7 @@ const CommodityMarket = (props) => {
         })
     }
 
+    // 滑动时调用
     const handleScroll = () => {
         const element = document.getElementsByClassName('goods-list-data')[0]
         let scrollTop =

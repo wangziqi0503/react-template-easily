@@ -90,6 +90,8 @@ class Home extends Component {
     render() {
         const { defaultCar, carListStatus, commodiyStatus, carList, allData } = this.props
         const isFetch = this.props.loading.models['homeInfo'] && !this.props.loading.effects['homeInfo/getDiscount']
+        // let allDatar = allData.size > 0 ? allData.toJS() : allData
+        // console.log('渲染', allDatar)
         return (
             <div id='pagehome'>
                 {isFetch ? (

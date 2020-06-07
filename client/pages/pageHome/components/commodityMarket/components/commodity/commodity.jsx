@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'dva'
-import { getCookie, isNotEmpty } from '@/common/utils/Common'
+import { getCookie, isNotEmpty, filterPrice } from '@/common/utils/Common'
+import { querySkuPrice, getDiscountAndFree } from '@/api/home'
 import './commodity.scss'
 
 const mapStateToProps = (state) => {
@@ -19,16 +20,91 @@ const Commodity = (props) => {
     const allData = props.allData.size > 0 ? props.allData.toJS() : null
     const [index, subIndex, relateServiceIndex, skuIndex] = [...indexArr]
 
+    // 关闭更换商品弹窗
+    const closeMaker = () => {
+        props.dispatch({
+            type: 'commodiy/setStatus',
+            payload: false
+        })
+        props.dispatch({
+            type: 'commodiy/setPage',
+            payload: 0
+        })
+        props.dispatch({
+            type: 'commodiy/setIsAll',
+            payload: false
+        })
+        sessionStorage.removeItem('LOCAL_FILTER_DATA')
+        sessionStorage.removeItem('LOCAL_PRICE_RANGE')
+        sessionStorage.removeItem('LOCAL_SHOW_TAG')
+    }
+    // 选取满减信息
+    const fullScale = () => {
+        let skuArr =
+            allData[index].maintenanceItemInstances[subIndex].relateService[relateServiceIndex].maintenanceBSkus
+        let skuArr2 = []
+        skuArr.forEach((item, index) => {
+            if (item.carBSku.sku && item.carBSku.sku != '') {
+                if (item.skuNumber != 0) {
+                    skuArr2.push(item.carBSku.sku)
+                }
+            }
+        })
+        const data = {
+            provinceCode: getCookie('person_area1'),
+            skuIds: skuArr2.join(','),
+            lng: getCookie('longitude') ? getCookie('longitude') : '',
+            lat: getCookie('latitude') ? getCookie('latitude') : '',
+            cityCode: getCookie('person_area2') ? getCookie('person_area2') : '',
+            areaCode: getCookie('person_area3') ? getCookie('person_area3') : ''
+        }
+        getDiscountAndFree(data).then((res) => {
+            if (res.code == 0) {
+                console.log('res==', res)
+                // if (isNotEmpty(res.data)) {
+                //     if (isNotEmpty(res.data.discounts) && res.data.discounts != null) {
+                //         this.myMaintainDataArr[this.myIndexParams.num].maintenanceItemInstances[
+                //             this.myIndexParams.itemIndex
+                //         ].discountInfo = res.data.discounts
+                //     } else {
+                //         this.myMaintainDataArr[this.myIndexParams.num].maintenanceItemInstances[
+                //             this.myIndexParams.itemIndex
+                //         ].discountInfo = []
+                //     }
+
+                //     //优惠券
+                //     this.myMaintainDataArr[this.myIndexParams.num].maintenanceItemInstances[
+                //         this.myIndexParams.itemIndex
+                //     ].skuCouponFlag = res.data.skuCouponFlag
+
+                //     if (res.data.skuFreeInstalls) {
+                //         res.data.skuFreeInstalls.forEach((element, index) => {
+                //             if (element.freeInstall) {
+                //                 if (element.skuId == goodsItem.carBSku.sku) {
+                //                     skuList[index].carBSku.freeInstall = element.freeInstall
+                //                 }
+                //             } else {
+                //                 skuList[index].carBSku.freeInstall = false
+                //             }
+                //             skuList[index].carBSku.complimentarySkuNames =
+                //                 res.data.skuFreeInstalls[index].complimentarySkuNames
+                //         })
+                //     }
+                // }
+                // this.$emit('update-maintain-data', this.myMaintainDataArr)
+            }
+        })
+    }
+
+    // 选择更换的商品
     const choseCommodity = (commoditItem) => {
-        console.log('alldata', allData)
         // 更换商品
         let goodsList =
             allData[index].maintenanceItemInstances[subIndex].relateService[relateServiceIndex].maintenanceBSkus[
                 skuIndex
             ]
-        let goodsItem = goodsList[this.myIndexParams.goodsIndex]
         let goodsItem2 = {}
-
+        goodsList.carBSku = commoditItem
         // 如果更换的商品为火花塞或者机油则调用sku补全接口，进行sku补全
         if (commoditItem.cid3 == '6767' || commoditItem.cid3 == '11849') {
             let extAttrs = ''
@@ -66,8 +142,100 @@ const Commodity = (props) => {
 
             props.dispatch({
                 type: 'commodiy/getSkuMakeUp',
-                payload: data
+                payload: data,
+                callback: (data) => {
+                    goodsList.skuNumber = data.mainSkuNum
+                    // 如果sku补全中有商品
+                    if (isNotEmpty(data.subSku)) {
+                        goodsItem2.carBSku = data.subSku
+                        goodsItem2.skuNumber = data.subSkuNum
+                        goodsItem2.id = goodsList.id
+                        // 查询实时价格，并替换保养项目中的车品价格
+                        let goodsSkuArr = [data.subSku.sku]
+                        let goodsPriceArr
+                        if (isNotEmpty(goodsSkuArr)) {
+                            console.log('goodsSkuArr', goodsSkuArr)
+                            // 调用价格接口
+                            querySkuPrice(goodsSkuArr)
+                                .then((result) => {
+                                    console.log('result==', result)
+                                    var goodsArr = []
+                                    if (result != null && result.length > 0) {
+                                        goodsArr = result
+                                    }
+                                    goodsPriceArr = filterPrice ? filterPrice(goodsArr) : ''
+                                    goodsItem2.carBSku.mJdPrice = goodsPriceArr[0].p
+                                    goodsList = [goodsList, goodsItem2]
+                                    const oldArr =
+                                        allData[index].maintenanceItemInstances[subIndex].relateService[
+                                            relateServiceIndex
+                                        ].maintenanceBSkus
+                                    oldArr.splice(0, oldArr.length - 1, ...goodsList)
+                                    // this.$log('goodsList', goodsList)
+                                    props.dispatch({
+                                        type: 'homeInfo/saveAllData',
+                                        payload: allData
+                                    })
+                                    fullScale()
+                                    closeMaker()
+                                    // this.$router.go(-1)
+                                    // ModalHelper.beforeClose()
+                                    return false
+                                })
+                                .catch((error) => {
+                                    console.log('error', error)
+                                    // goodsList = [goodsItem, goodsItem2]
+                                    props.dispatch({
+                                        type: 'homeInfo/saveAllData',
+                                        payload: allData
+                                    })
+                                    fullScale()
+                                    closeMaker()
+                                    // this.$router.go(-1)
+                                    // ModalHelper.beforeClose()
+                                    return false
+                                })
+                        }
+                    } else {
+                        // 没有补全商品时。删除掉之前相同id的sku
+                        // this.myMaintainDataArr[this.myIndexParams.num].maintenanceItemInstances[
+                        //     this.myIndexParams.itemIndex
+                        // ].relateService[this.myIndexParams.relateServiceIndex].maintenanceBSkus[
+                        //     this.myIndexParams.goodsIndex
+                        // ] = goodsList
+                        let newGoodlist =
+                            allData[index].maintenanceItemInstances[subIndex].relateService[relateServiceIndex]
+                                .maintenanceBSkus
+                        newGoodlist.forEach((item, newIndex) => {
+                            if (item.id === newGoodlist[newIndex].id && newIndex !== index) {
+                                newGoodlist.splice(newIndex, 1)
+                            }
+                        })
+
+                        // this.myMaintainDataArr[this.myIndexParams.num].maintenanceItemInstances[
+                        //     this.myIndexParams.itemIndex
+                        // ].relateService[this.myIndexParams.relateServiceIndex].maintenanceBSkus = newGoodlist
+                        props.dispatch({
+                            type: 'homeInfo/saveAllData',
+                            payload: allData
+                        })
+                        fullScale()
+                        closeMaker()
+                        // this.$router.go(-1)
+                        // ModalHelper.beforeClose()
+                        return false
+                    }
+                }
             })
+        } else {
+            goodsList.skuNumber = 1
+            props.dispatch({
+                type: 'homeInfo/saveAllData',
+                payload: allData
+            })
+            fullScale()
+            closeMaker()
+            return false
         }
     }
     return (

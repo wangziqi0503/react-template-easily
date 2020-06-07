@@ -8,7 +8,6 @@ import './skuItem.scss'
 const SkuItem = React.memo((props) => {
     const maintenanceItemInstances = props.data.maintenanceItemInstances
     const index = props.index
-    // console.log(index)
 
     return (
         <React.Fragment>

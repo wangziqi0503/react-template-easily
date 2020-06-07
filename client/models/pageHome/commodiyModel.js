@@ -6,8 +6,8 @@
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/carListModel.js
  */
-import { setDefaultCarData, getSkuData, getShaiXuanData, getSkuMakeUp } from '../../api/home'
-import { isNotEmpty } from '../../common/utils/Common'
+import { setDefaultCarData, getSkuData, getShaiXuanData, getSkuMakeUp, querySkuPrice } from '../../api/home'
+import { isNotEmpty, filterPrice, getGoodsSkuArr } from '../../common/utils/Common'
 import { fromJS } from 'immutable'
 export default {
     namespace: 'commodiy',
@@ -54,6 +54,8 @@ export default {
                 payload.page = pageIndex // 获取页码数
                 const res = yield call(getSkuData, payload) // 获取sku数据
                 if (res.code == 0 && isNotEmpty(res.data) && isNotEmpty(res.data.data)) {
+                    let goodsSkuArr = []
+                    let goodsPriceArr = []
                     let newArr = []
                     // 是否是加载更多
                     if (isMore) {
@@ -61,6 +63,24 @@ export default {
                         newArr = skuData.toJS().concat(res.data.data)
                     } else {
                         newArr = res.data.data
+                    }
+
+                    goodsSkuArr = getGoodsSkuArr(newArr, goodsSkuArr)
+                    // 查询实时价格，并替换保养项目中的车品价格
+                    if (isNotEmpty(goodsSkuArr)) {
+                        const priceData = yield call(querySkuPrice, goodsSkuArr)
+                        let goodsArr = []
+                        if (priceData != null && priceData.length > 0) {
+                            goodsArr = priceData
+                        }
+                        goodsPriceArr = filterPrice ? filterPrice(goodsArr) : ''
+                        newArr.forEach((item) => {
+                            goodsPriceArr.forEach((subItem) => {
+                                if (item.sku == subItem.id) {
+                                    item.mJdPrice = subItem.p
+                                }
+                            })
+                        })
                     }
                     yield put({ type: 'setSkuData', payload: newArr })
                     yield put({ type: 'setLoadStatus', payload: false })
@@ -177,10 +197,15 @@ export default {
                 }
             }
         },
-        *getSkuMakeUp({ payload }, { call, put }) {
-            console.log('payload', payload)
+        *getSkuMakeUp({ payload, callback }, { call, put }) {
             const res = yield call(getSkuMakeUp, payload)
-            console.log('res==', res)
+            if (res.code == 0) {
+                if (isNotEmpty(res.data)) {
+                    if (callback && typeof callback === 'function') {
+                        callback(res.data)
+                    }
+                }
+            }
         }
     },
     reducers: {
@@ -193,7 +218,6 @@ export default {
         },
         // 设置当前展示数据
         setSkuData(state, { payload }) {
-            console.log('payload', payload)
             return {
                 ...state,
                 skuData: fromJS(payload)

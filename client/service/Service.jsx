@@ -2,7 +2,7 @@
  * @file Service.jsx
  * @desc request ajax & jsonp
  * @author wangziqi
- * @data 2017/05/25
+ * @data 2020/05/10
  */
 
 // 静态常量保存类库
@@ -133,7 +133,11 @@ Service.post = (url, paramters) => Service.reqServer(url, paramters, 'POST')
  */
 Service.jsonp = function (url, paramters, timeout = 30000) {
     if (Const && Const.server) {
-        url = Const.server + url
+        if (url.indexOf('https') !== -1 || url.indexOf('http') !== -1) {
+            url = url
+        } else {
+            url = Const.server + url
+        }
     }
 
     const global = window
@@ -198,17 +202,15 @@ Service.jsonp = function (url, paramters, timeout = 30000) {
             url = url.replace('=?', `=${callbackName}`)
         }
         global[callbackName] = function (data) {
-            if (data && data.errno !== 0) {
-                // Toast.toastInstance(`服务器开小差:${data.errstr}`, 2000)
-            }
-            if (data.code) {
+            if (data && data.code) {
                 if (data.code === '0') {
-                    //问明明-1怎么回事
                     resolve(data)
                 } else if (data.code === '107') {
                     console.log('登陆')
                     goLogin()
                 }
+            } else if (data && data.length > 0) {
+                resolve(data)
             } else {
                 reject('请求失败')
             }

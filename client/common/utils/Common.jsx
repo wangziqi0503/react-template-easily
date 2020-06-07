@@ -620,6 +620,57 @@ export const flattenArr = (arr) => {
     )
 }
 
+// 获取商品列表中的sku
+export const getGoodsSkuArr = (data, goodsSkuArr) => {
+    for (let i = 0; i < data.length; i++) {
+        goodsSkuArr.push(data[i].sku)
+    }
+    return goodsSkuArr
+}
+
+// 获取车品的sku
+export const getSkuArr = (maintenanceItemList, skuArr) => {
+    for (let i = 0; i < maintenanceItemList.length; i++) {
+        let maintenanceItemData = maintenanceItemList[i]
+        if (!maintenanceItemData.serviceMaintenance) {
+            for (let m = 0; m < maintenanceItemData.relateService.length; m++) {
+                if (isNotEmpty(maintenanceItemData.relateService[m].maintenanceBSkus)) {
+                    let listObj = maintenanceItemData.relateService[m].maintenanceBSkus
+                    if (listObj && listObj.length > 0) {
+                        listObj.forEach((item) => {
+                            skuArr.push(item.carBSku.sku)
+                        })
+                    }
+                }
+            }
+        }
+    }
+    return skuArr
+}
+
+// 更新保养项目中的价格（使用实时价格接口数据替换）
+export const updatePrice = (allData, val) => {
+    if (isNotEmpty(val)) {
+        allData.forEach((oneItem, oneIndex) => {
+            oneItem.maintenanceItemInstances.forEach((sItem, sIndex) => {
+                if (!sItem.serviceMaintenance) {
+                    for (let m = 0; m < sItem.relateService.length; m++) {
+                        let goods = sItem.relateService[m].maintenanceBSkus
+                        goods.forEach((item, index) => {
+                            val.forEach((ele) => {
+                                if (item.carBSku.sku == ele.id) {
+                                    item.carBSku.mJdPrice = ele.p
+                                }
+                            })
+                        })
+                    }
+                }
+            })
+        })
+    }
+    return allData
+}
+
 //设置用户地址，坐标信息
 export const setUserAddress = (response) => {
     let mainData = {}
@@ -707,6 +758,18 @@ export const commonParams = () => {
     /*版本信息*/
     opt.clientVersion = '1.6.0'
     return opt
+}
+
+// 将实时价格替换掉车品的价格
+export const filterPrice = (arr) => {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i].p < 0) {
+            arr[i].p = '暂无报价'
+        } else {
+            arr[i].p = (arr[i].p - 0).toFixed(2)
+        }
+    }
+    return arr
 }
 
 export const getFilterSort = () => {
