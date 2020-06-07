@@ -40,10 +40,16 @@ const Commodity = (props) => {
     }
     // 选取满减信息
     const fullScale = () => {
+        let goodsItem =
+            allData[index].maintenanceItemInstances[subIndex].relateService[relateServiceIndex].maintenanceBSkus[
+                skuIndex
+            ]
         let skuArr =
             allData[index].maintenanceItemInstances[subIndex].relateService[relateServiceIndex].maintenanceBSkus
         let skuArr2 = []
-        skuArr.forEach((item, index) => {
+        let skuList =
+            allData[index].maintenanceItemInstances[subIndex].relateService[relateServiceIndex].maintenanceBSkus
+        skuArr.forEach((item) => {
             if (item.carBSku.sku && item.carBSku.sku != '') {
                 if (item.skuNumber != 0) {
                     skuArr2.push(item.carBSku.sku)
@@ -60,38 +66,36 @@ const Commodity = (props) => {
         }
         getDiscountAndFree(data).then((res) => {
             if (res.code == 0) {
-                console.log('res==', res)
-                // if (isNotEmpty(res.data)) {
-                //     if (isNotEmpty(res.data.discounts) && res.data.discounts != null) {
-                //         this.myMaintainDataArr[this.myIndexParams.num].maintenanceItemInstances[
-                //             this.myIndexParams.itemIndex
-                //         ].discountInfo = res.data.discounts
-                //     } else {
-                //         this.myMaintainDataArr[this.myIndexParams.num].maintenanceItemInstances[
-                //             this.myIndexParams.itemIndex
-                //         ].discountInfo = []
-                //     }
+                if (isNotEmpty(res.data)) {
+                    if (isNotEmpty(res.data.discounts) && res.data.discounts != null) {
+                        allData[index].maintenanceItemInstances[subIndex].discountInfo = res.data.discounts
+                    } else {
+                        allData[index].maintenanceItemInstances[subIndex].discountInfo = null
+                    }
 
-                //     //优惠券
-                //     this.myMaintainDataArr[this.myIndexParams.num].maintenanceItemInstances[
-                //         this.myIndexParams.itemIndex
-                //     ].skuCouponFlag = res.data.skuCouponFlag
+                    //优惠券
+                    allData[index].maintenanceItemInstances[subIndex].skuCouponFlag = res.data.skuCouponFlag
 
-                //     if (res.data.skuFreeInstalls) {
-                //         res.data.skuFreeInstalls.forEach((element, index) => {
-                //             if (element.freeInstall) {
-                //                 if (element.skuId == goodsItem.carBSku.sku) {
-                //                     skuList[index].carBSku.freeInstall = element.freeInstall
-                //                 }
-                //             } else {
-                //                 skuList[index].carBSku.freeInstall = false
-                //             }
-                //             skuList[index].carBSku.complimentarySkuNames =
-                //                 res.data.skuFreeInstalls[index].complimentarySkuNames
-                //         })
-                //     }
-                // }
-                // this.$emit('update-maintain-data', this.myMaintainDataArr)
+                    if (res.data.skuFreeInstalls) {
+                        res.data.skuFreeInstalls.forEach((element, index) => {
+                            if (element.freeInstall) {
+                                if (element.skuId == goodsItem.carBSku.sku) {
+                                    skuList[index].carBSku.freeInstall = element.freeInstall
+                                }
+                            } else {
+                                skuList[index].carBSku.freeInstall = false
+                            }
+                            skuList[index].carBSku.complimentarySkuNames =
+                                res.data.skuFreeInstalls[index].complimentarySkuNames
+                        })
+                    }
+                }
+                console.log('alldata===', allData)
+                props.dispatch({
+                    type: 'homeInfo/saveAllData',
+                    payload: allData
+                })
+                closeMaker()
             }
         })
     }
@@ -154,11 +158,9 @@ const Commodity = (props) => {
                         let goodsSkuArr = [data.subSku.sku]
                         let goodsPriceArr
                         if (isNotEmpty(goodsSkuArr)) {
-                            console.log('goodsSkuArr', goodsSkuArr)
                             // 调用价格接口
                             querySkuPrice(goodsSkuArr)
                                 .then((result) => {
-                                    console.log('result==', result)
                                     var goodsArr = []
                                     if (result != null && result.length > 0) {
                                         goodsArr = result
@@ -171,38 +173,15 @@ const Commodity = (props) => {
                                             relateServiceIndex
                                         ].maintenanceBSkus
                                     oldArr.splice(0, oldArr.length - 1, ...goodsList)
-                                    // this.$log('goodsList', goodsList)
-                                    props.dispatch({
-                                        type: 'homeInfo/saveAllData',
-                                        payload: allData
-                                    })
                                     fullScale()
-                                    closeMaker()
-                                    // this.$router.go(-1)
-                                    // ModalHelper.beforeClose()
                                     return false
                                 })
                                 .catch((error) => {
-                                    console.log('error', error)
-                                    // goodsList = [goodsItem, goodsItem2]
-                                    props.dispatch({
-                                        type: 'homeInfo/saveAllData',
-                                        payload: allData
-                                    })
                                     fullScale()
-                                    closeMaker()
-                                    // this.$router.go(-1)
-                                    // ModalHelper.beforeClose()
                                     return false
                                 })
                         }
                     } else {
-                        // 没有补全商品时。删除掉之前相同id的sku
-                        // this.myMaintainDataArr[this.myIndexParams.num].maintenanceItemInstances[
-                        //     this.myIndexParams.itemIndex
-                        // ].relateService[this.myIndexParams.relateServiceIndex].maintenanceBSkus[
-                        //     this.myIndexParams.goodsIndex
-                        // ] = goodsList
                         let newGoodlist =
                             allData[index].maintenanceItemInstances[subIndex].relateService[relateServiceIndex]
                                 .maintenanceBSkus
@@ -211,30 +190,14 @@ const Commodity = (props) => {
                                 newGoodlist.splice(newIndex, 1)
                             }
                         })
-
-                        // this.myMaintainDataArr[this.myIndexParams.num].maintenanceItemInstances[
-                        //     this.myIndexParams.itemIndex
-                        // ].relateService[this.myIndexParams.relateServiceIndex].maintenanceBSkus = newGoodlist
-                        props.dispatch({
-                            type: 'homeInfo/saveAllData',
-                            payload: allData
-                        })
                         fullScale()
-                        closeMaker()
-                        // this.$router.go(-1)
-                        // ModalHelper.beforeClose()
                         return false
                     }
                 }
             })
         } else {
             goodsList.skuNumber = 1
-            props.dispatch({
-                type: 'homeInfo/saveAllData',
-                payload: allData
-            })
             fullScale()
-            closeMaker()
             return false
         }
     }

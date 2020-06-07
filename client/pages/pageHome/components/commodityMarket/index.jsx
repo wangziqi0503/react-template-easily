@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useLayoutEffect, useCallback, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { connect } from 'dva'
 import { filterSessionData, commonParams, getFilterSort, getFilterInput, isNotEmpty } from '@/common/utils/Common'
 import Commodity from './components/commodity/commodity'

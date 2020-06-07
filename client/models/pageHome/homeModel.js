@@ -1,7 +1,7 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-16 17:01:43
- * @LastEditTime: 2020-05-24 23:29:08
+ * @LastEditTime: 2020-06-07 22:20:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/model.js
@@ -107,9 +107,6 @@ export default {
             if (callback && typeof callback === 'function') {
                 callback()
             }
-        },
-        *getPrice({ payload }, { call, put }) {
-            const res = yield call(querySkuPrice, payload)
         },
         *getCarListStatus({ status, callback }, { call, put }) {
             yield put({ type: 'setCarList', payload: { status: status } })
