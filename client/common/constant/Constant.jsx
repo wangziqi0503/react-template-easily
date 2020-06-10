@@ -42,7 +42,8 @@ Const.requestUrl = {
     getOspPublishData: '/mClient/maintenance/ospPublish',
     getSkuData: '/mClient/sku/search',
     getShaiXuanData: '/mClient/sku/agg',
-    skuMakeUp: '/mClient/maintenance/skuMakeUp'
+    skuMakeUp: '/mClient/maintenance/skuMakeUp',
+    mileage: '/mClient'
 }
 
 export default Const

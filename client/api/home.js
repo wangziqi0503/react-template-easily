@@ -1,7 +1,7 @@
 /*
  * @Author: wangziqi
  * @Date: 2020-05-16 17:01:43
- * @LastEditTime: 2020-06-06 23:16:15
+ * @LastEditTime: 2020-06-10 23:40:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/api/home.js
@@ -62,4 +62,9 @@ export const querySkuPrice = (skuArr, callback) => {
 //更换商品时sku补全接口
 export const getSkuMakeUp = (data) => {
     return Service.jsonp(Const.requestUrl.skuMakeUp, data)
+}
+
+//里程和上传时间接口
+export const setMileage = (val) => {
+    return Service.jsonp(Const.requestUrl.mileage, val)
 }

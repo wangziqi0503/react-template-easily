@@ -1,9 +1,11 @@
 import React, { useRef } from 'react'
 import { useSelector } from 'react-redux'
+import { withRouter } from 'react-router'
 import { List, InputItem } from 'antd-mobile'
 import { createForm } from 'rc-form'
 import { connect } from 'dva'
-import { isEmpty } from '../../../../common/utils/Common'
+import { routerRedux } from 'dva/router'
+import { isEmpty, isNotEmpty } from '../../../../common/utils/Common'
 import Toast from '@/components/Toast/Toast'
 import './mileage.scss'
 
@@ -20,7 +22,6 @@ const Mileage = (props) => {
     const defaultCar = useSelector((state) => state.homeInfo.defaultCar)
     const mainData = useSelector((state) => state.homeInfo.mainData)
     const carData = defaultCar.size > 0 ? defaultCar.toJS() : null
-    console.log('carData', mainData)
     const { getFieldProps } = props.form
     let refContainer = useRef(null)
 
@@ -45,14 +46,40 @@ const Mileage = (props) => {
             mileage: current.value
         }
 
-        carData.mileage = current.value
-
-        let data = {
+        const data = {
             functionId: 'usercar',
             body: JSON.stringify(reqBody)
         }
 
-        console.log('data==', data)
+        carData.mileage = current.value
+        mainData.mileages = current.value
+
+        props.dispatch({
+            type: 'mileage/getMileage',
+            payload: data,
+            callback: () => {
+                props.dispatch({
+                    type: 'homeInfo/saveDefaultCar',
+                    payload: carData
+                })
+                props.dispatch({
+                    type: 'homeInfo/getAllData',
+                    payload: mainData
+                })
+                routerRedux.push({
+                    pathname: '/home'
+                })
+                props.dispatch({
+                    type: 'mileage/setMileageStatus',
+                    payload: false
+                })
+            }
+        })
+
+        // props.dispatch({
+        //     type: 'mileage/getMileage',
+        //     payload: data
+        // })
     }
 
     return (
@@ -112,4 +139,4 @@ const Mileage = (props) => {
 
 const MileageWrapper = createForm()(Mileage)
 
-export default connect()(MileageWrapper)
+export default withRouter(connect()(MileageWrapper))
