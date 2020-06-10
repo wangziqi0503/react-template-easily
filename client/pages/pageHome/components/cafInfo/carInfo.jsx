@@ -13,12 +13,20 @@ const carInfo = (props) => {
     const carList = props.carList.size > 0 ? props.carList.toJS() : null
     const topBan = useRef(null)
     let [isCarListShow, setIsCarListShow] = useState(false)
+
     const changeCar = (status) => {
         props.dispatch({
             type: 'homeInfo/setCarList',
             payload: { status: status }
         })
         setIsCarListShow(status)
+    }
+
+    const editShow = () => {
+        props.dispatch({
+            type: 'mileage/setMileageStatus',
+            payload: true
+        })
     }
 
     useEffect(() => {
@@ -52,7 +60,7 @@ const carInfo = (props) => {
             </div>
             <div className='car-msg'>
                 <span className='mile-info'>行驶里程</span>
-                <div className='mile-edit'>
+                <div className='mile-edit' onClick={editShow}>
                     编辑
                     <span className='edit'></span>
                 </div>

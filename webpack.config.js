@@ -67,11 +67,24 @@ const config = {
                 exclude: /node_modules/,
                 include: path.resolve(__dirname, './client')
             },
-            {
-                test: [/\.scss$/, /\.css$/],
+            { 
+                test: /\.css$/, 
                 use: [
-                    { loader: 'style-loader', options: {} },
-                    { loader: 'css-loader', options: {} },
+                    {
+                        loader: 'style-loader',
+                        options: {
+                            insertAt: 'top'
+                        }
+                    },
+                    'css-loader',
+
+                ] 
+            },
+            {
+                test: [/\.scss$/],
+                use: [
+                    { loader: 'style-loader' },
+                    { loader: 'css-loader' },
                     {
                         loader: 'postcss-loader',
                         options: {

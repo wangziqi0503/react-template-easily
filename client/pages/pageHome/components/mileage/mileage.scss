@@ -1,0 +1,149 @@
+@import '~@/common/style/mixins.scss';
+@import '~@/common/style/base.scss';
+.new-dialog-mile-time {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 200;
+    background-color: rgba(0, 0, 0, 0.8);
+
+    .content {
+        width: rem(650);
+        height: rem(332);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: rem(12);
+        background-color: #fff; // overflow: hidden;
+
+        .off-btn {
+            //background-image: url('../../../assets/turnOff.png');
+            width: rem(50);
+            height: rem(67);
+            position: absolute;
+            top: rem(-67);
+            right: 0;
+            background-size: cover;
+        }
+
+        .mile {
+            padding-left: rem(48);
+            height: rem(228);
+            border-bottom: rem(1) solid #eee;
+            overflow: hidden;
+
+            .mile-value {
+                margin-top: rem(72);
+                width: rem(554);
+                height: rem(84);
+                line-height: rem(84);
+                background: #f7f7f7;
+
+                // input {
+                //   text-align: right;
+                //   width: rem(315);
+                //   font-family: PingFangSC-Medium;
+                //   @include fontSize(30);
+                //   color: #262626;
+                //   letter-spacing: 0;
+                //   line-height: 30px;
+                //   background: #F7F7F7;
+                // }
+
+                .van-cell-group {
+                    width: rem(554);
+                    height: rem(84);
+                    position: absolute;
+                    top: 20%;
+                    left: 50%;
+                    transform: translateX(-50%);
+
+                    .van-cell.van-field {
+                        padding: rem(24);
+                        box-sizing: border-box;
+                        margin-top: 0;
+                        background: #f7f7f7;
+                        border-radius: rem(12);
+
+                        .van-field__control {
+                            font-family: PingFangSC-Medium;
+                            font-size: rem(36);
+                            color: #262626;
+                        }
+                    }
+                }
+
+                .van-hairline--top-bottom:after,
+                .van-hairline-unset--top-bottom:after {
+                    border-width: 0px !important;
+                }
+
+                .right-icon {
+                    position: absolute;
+                    right: rem(24);
+                    top: rem(5);
+                    font-size: rem(36);
+                    color: #8c8c8c;
+                }
+            }
+        }
+
+        .change-status {
+            height: rem(102);
+            line-height: rem(102);
+            @include fontSize(30);
+            font-family: PingFangSC-Regular;
+            text-align: center;
+
+            .cancel {
+                width: 50%;
+                color: #8c8c8c;
+                letter-spacing: 0;
+                border-right: 1px solid #eee;
+                box-sizing: border-box;
+                float: left;
+            }
+
+            .confirm {
+                width: 50%;
+                color: #262626;
+                letter-spacing: 0;
+                border-left: 1px solid #eee;
+                box-sizing: border-box;
+                float: left;
+            }
+        }
+
+        .yesbtn {
+            position: absolute;
+            height: rem(100);
+            text-align: center;
+            line-height: rem(100);
+            background: #f56c01;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            border-radius: 0 0 rem(12) rem(12);
+            color: #fff;
+            letter-spacing: rem(5);
+            @include fontSize(36);
+        }
+    }
+}
+
+.am-list-body {
+    border-radius: rem(16);
+}
+html:not([data-scale]) .am-list-body::before {
+    height: 0;
+}
+html:not([data-scale]) .am-list-body::after {
+    height: 0;
+}
+html:not([data-scale]) .am-list-body div:not(:last-child) .am-list-line::after {
+    height: 0;
+    background-color: none !important ;
+}

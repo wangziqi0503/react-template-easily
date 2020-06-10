@@ -6,6 +6,7 @@ import Nav from './components/nav/nav'
 import CarList from './components/carList/carList'
 import SkuList from './components/skuList/skuList'
 import CommodityMarket from './components/commodityMarket/index'
+import Mileage from './components/mileage/mileage'
 import Loading from '../../components/Loading/Loading'
 
 /** utils */
@@ -90,8 +91,6 @@ class Home extends Component {
     render() {
         const { defaultCar, carListStatus, commodiyStatus, carList, allData } = this.props
         const isFetch = this.props.loading.models['homeInfo'] && !this.props.loading.effects['homeInfo/getDiscount']
-        // let allDatar = allData.size > 0 ? allData.toJS() : allData
-        // console.log('渲染', allDatar)
         return (
             <div id='pagehome'>
                 {isFetch ? (
@@ -99,6 +98,7 @@ class Home extends Component {
                 ) : (
                     <div className='new-scelfmaintain'>
                         {/* <Test allData={allData} /> */}
+                        <Mileage />
                         <CarInfo carList={defaultCar} />
                         <Nav navFixed={this.state.navFixed} defaultCar={defaultCar} allData={allData} />
                         <SkuList allData={allData} />

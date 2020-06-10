@@ -6,6 +6,7 @@ $btnPress_color: rgba(255, 255, 255, 0.4);
 html {
     height: 100%;
     width: 100%;
+    touch-action: none; /*防止antd组件点击报错*/
     -webkit-tap-highlight-color: transparent;
 }
 
