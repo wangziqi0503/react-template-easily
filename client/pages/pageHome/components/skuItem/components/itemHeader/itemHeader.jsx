@@ -159,6 +159,18 @@ const ItemHeader = (props) => {
         }
     }, [props.item.checked])
 
+    // 展示项目说明
+    const showTip = (item) => {
+        props.dispatch({
+            type: 'introduce/setIntroduceData',
+            payload: item
+        })
+        props.dispatch({
+            type: 'introduce/setIntroduceStatus',
+            payload: true
+        })
+    }
+
     return (
         <div className='maintain-item-header'>
             <div className='header-bg' style={{ display: item.checked === 1 ? 'block' : 'none' }}></div>
@@ -175,7 +187,11 @@ const ItemHeader = (props) => {
             <div className='maintain-item-header-middle'>
                 <div className='maintain-item-header-middle-top'>
                     <span className='maintain-item-title'>{item.name}</span>
-                    <span className='maintain-item-tip'></span>
+                    <span
+                        className='maintain-item-tip'
+                        onClick={() => {
+                            showTip(item)
+                        }}></span>
                     {item.emergency === 1 || item.emergency === 2 ? (
                         <span className='maintain-item-status-icon'></span>
                     ) : null}

@@ -1,0 +1,50 @@
+@import '~@/common/style/mixins.scss';
+@import '~@/common/style/base.scss';
+.popup {
+    position: fixed;
+    bottom: 0;
+    z-index: 300;
+    background-color: rgba(0, 0, 0, 0.8);
+    height: 100%;
+    width: 100%;
+    left: 0;
+    .content {
+        background: #fff;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: rem(630);
+        border-radius: rem(24);
+        box-sizing: border-box;
+        padding: rem(55);
+        .off-btn {
+            background: url(~@/common/assets/close-red.png);
+            width: rem(60);
+            height: rem(60);
+            position: absolute;
+            bottom: rem(-120);
+            right: rem(285);
+            background-size: cover;
+        }
+        .serve-title {
+            @include fontSize(30);
+            text-align: center;
+            color: #222222;
+            font-weight: 600;
+            margin-bottom: rem(40);
+        }
+        .serve-tips {
+            text-align: center;
+            @include fontSize(24);
+            color: #f2270c;
+        }
+        .serve-intrudes {
+            margin-top: rem(50);
+            @include fontSize(24);
+            color: #666666;
+            max-height: rem(680);
+            overflow: scroll;
+        }
+    }
+}

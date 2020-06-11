@@ -1,0 +1,219 @@
+@import '~@/common/style/mixins.scss';
+
+.new-settlement {
+    // height: rem(100);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 100;
+    left: 0;
+    // box-shadow: 0 rem(-20) rem(-20) 0 rgba(93,136,255,0.06);
+    box-shadow: 0 rem(-20) rem(20) 0 rgba(93, 136, 255, 0.06);
+    border-radius: rem(24) rem(24) 0 0;
+
+    .tipBar {
+        height: rem(70);
+        padding-left: rem(63);
+        color: #ef7714;
+        @include fontSize(22);
+        line-height: rem(70);
+        background: #fdfae5 url('~@/common/assets/Group33.png') no-repeat rem(20) center;
+        background-size: rem(29);
+    }
+
+    .tipBarDark {
+        height: rem(70);
+        padding-left: rem(63);
+        color: #fff;
+        @include fontSize(22);
+        line-height: rem(70);
+        background: rgba(185, 184, 184, 0.95) url('~@/common/assets/Group 35.png') no-repeat rem(20) center;
+        background-size: rem(29);
+    }
+
+    .new-shop-car-div {
+        height: rem(124);
+        position: relative;
+        /*background: #4A4A4A;*/
+        border-radius: rem(24) rem(24) 0 0;
+
+        &.iPhoneXSMAX {
+            //padding-bottom: rem(35);
+        }
+
+        .price-service {
+            height: 100%;
+            background: #fff;
+            border-radius: rem(24) rem(24) 0 0;
+
+            .total-num {
+                height: 100%;
+                float: left;
+                margin-left: rem(60);
+                font-family: PingFangSC-Light;
+                @include fontSize(24);
+                color: #8c8c8c;
+                line-height: rem(144);
+            }
+
+            .total-price {
+                display: none;
+                float: left;
+                margin-left: rem(24);
+                height: 100%;
+
+                .total-price-tit {
+                    font-family: PingFangSC-Medium;
+                    height: 100%;
+                    @include fontSize(24);
+                    line-height: rem(144);
+                    float: left;
+                    color: #262626;
+                }
+
+                .price-val {
+                    float: left;
+                    height: 100%;
+                    @include fontSize(24);
+
+                    .price-num {
+                        font-family: JDZhengHT-EN-Regular;
+                        @include fontSize(48);
+                        padding-top: rem(38);
+
+                        .xiaoshu {
+                            @include fontSize(24);
+                        }
+                    }
+
+                    .price-tips {
+                        @include fontSize(18);
+                    }
+                }
+            }
+
+            .call-service {
+                float: left;
+                height: 100%;
+                width: rem(130); // margin-left: rem(14);
+                // padding-left: rem(34);
+                // box-sizing: content-box;
+                position: relative;
+                text-align: center;
+
+                .icon-customer {
+                    display: block;
+                    position: absolute;
+                    top: rem(17);
+                    left: rem(58);
+                    height: rem(40);
+                    width: rem(46);
+                    background: url('~@/common/assets/service.png');
+                    background-size: cover;
+                }
+
+                .call-word {
+                    @include fontSize(22);
+                    color: #fff;
+                    position: absolute;
+                    bottom: rem(20);
+                    left: rem(34);
+                    height: rem(22);
+                    width: 100%;
+                    text-align: left;
+                }
+            }
+
+            .shop-car {
+                float: left;
+                margin-left: rem(40);
+                text-align: center;
+                position: relative;
+                width: rem(72);
+                height: 100%;
+
+                .shop-num {
+                    display: block;
+                    height: rem(28);
+                    width: rem(28);
+                    background: #ff4630;
+                    position: absolute;
+                    border-radius: rem(32);
+                    top: rem(11);
+                    @include fontSize(20);
+                    right: rem(-5);
+                    color: #fff;
+                    text-align: center;
+                    line-height: rem(28);
+                }
+
+                .icon-cartCar {
+                    width: rem(44);
+                    height: rem(35);
+                    background: url('~@/common/assets/shopcar.png');
+                    background-size: cover;
+                    position: absolute;
+                    top: rem(21);
+                    left: rem(14);
+                }
+
+                .shop-car-tit {
+                    @include fontSize(22);
+                    color: #fff;
+                    position: absolute;
+                    bottom: rem(20);
+                    width: 120%;
+                    left: 0;
+                    text-align: center;
+                    height: rem(22); // width: 100%;
+                }
+            }
+        }
+
+        .shop-check {
+            width: rem(224);
+            border-radius: rem(38);
+            position: absolute;
+            right: rem(36);
+            height: rem(76);
+            background: #f2270c;
+            color: #fff;
+            text-align: center;
+            line-height: rem(76);
+            top: rem(24);
+        }
+
+        .banshop {
+            width: rem(224);
+            border-radius: rem(38);
+            position: absolute;
+            right: rem(36);
+            height: rem(76);
+            background: #999;
+            color: #fff;
+            text-align: center;
+            line-height: rem(76);
+            top: rem(24);
+        }
+    }
+
+    .warning + .new-shop-car-div {
+        border-radius: 0 0;
+
+        .price-service {
+            border-radius: 0 0;
+        }
+    }
+}
+
+.hideclass {
+    display: none;
+}
+
+@media only screen and (width: 375px) and (min-height: 635px) and (-webkit-device-pixel-ratio: 3) {
+    .settlement {
+        padding-bottom: constant(safe-area-inset-bottom);
+        padding-bottom: env(safe-area-inset-bottom);
+        background-color: #fff;
+    }
+}

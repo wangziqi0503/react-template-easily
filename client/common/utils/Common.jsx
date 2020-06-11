@@ -918,3 +918,257 @@ export const setPrice = (val) => {
     sessionStorage.setItem('LOCAL_PRICE_RANGE', JSON.stringify(val)) //筛选价格的范围
     return val
 }
+
+// 提取大数组里面的项目合并到mantain数组里进行处理
+export const getMantainArr = (val) => {
+    let ArrList = []
+    val.forEach((element) => {
+        // 获取保养项目中服务的id数
+        element.maintenanceItemInstances.forEach((ele) => {
+            ArrList.push(ele)
+        })
+    })
+    return ArrList
+}
+
+/**
+ *
+ * @param {Array} skuServerList 选中的服务列表
+ */
+export const counttotalPrice = (skuServerList) => {
+    let totalSkuPrice = 0
+    let choseSkuList = []
+    let choseSkuNumList = []
+    let skuInfos = []
+    let skuOther = []
+    let skuSmall = []
+    let skuAllArr = []
+    let totalSku = 0
+    let choseSkuObj = {} //当前处于选中状态的实物数据
+    let serviceType = ''
+    skuServerList.forEach((element) => {
+        if (element.checked == true) {
+            //被选中
+            element.relateService.forEach((ele) => {
+                serviceType = ele.serviceType
+                if (ele.maintenanceBSkus && ele.maintenanceBSkus.length > 0) {
+                    ele.maintenanceBSkus.forEach((el) => {
+                        let tempPrice = 0
+                        let itemObj = {
+                            Id: el.carBSku.sku,
+                            num: el.skuNumber
+                        }
+
+                        // can2Shop:是否支持配送到店；bSkuNum：sku数量, bSku: 所选skuId， proNumExt：单个sku包含的商品数量，如火花塞有4只装
+                        let skuObj = {
+                            bSku: el.carBSku.sku,
+                            can2Shop: el.carBSku.can2Shop,
+                            bSkuNum: el.skuNumber,
+                            price: el.carBSku.mJdPrice,
+                            // proNumExt:(el.carBSku.cid3 == 6767)?
+                            serviceCatId: serviceType
+                        }
+                        if (el.carBSku.cid3 == 6767) {
+                            let proNumExt = ''
+                            el.carBSku.extAttrList.forEach((item) => {
+                                if (item.labelId == 2762) {
+                                    proNumExt += item.labelId + '-' + item.valId
+                                }
+                            })
+                            skuObj.proNumExt = proNumExt
+                        }
+                        if (el.carBSku.mJdPrice != '暂无报价') {
+                            tempPrice = parseFloat(el.carBSku.mJdPrice)
+                        }
+                        choseSkuList.push(el.carBSku.sku)
+                        choseSkuNumList.push(itemObj)
+                        skuInfos.push(skuObj)
+                        totalSkuPrice += tempPrice * el.skuNumber
+                        totalSku += el.skuNumber
+                    })
+                }
+            })
+        }
+        if (element.checked == true && element.name !== '小保养') {
+            element.relateService.forEach((ele) => {
+                serviceType = ele.serviceType
+                if (ele.maintenanceBSkus && ele.maintenanceBSkus.length > 0) {
+                    ele.maintenanceBSkus.forEach((el) => {
+                        let skuObj = {
+                            bSku: el.carBSku.sku,
+                            can2Shop: el.carBSku.can2Shop,
+                            bSkuNum: el.skuNumber,
+                            price: el.carBSku.mJdPrice,
+                            // proNumExt:(el.carBSku.cid3 == 6767)?
+                            serviceCatId: serviceType
+                        }
+                        if (el.carBSku.cid3 == 6767) {
+                            let proNumExt = ''
+                            el.carBSku.extAttrList.forEach((item) => {
+                                if (item.labelId == 2762) {
+                                    proNumExt += item.labelId + '-' + item.valId
+                                }
+                            })
+                            skuObj.proNumExt = proNumExt
+                        }
+                        skuOther.push(skuObj)
+                    })
+                }
+            })
+        }
+        if (element.checked == true && element.name === '小保养') {
+            element.relateService.forEach((ele) => {
+                serviceType = ele.serviceType
+                if (ele.maintenanceBSkus && ele.maintenanceBSkus.length > 0) {
+                    ele.maintenanceBSkus.forEach((el) => {
+                        let skuObj = {
+                            bSku: el.carBSku.sku,
+                            can2Shop: el.carBSku.can2Shop,
+                            bSkuNum: el.skuNumber,
+                            price: el.carBSku.mJdPrice,
+                            // proNumExt:(el.carBSku.cid3 == 6767)?
+                            serviceCatId: serviceType,
+                            oilExtSize: el.oilExtSize ? el.oilExtSize : -1
+                        }
+                        if (el.carBSku.cid3 == 6767) {
+                            let proNumExt = ''
+                            el.carBSku.extAttrList.forEach((item) => {
+                                if (item.labelId == 2762) {
+                                    proNumExt += item.labelId + '-' + item.valId
+                                }
+                            })
+                            skuObj.proNumExt = proNumExt
+                        }
+                        skuSmall.push(skuObj)
+                    })
+                }
+            })
+        }
+    })
+
+    skuAllArr = [skuSmall, skuOther, totalSku]
+
+    choseSkuObj.choseSkuList = choseSkuList
+    choseSkuObj.choseSkuNumList = choseSkuNumList
+    totalSkuPrice = totalSkuPrice.toFixed(2)
+    sessionStorage.setItem('skuInfos', JSON.stringify(skuInfos))
+    // sessionStorage.setItem('skuTotalmoney', JSON.stringify(state.skuTotalmoney))
+    sessionStorage.setItem('choseSkuObj', JSON.stringify(choseSkuObj))
+
+    return skuAllArr
+}
+
+//获取门店页有无数据，判断是否有符合门店支持，更新底部导航栏的状态
+export const isHaveShop = (maintainDataArr) => {
+    let skuids = []
+    const mainData = getMantainArr(maintainDataArr)
+    mainData.forEach((element) => {
+        if (element.checked == 1) {
+            element.relateService.forEach((ele) => {
+                if (ele.maintenanceBSkus && ele.maintenanceBSkus.length > 0) {
+                    ele.maintenanceBSkus.forEach((el) => {
+                        if (el.skuNumber != 0) {
+                            skuids.push(el.carBSku.sku)
+                        }
+                    })
+                }
+            })
+        }
+    })
+
+    let SkuData = {
+        skuIds: skuids.toString(','),
+        lng: getCookie('longitude') ? getCookie('longitude') : '',
+        lat: getCookie('latitude') ? getCookie('latitude') : '',
+        provinceCode: getCookie('person_area1') ? getCookie('person_area1') : ''
+    }
+
+    return SkuData
+}
+
+export const iPhoneW = () => {
+    // iPhone X、iPhone XS
+    var isIPhoneX$S =
+        /iphone/gi.test(window.navigator.userAgent) &&
+        window.devicePixelRatio &&
+        window.devicePixelRatio === 3 &&
+        window.screen.width === 375 &&
+        window.screen.height === 812
+    // iPhone XS Max
+    var isIPhoneXSMax =
+        /iphone/gi.test(window.navigator.userAgent) &&
+        window.devicePixelRatio &&
+        window.devicePixelRatio === 3 &&
+        window.screen.width === 414 &&
+        window.screen.height === 896
+    // iPhone XR
+    var isIPhoneXR =
+        /iphone/gi.test(window.navigator.userAgent) &&
+        window.devicePixelRatio &&
+        window.devicePixelRatio === 2 &&
+        window.screen.width === 414 &&
+        window.screen.height === 896
+
+    return {
+        isIPhoneX$S: isIPhoneX$S,
+        isIPhoneXSMax: isIPhoneXSMax,
+        isIPhoneXR: isIPhoneXR
+    }
+}
+
+// 判断是否是iPhoneXSMAX
+export const isIPhoneXSMax = () => {
+    return iPhoneW().isIPhoneXSMax
+}
+
+// 筛选重复的sku,将数量累加
+export const filterArr = (arr) => {
+    let strArr = []
+    let skuNum = []
+    let skuprice = []
+    let skuData = []
+    let newSkuData = []
+    let resultArr = []
+
+    arr.forEach((element, index) => {
+        skuData.push({})
+        skuData[index].bSku = element.bSku.toString()
+        skuData[index].bSkuNum = element.bSkuNum
+        skuData[index].price = element.price
+        if (element.oilExtSize) {
+            skuData[index].oilExtSize = element.oilExtSize
+        }
+    })
+
+    skuData = skuData.sort(compare('oilExtSize'))
+    const skuMap = {}
+
+    newSkuData = skuData.reduce((cur, next, index) => {
+        if (skuMap[next.bSku]) {
+            const index = skuMap[next.bSku].arrIndex
+            cur[index].bSkuNum += next.bSkuNum
+        } else {
+            skuMap[next.bSku] = { arrIndex: index }
+            cur.push(next)
+        }
+        return cur
+    }, [])
+
+    newSkuData.forEach((element) => {
+        if (element.bSkuNum != 0) {
+            strArr.push(element.bSku)
+            skuNum.push(element.bSkuNum)
+            skuprice.push(element.price)
+        }
+    })
+    resultArr.push(strArr, skuNum, skuprice)
+    return resultArr
+}
+// 按照某属性进行倒排
+export const compare = (property) => {
+    return function (a, b) {
+        let value1 = a[property]
+        let value2 = b[property]
+        return value2 - value1
+    }
+}

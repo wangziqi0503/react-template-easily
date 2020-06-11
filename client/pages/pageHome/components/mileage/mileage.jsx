@@ -75,11 +75,6 @@ const Mileage = (props) => {
                 })
             }
         })
-
-        // props.dispatch({
-        //     type: 'mileage/getMileage',
-        //     payload: data
-        // })
     }
 
     return (
