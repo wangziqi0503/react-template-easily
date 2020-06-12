@@ -66,6 +66,9 @@ export const getBasePath = (type) => {
         case 'cargw':
             url = '//cargm.m.jd.com/h5'
             break
+        case 'addCar':
+            url = ''
+            break
         default:
             url = `//${window.location.host}/h5`
     }
@@ -1052,7 +1055,6 @@ export const counttotalPrice = (skuServerList) => {
     choseSkuObj.choseSkuNumList = choseSkuNumList
     totalSkuPrice = totalSkuPrice.toFixed(2)
     sessionStorage.setItem('skuInfos', JSON.stringify(skuInfos))
-    // sessionStorage.setItem('skuTotalmoney', JSON.stringify(state.skuTotalmoney))
     sessionStorage.setItem('choseSkuObj', JSON.stringify(choseSkuObj))
 
     return skuAllArr
@@ -1170,5 +1172,18 @@ export const compare = (property) => {
         let value1 = a[property]
         let value2 = b[property]
         return value2 - value1
+    }
+}
+
+//跳转购物车
+export const goJdCart = () => {
+    var type = getLoginCodeType()
+    if (type == 'app') {
+        location.href =
+            'openApp.jdMobile://virtual?params={"category":"jump","des":"cartB","sourceType":"MCAR_SOURCE_TYPE","sourceValue":"MCAR_SOURCE_VALUE", "landPageId":""}'
+    } else if (type == 'wx' || type == 'qq') {
+        location.href = 'https:///wqs.jd.com/my/cart/jdshopcart.shtml?ptag=137594.1.1'
+    } else {
+        location.href = 'https:///p.m.jd.com/cart/cart.action'
     }
 }

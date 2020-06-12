@@ -6,7 +6,7 @@
  * @Description: In User Settings Edit
  * @FilePath: /react-template-easily/client/models/pageHome/carListModel.js
  */
-import { setDefaultCarData, getSkuData, getShaiXuanData, getSkuMakeUp, querySkuPrice } from '../../api/home'
+import { getSkuData, getShaiXuanData, getSkuMakeUp, querySkuPrice } from '../../api/home'
 import { isNotEmpty, filterPrice, getGoodsSkuArr } from '../../common/utils/Common'
 import { fromJS } from 'immutable'
 export default {

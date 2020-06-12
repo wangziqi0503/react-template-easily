@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'dva'
+import { getSkuItemData } from '@/api/home'
 import { getCookie, isNotEmpty } from '@/common/utils/Common'
+
 const mapStateToProps = (state) => {
     return {
-        allData: state.homeInfo.allData
+        allData: state.homeInfo.allData,
+        mainData: state.homeInfo.mainData
     }
 }
 
@@ -38,7 +41,7 @@ const ItemHeader = (props) => {
 
         item.relateService.forEach((ele, i) => {
             maintenanceBSkusArr = ele.maintenanceBSkus
-            ele.maintenanceBSkus.forEach((item, index) => {
+            ele.maintenanceBSkus.forEach((item) => {
                 if (item.skuNumber !== 0) {
                     skuArr.push(item.carBSku.sku)
                 }
@@ -59,6 +62,46 @@ const ItemHeader = (props) => {
         }
 
         return SkuData
+    }
+
+    // 获取满减优惠券数据并更新数据
+    const getDiscountAndFreeData = () => {
+        const getParmas = getFreeParams()
+        props.dispatch({
+            type: 'homeInfo/getDiscount',
+            payload: getParmas.data,
+            callback: (res) => {
+                if (res.code === '0') {
+                    // 满减
+                    if (isNotEmpty(res.data.discounts) && res.data.discounts != null) {
+                        item.discountInfo = res.data.discounts
+                    }
+                    // // 免费安装
+                    if (res.data.skuFreeInstalls) {
+                        res.data.skuFreeInstalls.forEach((element, index) => {
+                            if (element.freeInstall) {
+                                if (element.skuId == getParmas.skuArr[index]) {
+                                    getParmas.maintenanceBSkusArr[index].carBSku.freeInstall = element.freeInstall
+                                }
+                            } else {
+                                getParmas.maintenanceBSkusArr[index].carBSku.freeInstall = false
+                            }
+                            getParmas.maintenanceBSkusArr[index].carBSku.complimentarySkuNames =
+                                res.data.skuFreeInstalls[index].complimentarySkuNames
+                        })
+                    }
+                    // 优惠券显示与否
+                    item.skuCouponFlag = res.data.skuCouponFlag
+                }
+                allData[index].havingCount++
+                allData[index].maintenanceItemInstances[subIndex] = item
+
+                props.dispatch({
+                    type: 'homeInfo/resetAllData',
+                    payload: allData
+                })
+            }
+        })
     }
 
     // 编辑保存切换
@@ -96,40 +139,21 @@ const ItemHeader = (props) => {
             checkSkuNumber()
             if (checked === 1) {
                 item.showType = 1
-                const getParmas = getFreeParams()
-                props.dispatch({
-                    type: 'homeInfo/getDiscount',
-                    payload: getParmas.data,
-                    callback: (res) => {
-                        if (res.code === '0') {
-                            // 满减
-                            if (isNotEmpty(res.data.discounts) && res.data.discounts != null) {
-                                item.discountInfo = res.data.discounts
-                            }
-                            // // 免费安装
-                            if (res.data.skuFreeInstalls) {
-                                res.data.skuFreeInstalls.forEach((element, index) => {
-                                    if (element.freeInstall) {
-                                        if (element.skuId == getParmas.skuArr[index]) {
-                                            getParmas.maintenanceBSkusArr[index].carBSku.freeInstall =
-                                                element.freeInstall
-                                        }
-                                    } else {
-                                        getParmas.maintenanceBSkusArr[index].carBSku.freeInstall = false
-                                    }
-                                    getParmas.maintenanceBSkusArr[index].carBSku.complimentarySkuNames =
-                                        res.data.skuFreeInstalls[index].complimentarySkuNames
+                // 判断当前栏目下是否已经存在商品
+                item.relateService.forEach((element) => {
+                    if (element.maintenanceBSkus && element.maintenanceBSkus.length > 0) {
+                        getDiscountAndFreeData()
+                    } else {
+                        props.mainData.typeIds = item.id
+                        getSkuItemData(props.mainData).then((res) => {
+                            if (res.data && res.data.length > 0) {
+                                res.data.forEach((subItem) => {
+                                    element.maintenanceBSkus = subItem.maintenanceBSkus
                                 })
                             }
-                            // 优惠券显示与否
-                            item.skuCouponFlag = res.data.skuCouponFlag
-                        }
-                        allData[index].havingCount++
-                        allData[index].maintenanceItemInstances[subIndex] = item
-
-                        props.dispatch({
-                            type: 'homeInfo/resetAllData',
-                            payload: allData
+                            if (element.maintenanceBSkus && element.maintenanceBSkus.length > 0) {
+                                getDiscountAndFreeData()
+                            }
                         })
                     }
                 })

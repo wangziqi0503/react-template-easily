@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'dva'
 import { useSelector } from 'react-redux'
-import { counttotalPrice, getMantainArr, isHaveShop, getCookie, isIPhoneXSMax, filterArr } from '@/common/utils/Common'
+import { addSkusToShopcar } from '@/api/home'
+import Toast from '@/components/Toast/Toast'
+import {
+    counttotalPrice,
+    getMantainArr,
+    isHaveShop,
+    getCookie,
+    isIPhoneXSMax,
+    filterArr,
+    goJdCart
+} from '@/common/utils/Common'
 import './settlement.scss'
 
 const Settlement = React.memo((props) => {
@@ -49,6 +59,24 @@ const Settlement = React.memo((props) => {
             // console.log(str)
             // let str = `http://fcaryf.jd.com/carService/m/index.html#indexMaintain/sku:${strArr.join('_')}/skuNum:${skuNum.join('_')}/prices:${skuprice.join('_')}/area:${area}/lng:${lng}/lat:${lat}/modelId:${this.archivesCar.modelId}`
             window.location.href = str
+        } else if (stateNum == 1) {
+            //没有门店
+            const choseSkuObj = JSON.parse(sessionStorage.getItem('choseSkuObj'))
+            const skus = choseSkuObj.choseSkuList
+            addSkusToShopcar({
+                skus: skus,
+                success: (issuccess) => {
+                    if (issuccess) {
+                        Toast.toastInstance('成功加入购物车！', 1500)
+                        goJdCart()
+                    } else {
+                        Toast.toastInstance('成功加入购物车！', 1500)
+                    }
+                },
+                error: function () {
+                    console.log('报错了')
+                }
+            })
         }
     }
 

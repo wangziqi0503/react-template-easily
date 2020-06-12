@@ -34,7 +34,8 @@ Const.nativeInfo = {}
 Const.statisticalInfo = {}
 
 Const.requestUrl = {
-    allData: '/mClient/maintenance/self-maintenanceUpdate',
+    allData: '/mClient/maintenance/recommendSku',
+    clickUnitSku: '/mClient/maintenance/clickUnitSku',
     carList: '/mClient/userCar/listCars4bc',
     address: `/mClient?functionId=addressOperate&body={"operate":"15"}&client=m&uuid='${new Date().valueOf()}`,
     setDefaultCarData: '/mClient',

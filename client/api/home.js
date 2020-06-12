@@ -9,6 +9,7 @@
 
 import Service from '../service/Service'
 import Const from '../common/constant/Constant'
+import { isEmpty, isNotEmpty, getBasePath } from '../common/utils/Common'
 
 // 获取车列表接口
 export function getCarList() {
@@ -18,6 +19,11 @@ export function getCarList() {
 // 获取全部sku数据接口
 export function getAllData(info) {
     return Service.jsonp(Const.requestUrl.allData, info)
+}
+
+// 获取当前点击sku数据
+export const getSkuItemData = (val) => {
+    return Service.jsonp(Const.requestUrl.clickUnitSku, val)
 }
 
 // 获取用户地址信息接口
@@ -67,4 +73,50 @@ export const getSkuMakeUp = (data) => {
 //里程和上传时间接口
 export const setMileage = (val) => {
     return Service.jsonp(Const.requestUrl.mileage, val)
+}
+
+//加入购物车
+export const addSkusToShopcar = (options) => {
+    let skus = options.skus
+    if (isEmpty(skus)) {
+        return
+    }
+    let newSkus = []
+    for (let i = 0, l = skus.length; skus != null && i < l; i++) {
+        let item = skus[i]
+        newSkus.push({
+            id: item.Id,
+            num: item.num,
+            lsid: isNotEmpty(item.lsid) ? item.lsid : '',
+            packId: isNotEmpty(item.packId) ? item.packId : '',
+            packMainSku: isNotEmpty(item.packMainSku) ? item.packMainSku : ''
+        })
+    }
+    let json = JSON.stringify(newSkus)
+    // let url = utils.getHost()+"?functionId=cartOperate&body={\"operate\":2,\"skus\":"+json+"}&uuid= + (new Date()).valueOf();
+    let url =
+        "https://cargw.jd.com/mClient/carCart/cart?functionId=cartOperate&body={'operate':2,'skus':" +
+        json +
+        ",'uniqueKey':\"" +
+        options.uniqueKey +
+        '"}&uuid=' +
+        new Date().valueOf()
+    Service.jsonp(url).then(
+        function (res) {
+            if (res.code == 0) {
+                if (options.success) {
+                    options.success(true)
+                }
+            } else {
+                if (options.success) {
+                    options.success(false)
+                }
+            }
+        },
+        function (error) {
+            if (options.error) {
+                options.error(error)
+            }
+        }
+    )
 }
