@@ -1,0 +1,131 @@
+@import '~@/common/style/mixins.scss';
+@import '~@/common/style/flex.scss';
+.coupon-list {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+
+    &__content {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: rem(900);
+        background: #ffffff;
+        border-radius: rem(24) rem(24) 0 0;
+        overflow-y: scroll;
+        .coupon-list__all {
+            // padding: 20px;
+            box-sizing: border-box;
+
+            .coupon-list__item {
+                margin-bottom: rem(20);
+                width: rem(710);
+                padding: 0 rem(20);
+                .item-left {
+                    width: rem(250);
+                    height: rem(200);
+                    background: url('~@/common/assets/bj-coupon.png');
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: cover;
+                    text-align: center;
+                    color: #ffffff;
+
+                    .price {
+                        margin: rem(26) 0 0 0;
+
+                        .rmb {
+                            font-size: rem(40);
+                            color: #ffffff;
+                            // vertical-align: super;
+                        }
+
+                        .discount {
+                            font-size: rem(88);
+                            color: #ffffff;
+                        }
+                    }
+                    .quota {
+                        margin-bottom: rem(24);
+                    }
+                }
+
+                .item-right {
+                    width: rem(460);
+                    height: rem(198);
+                    background: #ffffff;
+                    border: 1px solid #f6f6f6;
+                    box-shadow: 0 rem(10) rem(10) rem(2) rgba(192, 192, 192, 0.14);
+                    padding: rem(21);
+                    box-sizing: border-box;
+
+                    .coupon-info {
+                        width: rem(400);
+                        height: rem(140);
+                        text-align: left;
+                        align-items: flex-start;
+
+                        .type {
+                            background: #f02f0f;
+                            border-radius: rem(20);
+                            color: #ffffff;
+                            font-size: rem(20);
+                            margin-right: rem(5);
+                            padding: 0 rem(10);
+                        }
+
+                        .name {
+                            font-family: PingFangSC-Semibold;
+                            font-size: rem(24);
+                            color: #2e2d2d;
+                            letter-spacing: rem(-0.58);
+                            line-height: rem(38);
+                        }
+                        .time {
+                            font-family: JDZhengHT-EN-Regular;
+                            font-size: rem(24);
+                            color: #2e2d2d;
+                            letter-spacing: rem(-0.58);
+                            line-height: rem(24);
+                        }
+                    }
+
+                    .btn {
+                        flex-shrink: 0;
+                        background: #f02f0f;
+                        color: #ffffff;
+                        border-radius: rem(20);
+                        font-size: rem(20);
+                        padding: rem(2) rem(6);
+                    }
+
+                    .received {
+                        background: #f2f2f2;
+                        color: #d1d1d1;
+                    }
+                }
+            }
+        }
+    }
+
+    &__title {
+        width: 100%;
+        height: rem(108);
+        padding: rem(36);
+        box-sizing: border-box;
+
+        span {
+            font-size: rem(36);
+            color: #262626;
+        }
+        .close-img {
+            width: rem(40);
+            height: rem(40);
+        }
+    }
+}

@@ -90,7 +90,6 @@ const Commodity = (props) => {
                         })
                     }
                 }
-                console.log('alldata===', allData)
                 props.dispatch({
                     type: 'homeInfo/saveAllData',
                     payload: allData

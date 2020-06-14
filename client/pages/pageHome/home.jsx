@@ -7,6 +7,7 @@ import CarList from './components/carList/carList'
 import SkuList from './components/skuList/skuList'
 import CommodityMarket from './components/commodityMarket/index'
 import Mileage from './components/mileage/mileage'
+import Coupon from './components/coupon/coupon'
 import Introduce from './components/introduce/introduce'
 import Settlement from './components/settlement/settlement'
 import Loading from '../../components/Loading/Loading'
@@ -102,6 +103,7 @@ class Home extends Component {
                         {/* <Test allData={allData} /> */}
                         <Mileage />
                         <Introduce />
+                        <Coupon />
                         <CarInfo carList={defaultCar} />
                         <Nav navFixed={this.state.navFixed} defaultCar={defaultCar} allData={allData} />
                         <SkuList allData={allData} />
