@@ -1,17 +1,17 @@
 import React from 'react'
-import { connect } from 'dva'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import './introduce.scss'
 
-const Introduce = (props) => {
+const Introduce = () => {
+    const dispatch = useDispatch()
     const isShow = useSelector((state) => state.introduce.introduceStatus)
     const data = useSelector((state) => state.introduce.introduceData)
     const closeDialog = () => {
-        props.dispatch({
+        dispatch({
             type: 'introduce/setIntroduceData',
             payload: {}
         })
-        props.dispatch({
+        dispatch({
             type: 'introduce/setIntroduceStatus',
             payload: false
         })
@@ -32,4 +32,4 @@ const Introduce = (props) => {
     )
 }
 
-export default connect()(Introduce)
+export default Introduce

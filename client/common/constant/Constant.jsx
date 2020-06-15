@@ -44,7 +44,9 @@ Const.requestUrl = {
     getSkuData: '/mClient/sku/search',
     getShaiXuanData: '/mClient/sku/agg',
     skuMakeUp: '/mClient/maintenance/skuMakeUp',
-    mileage: '/mClient'
+    mileage: '/mClient',
+    couponList: '/mClient/maintenance/queryMaintenceCoupons',
+    getCoupon: '/mClient/maintenance/getMaintenceCoupon'
 }
 
 export default Const

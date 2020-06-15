@@ -1,6 +1,6 @@
 import React from 'react'
 import './noCommodity.scss'
-import '../../../../../../common/assets/default_icon.png'
+import '@/common/assets/default_icon.png'
 
 const NoCommodity = () => {
     return (

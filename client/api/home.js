@@ -75,6 +75,16 @@ export const setMileage = (val) => {
     return Service.jsonp(Const.requestUrl.mileage, val)
 }
 
+// 获取优惠券列表
+export const getCouponList = (val) => {
+    return Service.jsonp(Const.requestUrl.couponList, val)
+}
+
+// 优惠券接口列表
+export const getCarCoupon = (val) => {
+    return Service.jsonp(Const.requestUrl.getCoupon, val)
+}
+
 //加入购物车
 export const addSkusToShopcar = (options) => {
     let skus = options.skus

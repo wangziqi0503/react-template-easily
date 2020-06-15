@@ -1,21 +1,16 @@
 import React, { useState, useRef, useMemo, useEffect } from 'react'
-import { connect } from 'dva'
-import Loading from '@/components/Loading/Loading'
+import { useSelector, useDispatch } from 'react-redux'
 import './carinfo.scss'
 
-const mapStateToProps = (state) => {
-    return {
-        carListStatus: state.homeInfo.carListStatus
-    }
-}
-
 const carInfo = (props) => {
+    const dispatch = useDispatch()
+    const carListStatus = useSelector((state) => state.homeInfo.carListStatus)
     const carList = props.carList.size > 0 ? props.carList.toJS() : null
     const topBan = useRef(null)
     let [isCarListShow, setIsCarListShow] = useState(false)
 
     const changeCar = (status) => {
-        props.dispatch({
+        dispatch({
             type: 'homeInfo/setCarList',
             payload: { status: status }
         })
@@ -23,22 +18,22 @@ const carInfo = (props) => {
     }
 
     const editShow = () => {
-        props.dispatch({
+        dispatch({
             type: 'mileage/setMileageStatus',
             payload: true
         })
     }
 
     useEffect(() => {
-        props.dispatch({
+        dispatch({
             type: 'carInfo/getTopBanHeight',
             payload: topBan.current.clientHeight
         })
     }, [])
 
     useMemo(() => {
-        setIsCarListShow(props.carListStatus)
-    }, [props.carListStatus])
+        setIsCarListShow(carListStatus)
+    }, [carListStatus])
 
     return (
         <div id='carInfo' className='top-ban space-between-r' ref={topBan}>
@@ -70,4 +65,4 @@ const carInfo = (props) => {
         </div>
     )
 }
-export default connect(mapStateToProps)(carInfo)
+export default carInfo

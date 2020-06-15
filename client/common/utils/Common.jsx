@@ -91,6 +91,34 @@ export const getTextWidth = function (text, fontSize) {
     return span.offsetWidth
 }
 
+// 补零
+export const getHandledValue = (num) => {
+    return num < 10 ? '0' + num : num
+}
+
+// 时间日期转换
+export const getDate = (timeStamp, startType) => {
+    // 字符串转时间
+    const d = new Date(timeStamp * 1)
+    const year = d.getFullYear()
+    const month = getHandledValue(d.getMonth() + 1)
+    const date = getHandledValue(d.getDate())
+    const hours = getHandledValue(d.getHours())
+    const minutes = getHandledValue(d.getMinutes())
+    const second = getHandledValue(d.getSeconds())
+    let resStr = ''
+    if (startType === 'year') {
+        resStr = year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + second
+    } else if (startType === 'pip') {
+        resStr = year + '-' + month + '-' + date
+    } else if (startType === 'ymd') {
+        resStr = year + '.' + month + '.' + date
+    } else {
+        resStr = month + '-' + date + ' ' + hours + ':' + minutes
+    }
+    return resStr
+}
+
 // iscrool 自定义参数列表
 export const iscrollOtions = {
     click: iScrollClick(),

@@ -14,6 +14,8 @@ import Loading from '../../components/Loading/Loading'
 
 /** utils */
 import { fetchNAParams } from '@/common/utils/Common'
+
+/** scss */
 import './home.scss'
 
 const mapStateToProps = (state) => {

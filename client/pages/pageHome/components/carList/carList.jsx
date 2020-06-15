@@ -1,22 +1,19 @@
 import React from 'react'
-import { connect } from 'dva'
+import { useSelector, useDispatch } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 import Toast from '@/components/Toast/Toast'
 import { fullImg, getBasePath } from '@/common/utils/Common'
 import './carList.scss'
-const mapStateToProps = (state) => {
-    return {
-        mainData: state.homeInfo.mainData
-    }
-}
+
 const CarList = (props) => {
-    const mainData = props.mainData
+    const dispatch = useDispatch()
+    const mainData = useSelector((state) => state.homeInfo.mainData)
     // 关闭车列表弹窗
     const closeList = (event) => {
         // 判断点击区域，点击列表外或X则关闭
         const tagName = event.target.getAttribute('data-type')
         if (tagName === 'carlist-shade' || tagName === 'carlist-close') {
-            props.dispatch({
+            dispatch({
                 type: 'homeInfo/setCarList',
                 payload: { status: false }
             })
@@ -35,7 +32,7 @@ const CarList = (props) => {
             })
         }
 
-        props.dispatch({
+        dispatch({
             type: 'carList/setDefaultCarData',
             payload: { reqData, item, mainData }
         })
@@ -48,7 +45,7 @@ const CarList = (props) => {
 
     // 添加爱车
     const addCar = () => {
-        props.dispatch({
+        dispatch({
             type: 'homeInfo/setCarList',
             payload: { status: false }
         })
@@ -105,4 +102,4 @@ const CarList = (props) => {
         </div>
     )
 }
-export default connect(mapStateToProps)(CarList)
+export default CarList

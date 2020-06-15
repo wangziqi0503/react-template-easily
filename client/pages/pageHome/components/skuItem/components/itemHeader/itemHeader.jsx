@@ -195,6 +195,19 @@ const ItemHeader = (props) => {
         })
     }
 
+    // 获取优惠券列表
+    const getCoupon = (item) => {
+        const skuData = getFreeParams()
+        props.dispatch({
+            type: 'couponList/getCouponList',
+            payload: skuData.data
+        })
+        props.dispatch({
+            type: 'couponList/setCouponListStatus',
+            payload: true
+        })
+    }
+
     return (
         <div className='maintain-item-header'>
             <div className='header-bg' style={{ display: item.checked === 1 ? 'block' : 'none' }}></div>
@@ -249,6 +262,9 @@ const ItemHeader = (props) => {
                         className='discount-icon-text'
                         style={{
                             display: item.skuCouponFlag != null && item.skuCouponFlag ? 'block' : 'none'
+                        }}
+                        onClick={() => {
+                            getCoupon(item)
                         }}>
                         优惠券
                     </span>

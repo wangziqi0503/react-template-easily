@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { connect } from 'dva'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { addSkusToShopcar } from '@/api/home'
 import Toast from '@/components/Toast/Toast'
 import {
@@ -14,7 +13,8 @@ import {
 } from '@/common/utils/Common'
 import './settlement.scss'
 
-const Settlement = React.memo((props) => {
+const Settlement = React.memo(() => {
+    const dispatch = useDispatch()
     let [skuAllArr, setSkuAllArr] = useState([])
     let skuServerList = []
     let skuData = {}
@@ -29,7 +29,7 @@ const Settlement = React.memo((props) => {
             skuServerList = getMantainArr(allData)
             setSkuAllArr(counttotalPrice(skuServerList))
             skuData = isHaveShop(allData)
-            props.dispatch({
+            dispatch({
                 type: 'settlement/getOspPublish',
                 payload: skuData
             })
@@ -117,4 +117,4 @@ const Settlement = React.memo((props) => {
     )
 })
 
-export default connect()(Settlement)
+export default Settlement
